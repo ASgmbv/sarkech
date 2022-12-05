@@ -1,4 +1,4 @@
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, useState } from "react";
 import Head from 'next/head';
 
 type Props = {
@@ -7,6 +7,8 @@ type Props = {
 const StudioLayout: FC<PropsWithChildren<Props>> = ({
   children
 }) => {
+  const [selected, setSelected] = useState(false);
+
   return (
     <>
       <Head>
@@ -19,7 +21,16 @@ const StudioLayout: FC<PropsWithChildren<Props>> = ({
         <div
           className=' text-xl'
         >
-          Here
+          Here {selected}
+          <button
+            onClick={
+              () => {
+                setSelected(!selected);
+              }
+            }
+          >
+            button
+          </button>
         </div>
       </div>
     </>
