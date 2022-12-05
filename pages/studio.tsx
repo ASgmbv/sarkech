@@ -6,26 +6,28 @@ import Sidebar from "~components/studio/sidebar";
 
 function StudioPage() {
   return (
-    <div
-      className='flex'
-    >
-      <Sidebar />
+    <StudioLayout>
       <div
-        className='flex-1'
+        className='flex'
       >
-        <Header />
-        <main>
-          <Editor />
-        </main>
+        <Sidebar />
+        <div
+          className='flex-1'
+        >
+          <Header />
+          <main>
+            <Editor />
+          </main>
+        </div>
       </div>
-    </div>
+    </StudioLayout>
   );
 }
 
-StudioPage.getLayout = (page: ReactElement) => (
-  <StudioLayout>
-    {page}
-  </StudioLayout>
-)
+// StudioPage.getLayout = (page: ReactElement) => (
+//   <StudioLayout>
+//     {page}
+//   </StudioLayout>
+// )
 
 export default StudioPage;

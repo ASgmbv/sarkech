@@ -4,15 +4,17 @@ import StudioLayout from "~components/layouts/studio-layout";
 function TypePage() {
   return (
     <div>
-      Type Page
+      <StudioLayout>
+        Type Page
+      </StudioLayout>
     </div>
   );
 }
 
-TypePage.getLayout = (page: ReactElement) => (
-  <StudioLayout>
-    {page}
-  </StudioLayout>
-)
+// TypePage.getLayout = (page: ReactElement) => (
+//   <StudioLayout>
+//     {page}
+//   </StudioLayout>
+// )
 
 export default TypePage;
