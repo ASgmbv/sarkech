@@ -21,7 +21,7 @@ const StudioLayout: FC<PropsWithChildren<Props>> = ({
         <div
           className=' text-xl'
         >
-          Here {selected}
+          Here {selected ? "true" : "false"}
           <button
             onClick={
               () => {
