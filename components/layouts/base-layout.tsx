@@ -1,5 +1,6 @@
-import { FC, PropsWithChildren } from "react";
+import { FC, PropsWithChildren, useState } from "react";
 import Head from 'next/head';
+import { Box } from "@chakra-ui/react";
 
 type Props = {
   title: string;
@@ -9,6 +10,8 @@ const BaseLayout: FC<PropsWithChildren<Props>> = ({
   title,
   children,
 }) => {
+  const [s, setS] = useState(false);
+
   return (
     <>
       <Head>
@@ -16,7 +19,20 @@ const BaseLayout: FC<PropsWithChildren<Props>> = ({
           {title}
         </title>
       </Head>
-      {children}
+      <Box>
+        <button
+          onClick={
+            () =>
+              setS(!s)
+          }
+        >
+          button
+        </button>
+        {
+          s ? "true" : "false"
+        }
+        {children}
+      </Box>
     </>
   )
 }
