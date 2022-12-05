@@ -1,6 +1,5 @@
 import { FC, PropsWithChildren } from "react";
 import Head from 'next/head';
-import Header from "~components/ui/header";
 
 type Props = {
 }
@@ -16,10 +15,12 @@ const StudioLayout: FC<PropsWithChildren<Props>> = ({
         </title>
       </Head>
       <div>
-        <main>
-          <Header />
-          {children}
-        </main>
+        {children}
+        <div
+          className=' text-xl'
+        >
+          Here
+        </div>
       </div>
     </>
   )
