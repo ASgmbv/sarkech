@@ -1,33 +1,30 @@
 import { ReactElement } from "react";
 import StudioLayout from "~components/layouts/studio-layout";
-import Editor from "~components/studio/editor";
-import Header from "~components/header";
-import Sidebar from "~components/studio/sidebar";
+import Editor from "~components/interfaces/studio/editor";
+import Header from "~components/layouts/header/header";
+import Sidebar from "~components/interfaces/studio/sidebar";
+import { Box, Flex } from "@chakra-ui/react";
 
 function StudioPage() {
   return (
     <StudioLayout>
-      <div
-        className='flex'
-      >
+      <Flex>
         <Sidebar />
-        <div
-          className='flex-1'
-        >
+        <Box flex={1}>
           <Header />
-          <main>
+          <Box as='main'>
             <Editor />
-          </main>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Flex>
     </StudioLayout>
   );
 }
 
-// StudioPage.getLayout = (page: ReactElement) => (
-//   <StudioLayout>
-//     {page}
-//   </StudioLayout>
-// )
+StudioPage.getLayout = (page: ReactElement) => (
+  <StudioLayout>
+    {page}
+  </StudioLayout>
+)
 
 export default StudioPage;
