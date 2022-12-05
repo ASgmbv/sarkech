@@ -1,14 +1,15 @@
 import { FC } from "react";
+import Link from 'next/link';
 
 const Editor: FC = () => {
   return (
     <>
       Editor
-      <a
+      <Link
         href="/studio/type"
       >
         anchor
-      </a>
+      </Link>
     </>
   )
 }
