@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from "react";
-import Head from 'next/head';
+import BaseLayout from "./base-layout";
 
 type Props = {
 }
@@ -8,14 +8,11 @@ const StudioLayout: FC<PropsWithChildren<Props>> = ({
   children
 }) => {
   return (
-    <>
-      <Head>
-        <title>
-          Studio | Sarkech
-        </title>
-      </Head>
+    <BaseLayout
+      title="Studio | Sarkech"
+    >
       {children}
-    </>
+    </BaseLayout>
   )
 }
 

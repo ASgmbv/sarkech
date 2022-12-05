@@ -1,23 +1,16 @@
 import { ReactElement } from "react";
-import StudioLayout from "~components/layouts/studio-layout";
 import Editor from "~components/interfaces/studio/editor";
 import Header from "~components/interfaces/studio/studio-header";
 import Sidebar from "~components/interfaces/studio/sidebar";
 import { Box, Flex } from "@chakra-ui/react";
+import BaseLayout from "~components/layouts/base-layout";
 
-import Link from 'next/link';
-
-function StudioPage() {
+function TypePage() {
   return (
     <Flex>
       <Sidebar />
       <Box flex={1}>
         <Header />
-        <Link
-          href='/studio/type'
-        >
-          link
-        </Link>
         <Box as='main'>
           <Editor />
         </Box>
@@ -26,10 +19,12 @@ function StudioPage() {
   );
 }
 
-StudioPage.getLayout = (page: ReactElement) => (
-  <StudioLayout>
+TypePage.getLayout = (page: ReactElement) => (
+  <BaseLayout
+    title="type"
+  >
     {page}
-  </StudioLayout>
+  </BaseLayout>
 )
 
-export default StudioPage;
+export default TypePage;

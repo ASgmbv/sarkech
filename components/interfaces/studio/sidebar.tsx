@@ -1,10 +1,13 @@
+import { Box } from "@chakra-ui/react";
 import { FC } from "react";
 
 const Sidebar: FC = () => {
   return (
-    <aside>
+    <Box
+      as='aside'
+    >
       Sidebar
-    </aside>
+    </Box>
   )
 }
 
