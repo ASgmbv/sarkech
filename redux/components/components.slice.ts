@@ -4,7 +4,11 @@ import { nanoid } from "nanoid";
 
 const initialElementProps: {
 	[key in IComponentType]?: object;
-} = {};
+} = {
+	Section: {
+		className: "p-2",
+	},
+};
 
 const initialState: {
 	selectedId: string | null;
@@ -90,6 +94,8 @@ export const componentsSlice = createSlice({
 				// if (type !== "AddElement") {
 				// 	state.selectedId = elementId;
 				// }
+
+				state.selectedId = elementId;
 
 				// handle new box
 			},

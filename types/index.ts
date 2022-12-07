@@ -5,5 +5,5 @@ export type IComponent = {
 	parentId: string;
 	childrenIds: string[];
 	type: IComponentType;
-	props: object;
+	props: Record<string, any>;
 };

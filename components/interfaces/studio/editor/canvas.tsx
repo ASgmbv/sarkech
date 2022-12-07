@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import Frame from "react-frame-component";
 import { editorSliceActions } from "redux/editor/editor.slice";
@@ -62,14 +63,12 @@ const Canvas: FC = () => {
         width: '100%',
       }}
     >
-      <div>
-        {components.root.childrenIds.map((id: string) => {
-          return <Component key={id} />;
-        })}
+      <div className='p-[1px]'>
+        {components.root.childrenIds.map((id: string) =>
+          <Component key={id} id={id} />
+        )}
 
-        <AddNewSection
-          onClick={onOpen}
-        />
+        <AddNewSection onClick={onOpen} />
       </div>
     </Frame>
   )

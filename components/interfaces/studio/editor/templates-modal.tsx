@@ -7,7 +7,6 @@ import {
   Box,
   Text,
   Flex,
-  Stack,
   Button,
 } from '@chakra-ui/react'
 import { useAppDispatch, useAppSelector } from "redux/hooks";
@@ -69,8 +68,8 @@ const TemplatesModal: FC = () => {
               Templates
             </Text>
             <Text
-              fontSize='xs'
-              color='blackAlpha.800'
+              fontSize='13px'
+              color='blackAlpha.700'
             >
               Choose a template
             </Text>
@@ -81,25 +80,28 @@ const TemplatesModal: FC = () => {
               maxWidth='250px'
               borderRight='1px solid'
               borderColor='gray.200'
-              p='4'
               overflow='auto'
+              p='2'
             >
-              <Stack>
+              <Box>
                 {categories.map((category) => {
                   const isActive = activeCategory === category;
                   return (
-                    <Button
-                      key={category}
-                      variant='ghost'
-                      width='fit-content'
-                      color={isActive ? 'purple.600' : undefined}
-                      onClick={() => onCategoryClick(category)}
-                    >
-                      {category}
-                    </Button>
+                    <Box key={category}>
+                      <Button
+                        variant='ghost'
+                        width='fit-content'
+                        fontSize='15px'
+                        height='9'
+                        color={isActive ? '#7e22ce' : '#64748b'}
+                        onClick={() => onCategoryClick(category)}
+                      >
+                        {category}
+                      </Button>
+                    </Box>
                   )
                 })}
-              </Stack>
+              </Box>
             </Box>
             <Box p='4'>
               <Button
