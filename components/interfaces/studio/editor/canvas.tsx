@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/react";
 import { FC, useEffect, useState } from "react";
 import Frame from "react-frame-component";
 import { editorSliceActions } from "redux/editor/editor.slice";
@@ -61,6 +60,7 @@ const Canvas: FC = () => {
       initialContent={initialContent}
       style={{
         width: '100%',
+        height: '100%'
       }}
     >
       <div className='p-[1px]'>

@@ -32,6 +32,12 @@ export const componentsSlice = createSlice({
 	name: "components",
 	initialState,
 	reducers: {
+		select: (state, action: PayloadAction<string>) => {
+			state.selectedId = action.payload;
+		},
+		unselect: (state) => {
+			state.selectedId = null;
+		},
 		addElement: {
 			reducer: (
 				state,

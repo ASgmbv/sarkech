@@ -1,6 +1,10 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { useIsomorphicLayoutEffect } from "framer-motion";
 import { FC, MouseEvent, MouseEventHandler, useRef, useState } from "react";
+import { useFrame } from "react-frame-component";
+import { selectEditorResizing, selectEditorSize } from "redux/editor/editor.selectors";
+import { editorSliceActions } from "redux/editor/editor.slice";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
 import Canvas from "./canvas";
 import TemplatesModal from "./templates-modal";
 
@@ -11,19 +15,13 @@ const GAP = 24;
 
 const Editor: FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const dispatch = useAppDispatch();
 
-  const [resizing, setResizing] = useState<{
-    side: 'left' | 'right',
-    startX: number;
-    startWidth: number;
-  } | null>(null);
-
-  const [editorSize, setEditorSize] = useState({
-    width: 0,
-    height: 0,
-  });
+  const editorSize = useAppSelector(selectEditorSize);
+  const resizing = useAppSelector(selectEditorResizing);
 
   const [maxWidth, setMaxWidth] = useState(0);
+  const { document: frameDocument } = useFrame();
 
   useIsomorphicLayoutEffect(() => {
     if (resizing) {
@@ -39,34 +37,36 @@ const Editor: FC = () => {
 
       const maxWidth = Math.round(width < (MAX_WIDTH + 2 * GAP) ? width - GAP * 2 : MAX_WIDTH);
 
-      console.log(width, maxWidth)
-
-      setEditorSize({
+      dispatch(editorSliceActions.setEditorSize({
         width: maxWidth,
         height,
-      });
+      }));
 
       setMaxWidth(maxWidth);
     }
   }, []);
 
   useIsomorphicLayoutEffect(() => {
-    function onMouseUp(event: MouseEventInit) {
-      setResizing(null);
+    function onMouseUp(event: MouseEvent) {
+      event.preventDefault();
+
+      dispatch(editorSliceActions.setEditorResizing(null));
     }
 
-    const onMouseMove = (event: MouseEventInit) => {
-      if (resizing && event.clientX) {
+    const onMouseMove = (event: MouseEvent) => {
+      event.preventDefault();
+
+      if (resizing) {
         let width: number;
 
         if (resizing.side === "left") {
           width = Math.round(
-            resizing.startWidth - (event.clientX - resizing.startX) * 2
+            resizing.startWidth - (event.clientX as number - resizing.startX) * 2
           );
         }
         else {
           width = Math.round(
-            resizing.startWidth + (event.clientX - resizing.startX) * 2
+            resizing.startWidth + (event.clientX as number - resizing.startX) * 2
           );
         }
 
@@ -75,20 +75,22 @@ const Editor: FC = () => {
           maxWidth
         );
 
-        setEditorSize((prev) => ({
-          ...prev,
-          width: newWidth,
+        dispatch(editorSliceActions.setEditorSize({
+          width: newWidth
         }));
       }
     }
 
-    window.addEventListener("mouseup", onMouseUp);
-    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp as any);
+    window.addEventListener("mousemove", onMouseMove as any);
+    frameDocument?.addEventListener("mouseup", onMouseUp as any);
 
     return () => {
-      window.removeEventListener("mouseup", onMouseUp);
-      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp as any);
+      window.removeEventListener("mousemove", onMouseMove as any);
+      frameDocument?.removeEventListener("mouseup", onMouseUp as any);
     };
+
   }, [
     resizing,
     maxWidth
@@ -96,21 +98,21 @@ const Editor: FC = () => {
 
   const onLeftMouseDown = (event: MouseEvent<Element>) => {
     if (containerRef.current) {
-      setResizing({
+      dispatch(editorSliceActions.setEditorResizing({
         side: 'left',
         startX: event.clientX,
         startWidth: editorSize.width,
-      });
+      }));
     }
   }
 
   const onRightMouseDown = (event: MouseEvent<Element>) => {
     if (containerRef.current) {
-      setResizing({
+      dispatch(editorSliceActions.setEditorResizing({
         side: 'right',
         startX: event.clientX,
         startWidth: editorSize.width,
-      });
+      }));
     }
   }
 
