@@ -8,7 +8,7 @@ import { Box, Flex } from "@chakra-ui/react";
 function StudioPage() {
   return (
     <Flex
-      bg='#f8f9fa'
+    // bg='#fdfdfd'
     >
       <Sidebar />
       <Box flex={1}>

@@ -1,6 +1,7 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { useIsomorphicLayoutEffect } from "framer-motion";
 import { FC, MouseEvent, MouseEventHandler, useRef, useState } from "react";
+import Canvas from "./canvas";
 
 const MAX_WIDTH = 1280;
 const MIN_WIDTH = 356;
@@ -118,9 +119,10 @@ const Editor: FC = () => {
       alignItems='center'
       // 48px is header height
       height={'calc(100vh - 48px)'}
+      bg='#eee'
     >
       <Box
-        fontSize='sm'
+        fontSize='xs'
         py='3'
       >
         {`${editorSize.width} × ${editorSize.height}`}
@@ -133,9 +135,12 @@ const Editor: FC = () => {
         pb='24px'
       >
         <Flex
-          bg='green.200'
+          bg='white'
           mx='auto'
           height='full'
+          shadow='sm'
+          border='1px solid'
+          borderColor='gray.200'
           style={{
             width: editorSize.width,
           }}
@@ -145,8 +150,9 @@ const Editor: FC = () => {
           />
           <Box
             flex={1}
+            height='full'
           >
-            Editor
+            <Canvas />
           </Box>
           <ResizeHandle
             onMouseDown={onRightMouseDown}
@@ -168,7 +174,7 @@ const ResizeHandle: FC<{
       alignItems='center'
       justifyContent='center'
       color='gray.400'
-      bg='gray.100'
+      bg='#f3f4f6'
       userSelect='none'
       transitionDuration='150'
       transitionProperty='color'
