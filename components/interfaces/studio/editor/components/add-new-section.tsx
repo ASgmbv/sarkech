@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { BsPlusCircle } from "react-icons/bs";
 
-const AddNewSection: FC = () => {
+const AddNewSection: FC<{ onClick: () => void; }> = ({ onClick }) => {
   return (
     <div
       className="p-6"
@@ -11,6 +11,7 @@ const AddNewSection: FC = () => {
       >
         <button
           aria-label="Add New Section"
+          onClick={onClick}
         >
           <BsPlusCircle className="w-5 h-5" />
         </button>

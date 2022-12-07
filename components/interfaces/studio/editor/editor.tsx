@@ -2,6 +2,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import { useIsomorphicLayoutEffect } from "framer-motion";
 import { FC, MouseEvent, MouseEventHandler, useRef, useState } from "react";
 import Canvas from "./canvas";
+import TemplatesModal from "./templates-modal";
 
 const MAX_WIDTH = 1280;
 const MIN_WIDTH = 356;
@@ -159,7 +160,7 @@ const Editor: FC = () => {
           />
         </Flex>
       </Box>
-
+      <TemplatesModal />
     </Flex>
   )
 }

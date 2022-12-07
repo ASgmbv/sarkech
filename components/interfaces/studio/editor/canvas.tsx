@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from "react";
 import Frame from "react-frame-component";
-import { useAppSelector } from "redux/hooks";
+import { editorSliceActions } from "redux/editor/editor.slice";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
 import AddNewSection from "./components/add-new-section";
 import Component from "./components/component";
 
@@ -32,6 +33,7 @@ const initialContent = `
 `;
 
 const Canvas: FC = () => {
+  const dispatch = useAppDispatch();
   const components = useAppSelector(
     (state) => state.components.present.components
   );
@@ -49,7 +51,9 @@ const Canvas: FC = () => {
 
   if (!show) return <></>
 
-
+  const onOpen = () => {
+    dispatch(editorSliceActions.openTemplatesModal())
+  }
 
   return (
     <Frame
@@ -60,16 +64,15 @@ const Canvas: FC = () => {
     >
       <div>
         {components.root.childrenIds.map((id: string) => {
-          // return <Component key={id} />;
-          return <div key={id}>{id}</div>
+          return <Component key={id} />;
         })}
 
-        <AddNewSection />
+        <AddNewSection
+          onClick={onOpen}
+        />
       </div>
     </Frame>
   )
 }
-
-
 
 export default Canvas;
