@@ -1,7 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
-import { useIsomorphicLayoutEffect } from "framer-motion";
 import { FC, MouseEvent, MouseEventHandler, useEffect, useRef, useState } from "react";
-import { useFrame } from "react-frame-component";
 import { selectEditorResizing, selectEditorSize } from "redux/editor/editor.selectors";
 import { editorSliceActions } from "redux/editor/editor.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
@@ -21,7 +19,6 @@ const Editor: FC = () => {
   const resizing = useAppSelector(selectEditorResizing);
 
   const [maxWidth, setMaxWidth] = useState(0);
-  const { document: frameDocument } = useFrame();
 
   useEffect(() => {
     if (resizing) {
@@ -83,20 +80,13 @@ const Editor: FC = () => {
 
     window.addEventListener("mouseup", onMouseUp as any);
     window.addEventListener("mousemove", onMouseMove as any);
-    frameDocument?.addEventListener("mouseup", onMouseUp as any);
 
     return () => {
       window.removeEventListener("mouseup", onMouseUp as any);
       window.removeEventListener("mousemove", onMouseMove as any);
-      frameDocument?.removeEventListener("mouseup", onMouseUp as any);
     };
 
-  }, [
-    resizing,
-    maxWidth,
-    dispatch,
-    frameDocument,
-  ]);
+  }, [resizing, maxWidth, dispatch,]);
 
   const onLeftMouseDown = (event: MouseEvent<Element>) => {
     if (containerRef.current) {
@@ -126,48 +116,28 @@ const Editor: FC = () => {
       height={'calc(100vh - 48px)'}
       bg='#eee'
     >
-      <Box
-        fontSize='xs'
-        py='3'
-      >
+      <Box fontSize='xs' py='3'>
         {`${editorSize.width} × ${editorSize.height}`}
       </Box>
 
-      <Box
-        ref={containerRef}
-        width='full'
-        flex={1}
-        pb='24px'
-      >
-        {
-          editorSize.width > 0 ? (
-            <Flex
-              bg='white'
-              mx='auto'
-              height='full'
-              shadow='sm'
-              border='1px solid'
-              borderColor='gray.200'
-              style={{
-                width: editorSize.width,
-              }}
-            >
-              <ResizeHandle
-                onMouseDown={onLeftMouseDown}
-              />
-              <Box
-                flex={1}
-                height='full'
-              >
-                <Canvas />
-              </Box>
-              <ResizeHandle
-                onMouseDown={onRightMouseDown}
-              />
-            </Flex>
-          ) : null
-        }
-
+      <Box ref={containerRef} width='full' flex={1} pb='24px'>
+        {editorSize.width > 0 ? (
+          <Flex
+            bg='white'
+            mx='auto'
+            height='full'
+            shadow='sm'
+            border='1px solid'
+            borderColor='gray.200'
+            style={{ width: editorSize.width }}
+          >
+            <ResizeHandle onMouseDown={onLeftMouseDown} />
+            <Box flex={1} height='full'>
+              <Canvas />
+            </Box>
+            <ResizeHandle onMouseDown={onRightMouseDown} />
+          </Flex>
+        ) : null}
       </Box>
       <TemplatesModal />
     </Flex>
