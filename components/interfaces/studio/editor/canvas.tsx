@@ -1,9 +1,10 @@
 import { FC, useEffect, useState } from "react";
-import Frame from "react-frame-component";
+import IFrame, { useFrame } from "react-frame-component";
 import { editorSliceActions } from "redux/editor/editor.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import AddNewSection from "./components/add-new-section";
 import Component from "./components/component";
+import Frame from "./frame";
 
 const initialContent = `
   <!DOCTYPE html>
@@ -56,21 +57,23 @@ const Canvas: FC = () => {
   }
 
   return (
-    <Frame
+    <IFrame
       initialContent={initialContent}
       style={{
         width: '100%',
         height: '100%'
       }}
     >
-      <div className='p-[1px]'>
-        {components.root.childrenIds.map((id: string) =>
-          <Component key={id} id={id} />
-        )}
+      <Frame>
+        <div className='p-[1px]'>
+          {components.root.childrenIds.map((id: string) =>
+            <Component key={id} id={id} />
+          )}
 
-        <AddNewSection onClick={onOpen} />
-      </div>
-    </Frame>
+          <AddNewSection onClick={onOpen} />
+        </div>
+      </Frame>
+    </IFrame>
   )
 }
 
