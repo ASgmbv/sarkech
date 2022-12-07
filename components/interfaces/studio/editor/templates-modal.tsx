@@ -13,6 +13,7 @@ import {
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { editorSliceActions } from "redux/editor/editor.slice";
 import { selectTemplatesModal } from "redux/editor/editor.selectors";
+import { componentsSliceActions } from "redux/components/components.slice";
 
 const categories = [
   "Basic",
@@ -41,6 +42,10 @@ const TemplatesModal: FC = () => {
     dispatch(editorSliceActions.closeTemplatesModal())
   }
 
+  const onCategoryClick = (category: string) => {
+    setActiveCategory(category)
+  }
+
   return (
     <Modal
       isOpen={isOpen}
@@ -49,13 +54,9 @@ const TemplatesModal: FC = () => {
       motionPreset="none"
       size='6xl'
     >
-      <ModalOverlay
-        bg='blackAlpha.400'
-      />
+      <ModalOverlay bg='blackAlpha.400' />
       <ModalContent>
-        <ModalBody
-          p='0'
-        >
+        <ModalBody p='0'>
           <Box
             p='4'
             borderBottom='1px solid'
@@ -74,9 +75,7 @@ const TemplatesModal: FC = () => {
               Choose a template
             </Text>
           </Box>
-          <Flex
-            height='60vh'
-          >
+          <Flex height='60vh'>
             <Box
               width='250px'
               maxWidth='250px'
@@ -86,35 +85,39 @@ const TemplatesModal: FC = () => {
               overflow='auto'
             >
               <Stack>
-                {
-                  categories.map((category) => (
+                {categories.map((category) => {
+                  const isActive = activeCategory === category;
+                  return (
                     <Button
                       key={category}
                       variant='ghost'
                       width='fit-content'
-                      color={
-                        activeCategory === category
-                          ?
-                          'purple.600'
-                          :
-                          undefined
-                      }
-                      onClick={
-                        () => {
-                          setActiveCategory(category)
-                        }
-                      }
-
+                      color={isActive ? 'purple.600' : undefined}
+                      onClick={() => onCategoryClick(category)}
                     >
-                      {
-                        category
-                      }
+                      {category}
                     </Button>
-                  ))
-                }
+                  )
+                })}
               </Stack>
             </Box>
-            <Box></Box>
+            <Box p='4'>
+              <Button
+                onClick={() => {
+                  dispatch(
+                    componentsSliceActions.addElement({
+                      type: 'Section',
+                      parentId: 'root',
+                    })
+                  );
+
+                  dispatch(
+                    editorSliceActions.closeTemplatesModal()
+                  )
+                }}>
+                Section
+              </Button>
+            </Box>
           </Flex>
         </ModalBody>
 
