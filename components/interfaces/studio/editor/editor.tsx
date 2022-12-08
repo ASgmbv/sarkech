@@ -78,13 +78,15 @@ const Editor: FC = () => {
       }
     }
 
-    window.addEventListener("mouseup", onMouseUp as any);
-    window.addEventListener("mousemove", onMouseMove as any);
+    if (resizing) {
+      window.addEventListener("mouseup", onMouseUp as any);
+      window.addEventListener("mousemove", onMouseMove as any);
 
-    return () => {
-      window.removeEventListener("mouseup", onMouseUp as any);
-      window.removeEventListener("mousemove", onMouseMove as any);
-    };
+      return () => {
+        window.removeEventListener("mouseup", onMouseUp as any);
+        window.removeEventListener("mousemove", onMouseMove as any);
+      };
+    }
 
   }, [resizing, maxWidth, dispatch,]);
 

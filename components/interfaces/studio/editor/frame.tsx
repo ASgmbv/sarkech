@@ -1,7 +1,8 @@
 import { FC, ReactNode, useEffect } from "react";
 import { useFrame } from "react-frame-component";
+import { selectEditorResizing } from "redux/editor/editor.selectors";
 import { editorSliceActions } from "redux/editor/editor.slice";
-import { useAppDispatch } from "redux/hooks";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
 
 const Frame: FC<{
   children: ReactNode;
@@ -10,6 +11,7 @@ const Frame: FC<{
 }) => {
     const dispatch = useAppDispatch();
     const { document: frameDocument } = useFrame();
+    const resizing = useAppSelector(selectEditorResizing);
 
     useEffect(() => {
       function onMouseUp(e: any) {
@@ -18,13 +20,15 @@ const Frame: FC<{
         dispatch(editorSliceActions.setEditorResizing(null));
       }
 
-      frameDocument?.addEventListener("mouseup", onMouseUp);
+      if (resizing) {
+        frameDocument?.addEventListener("mouseup", onMouseUp);
 
-      return () => {
-        frameDocument?.removeEventListener("mouseup", onMouseUp);
-      };
+        return () => {
+          frameDocument?.removeEventListener("mouseup", onMouseUp);
+        };
+      }
 
-    }, [dispatch, frameDocument])
+    }, [dispatch, frameDocument, resizing])
 
     return (
       <>

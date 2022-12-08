@@ -17,43 +17,33 @@ const Header: FC = () => {
       <HStack
         spacing={2}
       >
-        <Tooltip
-          label="Undo"
-          openDelay={2000}
-        >
-          <IconButton
-            aria-label="Undo"
-            variant='ghost'
-            size='sm'
-            icon={
-              <Icon
-                as={
-                  MdUndo
-                }
-                boxSize='5'
-              />
-            }
-          />
-        </Tooltip>
+        <IconButton
+          aria-label="Undo"
+          variant='ghost'
+          size='sm'
+          icon={
+            <Icon
+              as={
+                MdUndo
+              }
+              boxSize='5'
+            />
+          }
+        />
 
-        <Tooltip
-          label='Redo'
-          openDelay={2000}
-        >
-          <IconButton
-            aria-label="Redo"
-            variant='ghost'
-            size='sm'
-            icon={
-              <Icon
-                as={
-                  MdRedo
-                }
-                boxSize='5'
-              />
-            }
-          />
-        </Tooltip>
+        <IconButton
+          aria-label="Redo"
+          variant='ghost'
+          size='sm'
+          icon={
+            <Icon
+              as={
+                MdRedo
+              }
+              boxSize='5'
+            />
+          }
+        />
       </HStack>
     </Flex>
   )

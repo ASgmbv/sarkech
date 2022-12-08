@@ -1,9 +1,9 @@
 import { Box, Center, Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import { FC, useEffect } from "react";
-import boxPreview from 'public/images/box.svg';
+// import boxPreview from 'public/images/box.svg';
 import { BsSquareFill } from "react-icons/bs";
 import { BiGridHorizontal } from "react-icons/bi";
-import { useDraggable } from '@dnd-kit/core';
+import { useDrag } from "react-dnd";
 
 const ComponentsPanel: FC = () => {
   return (
@@ -16,79 +16,84 @@ const ComponentsPanel: FC = () => {
         Primitives
       </Text>
       <Stack>
-        <BoxComponent />
+        <Card />
       </Stack>
     </Box>
   )
 }
 
-const BoxComponent: FC = () => {
-  // const [, drag, preview] = useDrag<{ type: string }, any, string>(() => ({
-  //   type: "Box",
-  //   item: { type: "Box" },
-  // }));
-
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: 'draggable',
-  });
-
-  const style = transform ? {
-    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-  } : undefined;
-
-  useEffect(() => {
-    const img = new Image();
-    img.src = boxPreview;
-
-    // preview(img, {
-    //   offsetX: 0,
-    //   offsetY: 0,
-    // });
-  }, []);
+const Card: FC = () => {
+  const [, dragRef] = useDrag(
+    () => ({
+      type: "CARD",
+    }),
+    []
+  )
 
   return (
-    <Flex
-      ref={setNodeRef}
-      style={style}
-      {...listeners}
-      {...attributes}
-      alignItems='center'
-      padding='2'
-      rounded='md'
-      cursor='grab'
-      transition='background-color 0.2s'
-      _hover={{
-        bg: 'gray.100',
-      }}
+    <div
+      ref={dragRef}
     >
-      <Center
-        shadow='lg'
-        border='1px solid'
-        borderColor='blackAlpha.100'
-        rounded='md'
-        p='2'
-      >
-        <Icon
-          as={BsSquareFill}
-          color='gray.500'
-        />
-      </Center>
+      Card
+    </div>
+  )
+}
 
-      <Box
-        flex='1'
-        px='3'
-        fontSize='xs'
-        fontWeight='semibold'
-      >
-        Box
-      </Box>
+// const BoxComponent: FC = () => {
+//   const [, drag] = useDrag(() => ({
+//     type: "Box",
+//     item: { type: "Box" },
+//   }));
 
-      <Icon
-        as={BiGridHorizontal}
-      />
+//   // useEffect(() => {
+//   //   const img = new Image();
+//   //   img.src = boxPreview;
 
-    </Flex>
-  );
-};
+//   //   // preview(img, {
+//   //   //   offsetX: 0,
+//   //   //   offsetY: 0,
+//   //   // });
+//   // }, []);
+
+//   return (
+//     <Flex
+//       ref={drag}
+//       alignItems='center'
+//       padding='2'
+//       rounded='md'
+//       cursor='grab'
+//       transition='background-color 0.2s'
+//       _hover={{
+//         bg: 'gray.100',
+//       }}
+//     >
+//       <Center
+//         shadow='lg'
+//         border='1px solid'
+//         borderColor='blackAlpha.100'
+//         rounded='md'
+//         p='2'
+//       >
+//         <Icon
+//           as={BsSquareFill}
+//           color='gray.500'
+//         />
+//       </Center>
+
+//       <Box
+//         flex='1'
+//         px='3'
+//         fontSize='xs'
+//         fontWeight='semibold'
+//       >
+//         Box
+//       </Box>
+
+//       <Icon
+//         as={BiGridHorizontal}
+//       />
+//     </Flex>
+//   );
+// };
 
 export default ComponentsPanel;
