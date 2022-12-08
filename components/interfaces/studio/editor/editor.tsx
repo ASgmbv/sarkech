@@ -9,7 +9,7 @@ import TemplatesModal from "./templates-modal";
 const MAX_WIDTH = 1280;
 const MIN_WIDTH = 356;
 const HANDLE_WIDTH = 17;
-const GAP = 24;
+const GAP = 36;
 
 const Editor: FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);

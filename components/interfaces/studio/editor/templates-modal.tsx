@@ -74,7 +74,7 @@ const TemplatesModal: FC = () => {
               Choose a template
             </Text>
           </Box>
-          <Flex height='60vh'>
+          <Flex height='70vh'>
             <Box
               width='250px'
               maxWidth='250px'

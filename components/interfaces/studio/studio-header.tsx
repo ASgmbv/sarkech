@@ -19,6 +19,7 @@ const Header: FC = () => {
       >
         <Tooltip
           label="Undo"
+          openDelay={2000}
         >
           <IconButton
             aria-label="Undo"
@@ -37,6 +38,7 @@ const Header: FC = () => {
 
         <Tooltip
           label='Redo'
+          openDelay={2000}
         >
           <IconButton
             aria-label="Redo"
