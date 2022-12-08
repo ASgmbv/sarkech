@@ -1,11 +1,13 @@
-import { Box, Flex, Icon, IconButton, Text, Tooltip } from "@chakra-ui/react";
+import { Box, Flex, Icon, IconButton, Text } from "@chakra-ui/react";
 import { FC } from "react";
 import { BsGrid } from "react-icons/bs";
 import { selectSelectedComponent } from "redux/components/components.selectors";
-import { useAppSelector } from "redux/hooks";
+import { componentsSliceActions } from "redux/components/components.slice";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
 import ComponentsPanel from "./components";
 
 const Sidebar: FC = () => {
+  const dispatch = useAppDispatch();
   const component = useAppSelector(selectSelectedComponent);
 
   return (
@@ -33,19 +35,17 @@ const Sidebar: FC = () => {
           {component ? component.type : "Components"}
         </Text>
 
-        <Tooltip
-          label="Components"
-          openDelay={2000}
-        >
-          <IconButton
-            aria-label="Components"
-            variant='ghost'
-            icon={<Icon as={BsGrid} />}
-            size='sm'
-          />
-        </Tooltip>
+        <IconButton
+          aria-label="Components"
+          variant='ghost'
+          icon={<Icon as={BsGrid} />}
+          size='sm'
+          onClick={() => {
+            dispatch(componentsSliceActions.unselect())
+          }}
+        />
       </Flex>
-      <Box p='4'>
+      <Box>
         {component ? "" : <ComponentsPanel />}
       </Box>
     </Box>

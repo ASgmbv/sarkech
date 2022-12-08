@@ -1,17 +1,22 @@
-import { FC, ReactNode, useEffect } from "react";
+import { FC, ReactNode, useContext, useEffect } from "react";
 import { useFrame } from "react-frame-component";
 import { selectEditorResizing } from "redux/editor/editor.selectors";
 import { editorSliceActions } from "redux/editor/editor.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { DndContext } from "react-dnd";
 
 const Frame: FC<{
-  children: ReactNode;
+  children: any;
 }> = ({
   children
 }) => {
     const dispatch = useAppDispatch();
-    const { document: frameDocument } = useFrame();
+    const {
+      document: frameDocument,
+      window: frameWindow
+    } = useFrame();
     const resizing = useAppSelector(selectEditorResizing);
+    const { dragDropManager } = useContext(DndContext);
 
     useEffect(() => {
       function onMouseUp(e: any) {
@@ -30,11 +35,12 @@ const Frame: FC<{
 
     }, [dispatch, frameDocument, resizing])
 
-    return (
-      <>
-        {children}
-      </>
-    )
+    useEffect(() => {
+      //@ts-ignore
+      dragDropManager?.getBackend().addEventListeners(frameWindow);
+    }, [dragDropManager, frameWindow]);
+
+    return children;
   }
 
 export default Frame;

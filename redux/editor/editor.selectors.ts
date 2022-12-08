@@ -11,3 +11,7 @@ export const selectEditorSize = (state: RootState) => {
 export const selectEditorResizing = (state: RootState) => {
 	return state.editor.resizing;
 };
+
+export const selectVariant = (state: RootState) => {
+	return state.editor.variant;
+};

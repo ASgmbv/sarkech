@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState: {
+type EditorInitialState = {
 	isTemplatesModalOpen: boolean;
 	editorSize: {
 		width: number;
@@ -11,13 +11,17 @@ const initialState: {
 		startX: number;
 		startWidth: number;
 	} | null;
-} = {
+	variant: string | null;
+};
+
+const initialState: EditorInitialState = {
 	isTemplatesModalOpen: false,
 	editorSize: {
 		width: 0,
 		height: 0,
 	},
 	resizing: null,
+	variant: null,
 };
 
 export const editorSlice = createSlice({
@@ -51,6 +55,9 @@ export const editorSlice = createSlice({
 
 			if (height) state.editorSize.height = height;
 			if (width) state.editorSize.width = width;
+		},
+		setVariant: (state, action: PayloadAction<string | null>) => {
+			state.variant = action.payload;
 		},
 	},
 });
