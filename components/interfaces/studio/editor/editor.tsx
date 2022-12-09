@@ -4,7 +4,7 @@ import { selectEditorResizing, selectEditorSize } from "redux/editor/editor.sele
 import { editorSliceActions } from "redux/editor/editor.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import Canvas from "./canvas";
-import TemplatesModal from "./templates-modal";
+import TemplatesModal from "../templates";
 
 const MAX_WIDTH = 1280;
 const MIN_WIDTH = 356;
@@ -115,7 +115,8 @@ const Editor: FC = () => {
       flexDirection='column'
       alignItems='center'
       // 48px is header height
-      height={'calc(100vh - 48px)'}
+      // 40px is inspector height
+      height={'calc(100vh - 48px - 40px)'}
       bg='#eee'
     >
       <Box fontSize='xs' py='3'>

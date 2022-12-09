@@ -17,6 +17,8 @@ const Sidebar: FC = () => {
       borderRight='1px solid'
       borderColor='gray.200'
       shadow='sm'
+      height='calc(100vh)'
+      maxHeight='calc(100vh)'
     >
       <Flex
         height='48px'

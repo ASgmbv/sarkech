@@ -22,8 +22,8 @@ const initialState: {
 			id: "root",
 			parentId: "root",
 			childrenIds: [],
-			type: "root",
-			props: initialElementProps["root"] || {},
+			type: "Root",
+			props: initialElementProps["Root"] || {},
 		},
 	},
 };

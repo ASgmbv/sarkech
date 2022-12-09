@@ -7,7 +7,7 @@ import PrimitiveComponent from "./primitive-component";
 export const mapComponentToHTMLElement: {
   [key in IComponentType]: keyof HTMLElementTagNameMap | FC<any>;
 } = {
-  root: "div",
+  Root: "body",
   Section: "section",
   Box: "div",
   Paragraph: "p",

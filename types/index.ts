@@ -1,5 +1,5 @@
 export type IComponentType =
-	| "root"
+	| "Root"
 	| "Box"
 	| "Section"
 	| "Paragraph"
