@@ -5,6 +5,7 @@ import { editorSliceActions } from "redux/editor/editor.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import Canvas from "./canvas";
 import TemplatesModal from "../templates";
+import { componentsSliceActions } from "redux/components/components.slice";
 
 const MAX_WIDTH = 1280;
 const MIN_WIDTH = 356;
@@ -110,8 +111,15 @@ const Editor: FC = () => {
     }
   }
 
+  const handleEditorClick = (e: MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      dispatch(componentsSliceActions.unselect());
+    }
+  };
+
   return (
     <Flex
+      onClick={handleEditorClick}
       flexDirection='column'
       alignItems='center'
       // 48px is header height
@@ -119,11 +127,20 @@ const Editor: FC = () => {
       height={'calc(100vh - 48px - 40px)'}
       bg='#eee'
     >
-      <Box fontSize='xs' py='3'>
+      <Box
+        fontSize='xs'
+        py='3'
+      >
         {`${editorSize.width} × ${editorSize.height}`}
       </Box>
 
-      <Box ref={containerRef} width='full' flex={1} pb='24px'>
+      <Box
+        ref={containerRef}
+        onClick={handleEditorClick}
+        width='full'
+        flex={1}
+        pb='24px'
+      >
         {editorSize.width > 0 ? (
           <Flex
             bg='white'

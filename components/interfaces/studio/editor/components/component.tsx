@@ -25,8 +25,6 @@ const Component: FC<Props> = ({
     (state) => state.components.present.components[id]
   );
 
-  console.log(component)
-
   switch (component.type) {
     case "AddComponent": {
       return <AddComponent id={id} />;

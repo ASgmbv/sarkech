@@ -3,7 +3,6 @@ import { FC } from "react"
 import { BsPlus } from "react-icons/bs";
 import { componentsSliceActions } from "redux/components/components.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
-import { IComponent } from "types";
 import cn from 'clsx';
 import { selectComponent } from "redux/components/components.selectors";
 
@@ -16,14 +15,12 @@ const AddComponent: FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch()
 
-  console.log(id)
-
   const component = useAppSelector(
     (state) => selectComponent(state, id)
   )
 
   const { drop, isOver } = useDropElement({
-    parentId: component.parentId
+    elementId: id
   })
 
   return (

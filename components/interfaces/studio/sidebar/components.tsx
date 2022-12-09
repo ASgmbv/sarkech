@@ -28,7 +28,7 @@ type Variant = {
   previewImage: string;
 }
 
-type MultipleComponent = {
+type VariableComponent = {
   category: 'variable';
   component: {
     name: string;
@@ -37,7 +37,7 @@ type MultipleComponent = {
   }
 }
 
-const components: (SingleComponent | MultipleComponent)[] = [
+const components: (SingleComponent | VariableComponent)[] = [
   {
     category: 'single',
     component: {
@@ -281,7 +281,7 @@ const Variants: FC<{
           {title}
         </Text>
         <Stack>
-          {(component as MultipleComponent).component.variants.map(
+          {(component as VariableComponent).component.variants.map(
             (variant) => (
               <Variant
                 key={variant.type}

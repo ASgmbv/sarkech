@@ -8,6 +8,9 @@ const initialElementProps: {
 	Section: {
 		className: "p-2",
 	},
+	Box: {
+		className: ["p-2"],
+	},
 };
 
 const initialState: {

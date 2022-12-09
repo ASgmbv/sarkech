@@ -21,12 +21,25 @@ const PrimitiveComponent: FC<{
     const ref = useRef<any>();
 
     const { drop, isOver } = useDropElement({
-      parentId: component.parentId
+      elementId: id
     });
 
     const [, drag, preview] = useDrag(() => ({
       type: `drag_${component.id}`
     }))
+
+    // useEffect(() => {
+    //   const img = new Image();
+
+    //   if (element.type === "Box") {
+    //     img.src = boxPreview;
+    //   }
+
+    //   preview(img, {
+    //     offsetX: 0,
+    //     offsetY: 0,
+    //   });
+    // }, [preview, element.type]);
 
     const children = [
       ...component.childrenIds.map((id: string) => {
