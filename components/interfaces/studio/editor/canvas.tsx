@@ -13,19 +13,6 @@ const initialContent = `
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <script src="https://cdn.tailwindcss.com"></script>
-      <script>
-        tailwind.config = {
-          theme: {
-            extend: {
-              boxShadow: {
-                box: "#3f87ff 0px 0px 0px 1px inset",
-                boxBottom: "#3f87ff 0px -3px 0px 0px inset",
-                boxUpper: "#3f87ff 0px 3px 0px 0px inset"
-              }
-            }
-          }
-        }
-      </script>
     </head>
     <body>
       <div></div>

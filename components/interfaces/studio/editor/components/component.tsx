@@ -30,7 +30,8 @@ const Component: FC<Props> = ({
       return <AddComponent id={id} />;
     }
     case "Box":
-    case "Section": {
+    case "Section":
+    case "Paragraph": {
       return <PrimitiveComponent id={id} />;
     }
     default:

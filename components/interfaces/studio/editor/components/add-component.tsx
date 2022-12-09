@@ -19,7 +19,7 @@ const AddComponent: FC<Props> = ({
     (state) => selectComponent(state, id)
   )
 
-  const { drop, isOver } = useDropElement({
+  const { drop, isOverShallow } = useDropElement({
     elementId: id
   })
 
@@ -28,7 +28,7 @@ const AddComponent: FC<Props> = ({
       ref={drop}
       className={cn(
         "flex justify-center items-center border border-dashed border-gray-300 p-1 w-full",
-        isOver && "bg-blue-50",
+        isOverShallow && "bg-orange-50",
       )}
     >
       <button

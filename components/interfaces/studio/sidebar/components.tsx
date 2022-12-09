@@ -144,224 +144,215 @@ const SingleComponent: FC<{
   icon: IconType;
   type: IComponentType;
   previewImage: string;
-}> = ({
-  name,
-  icon,
-  type,
-  previewImage,
-}) => {
-    const dispatch = useAppDispatch();
+}> = ({ name, icon, type, previewImage, }) => {
+  const dispatch = useAppDispatch();
 
-    const [, drag, preview] = useDrag(() => ({
-      type,
-      item: { type },
-    }));
+  const [, drag, preview] = useDrag(() => ({
+    type,
+    item: { type },
+  }));
 
-    useEffect(() => {
-      const img = new Image();
-      img.src = previewImage;
+  useEffect(() => {
+    const img = new Image();
+    img.src = previewImage;
 
-      preview(img, {
-        offsetX: 0,
-        offsetY: 0,
-      });
-    }, [preview, previewImage]);
+    preview(img, {
+      offsetX: 0,
+      offsetY: 0,
+    });
+  }, [preview, previewImage]);
 
-    return (
-      <Flex
-        ref={drag}
-        alignItems='center'
-        padding='2'
+  return (
+    <Flex
+      ref={drag}
+      alignItems='center'
+      padding='2'
+      rounded='md'
+      cursor='grab'
+      transition='background-color 0.2s'
+      _hover={{
+        bg: 'gray.100',
+      }}
+      onMouseEnter={() => {
+        dispatch(editorSliceActions.setVariant(null))
+      }}
+    >
+      <Center
+        shadow='lg'
+        border='1px solid'
+        borderColor='blackAlpha.100'
         rounded='md'
-        cursor='grab'
-        transition='background-color 0.2s'
-        _hover={{
-          bg: 'gray.100',
-        }}
-        onMouseEnter={() => {
-          dispatch(editorSliceActions.setVariant(null))
-        }}
+        p='2'
       >
-        <Center
-          shadow='lg'
-          border='1px solid'
-          borderColor='blackAlpha.100'
-          rounded='md'
-          p='2'
-        >
-          <Icon
-            as={icon}
-            color='gray.500'
-          />
-        </Center>
-
-        <Box
-          flex='1'
-          px='3'
-          fontSize='xs'
-          fontWeight='semibold'
-        >
-          {name}
-        </Box>
-
         <Icon
-          as={BiGridHorizontal}
+          as={icon}
+          color='gray.500'
         />
-      </Flex>
-    );
-  };
+      </Center>
+
+      <Box
+        flex='1'
+        px='3'
+        fontSize='xs'
+        fontWeight='semibold'
+      >
+        {name}
+      </Box>
+
+      <Icon
+        as={BiGridHorizontal}
+      />
+    </Flex>
+  );
+};
 
 const VariableComponent: FC<{
   name: string;
   icon: IconType;
-}> = ({
-  name,
-  icon,
-}) => {
-    const dispatch = useAppDispatch();
+}> = ({ name, icon, }) => {
+  const dispatch = useAppDispatch();
 
-    return (
-      <Flex
-        alignItems='center'
+  return (
+    <Flex
+      alignItems='center'
+      rounded='md'
+      padding='2'
+      transition='background-color 0.2s'
+      _hover={{ bg: 'gray.100' }}
+      onMouseEnter={() => {
+        dispatch(editorSliceActions.setVariant(name))
+      }}
+    >
+      <Center
+        shadow='lg'
+        border='1px solid'
+        borderColor='blackAlpha.100'
         rounded='md'
-        padding='2'
-        transition='background-color 0.2s'
-        _hover={{ bg: 'gray.100' }}
-        onMouseEnter={() => {
-          dispatch(editorSliceActions.setVariant(name))
-        }}
+        p='2'
       >
-        <Center
-          shadow='lg'
-          border='1px solid'
-          borderColor='blackAlpha.100'
-          rounded='md'
-          p='2'
-        >
-          <Icon
-            as={icon}
-            color='gray.500'
-          />
-        </Center>
-
-        <Box
-          flex='1'
-          px='3'
-          fontSize='xs'
-          fontWeight='semibold'
-        >
-          {name}
-        </Box>
-
         <Icon
-          as={FiArrowRight}
+          as={icon}
+          color='gray.500'
         />
-      </Flex>
-    )
-  }
+      </Center>
+
+      <Box
+        flex='1'
+        px='3'
+        fontSize='xs'
+        fontWeight='semibold'
+      >
+        {name}
+      </Box>
+
+      <Icon
+        as={FiArrowRight}
+      />
+    </Flex>
+  )
+}
 
 const Variants: FC<{
   title: string;
-}> = ({
-  title
-}) => {
-    const component = components.find((i) =>
-      i.category === 'variable' && i.component.name === title
-    );
+}> = ({ title }) => {
+  const component = components.find((i) =>
+    i.category === 'variable' && i.component.name === title
+  );
 
-    if (!component) return null;
+  if (!component) return null;
 
-    return (
-      <Box>
-        <Text
-          fontSize='13px'
-          color='gray.500'
-          mb='3'
-        >
-          {title}
-        </Text>
-        <Stack>
-          {(component as VariableComponent).component.variants.map(
-            (variant) => (
-              <Variant
-                key={variant.type}
-                type={variant.type}
-                name={variant.name}
-                props={variant.props}
-                previewImage={variant.previewImage}
-              />
-            )
-          )}
-        </Stack>
-      </Box>
-    )
-  }
+  return (
+    <Box>
+      <Text
+        fontSize='13px'
+        color='gray.500'
+        mb='3'
+      >
+        {title}
+      </Text>
+      <Stack>
+        {(component as VariableComponent).component.variants.map(
+          (variant) => (
+            <Variant
+              key={variant.type}
+              type={variant.type}
+              name={variant.name}
+              props={variant.props}
+              previewImage={variant.previewImage}
+            />
+          )
+        )}
+      </Stack>
+    </Box>
+  )
+}
 
 const Variant: FC<{
   type: IComponentType;
   name: string;
   props: Record<string, any>;
   previewImage: string;
-}> = ({
-  type,
-  name,
-  props,
-  previewImage,
-}) => {
-    const dispatch = useAppDispatch();
+}> = ({ type, name, props, previewImage, }) => {
+  const dispatch = useAppDispatch();
 
-    const [{ isDragging }, drag, preview] = useDrag(() => ({
+  const [{ isDragging }, drag, preview] = useDrag(() => ({
+    type,
+    item: {
       type,
-      collect: (monitor) => ({
-        isDragging: monitor.isDragging()
-      })
-    }));
-
-    useEffect(() => {
-      const img = new Image();
-      img.src = previewImage;
-
-      preview(img, {
-        offsetX: 0,
-        offsetY: 0,
-      });
-    }, [preview, type, previewImage]);
-
-    useEffect(() => {
-      if (isDragging) {
-        dispatch(editorSliceActions.setVariant(null))
+      props: {
+        children: name
       }
-    }, [isDragging, dispatch])
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    })
+  }));
 
-    return (
-      <Flex
-        ref={drag}
-        padding='2'
-        bg='gray.100'
-        rounded='md'
-        alignItems='center'
-        justifyContent='center'
-        position='relative'
-        cursor='grab'
-        _hover={{
-          shadow: 'md'
-        }}
-      >
-        <Box
-          position='absolute'
-          top='0'
-          left='0'
-          width='full'
-          height='full'
-        ></Box>
+  useEffect(() => {
+    const img = new Image();
+    img.src = previewImage;
 
-        {createElement(
-          mapComponentToHTMLElement[type],
-          { ...props },
-          name
-        )}
-      </Flex>
-    )
-  }
+    preview(img, {
+      offsetX: 0,
+      offsetY: 0,
+    });
+  }, [preview, type, previewImage]);
+
+  useEffect(() => {
+    if (isDragging) {
+      dispatch(editorSliceActions.setVariant(null))
+    }
+  }, [isDragging, dispatch])
+
+  return (
+    <Flex
+      ref={drag}
+      padding='2'
+      bg='gray.100'
+      rounded='md'
+      alignItems='center'
+      justifyContent='center'
+      position='relative'
+      cursor='grab'
+      _hover={{
+        shadow: 'md'
+      }}
+    >
+      <Box
+        position='absolute'
+        top='0'
+        left='0'
+        width='full'
+        height='full'
+      ></Box>
+
+      {createElement(
+        mapComponentToHTMLElement[type],
+        { ...props },
+        name
+      )}
+    </Flex>
+  )
+}
 
 export default ComponentsPanel;

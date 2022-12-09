@@ -19,17 +19,18 @@ export const useDropElement = ({ elementId }: { elementId: string }) => {
 	const acceptedTypes =
 		component.type === "Section" ? [] : ["Box", "Paragraph"];
 
-	const [{ isOver }, drop] = useDrop<
-		{ type: IComponentType },
+	const [{ isOver, isOverShallow }, drop] = useDrop<
+		{ type: IComponentType; props: any },
 		any,
-		{ isOver: boolean }
+		{ isOver: boolean; isOverShallow: boolean }
 	>(
 		() => ({
 			accept: acceptedTypes,
 			collect: (monitor) => ({
-				isOver: monitor.isOver({
+				isOverShallow: monitor.isOver({
 					shallow: true,
 				}),
+				isOver: monitor.isOver(),
 			}),
 			drop: (item, monitor) => {
 				if (!monitor.isOver()) {
@@ -40,6 +41,7 @@ export const useDropElement = ({ elementId }: { elementId: string }) => {
 					componentsSliceActions.addElement({
 						type: item.type,
 						parentId: component.parentId,
+						props: item.props,
 					})
 				);
 			},
@@ -47,5 +49,5 @@ export const useDropElement = ({ elementId }: { elementId: string }) => {
 		[component]
 	);
 
-	return { isOver, drop };
+	return { isOver, isOverShallow, drop };
 };
