@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from "react";
 import IFrame from "react-frame-component";
 import { editorSliceActions } from "redux/editor/editor.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
-import AddNewSection from "./components/add-new-section";
+import AddNewSection from "./components/add-section";
 import Component from "./components/component";
 import Frame from "./frame";
 

@@ -45,17 +45,16 @@ export const componentsSlice = createSlice({
 					elementId: string;
 					parentId: string;
 					type: IComponentType;
-					index: number;
 					props?: any;
 				}>
 			) => {
-				const { elementId, parentId, type, index, props } = action.payload;
+				const { elementId, parentId, type, props } = action.payload;
 
 				const component: IComponent = {
 					id: elementId,
-					parentId: parentId,
-					childrenIds: [],
 					type,
+					parentId,
+					childrenIds: [],
 					props: props ||
 						initialElementProps[type] || {
 							className: [],
@@ -63,69 +62,106 @@ export const componentsSlice = createSlice({
 				};
 
 				state.components[elementId] = component;
+				const parent = state.components[parentId];
 
+				// Delete 'AddComponent' component after adding a new
+				// component in empty 'Box' or 'Section' component
+				if (
+					(parent.type === "Box" || parent.type === "Section") &&
+					parent.childrenIds.length === 1 &&
+					state.components[parent.childrenIds[0]].type === "AddComponent"
+				) {
+					componentsSlice.caseReducers.removeElement(
+						state,
+						componentsSliceActions.removeElement({
+							elementId: parent.childrenIds[0],
+						})
+					);
+				}
+
+				// Add 'AddComponent' component in 'Box' or 'Section' component
+				// when adding these components
+				if (type === "Box" || type === "Section") {
+					componentsSlice.caseReducers.addElement(
+						state,
+						componentsSliceActions.addElement({
+							type: "AddComponent",
+							parentId: elementId,
+						})
+					);
+				}
+
+				// handle cases when adding to different position
 				state.components[parentId].childrenIds.push(elementId);
 
-				// const parent = state.components[parentId];
-
-				// if (
-				// 	(parent.type === "Box" || parent.type === "Section") &&
-				// 	parent.children.length === 1 &&
-				// 	state.components[parent.children[0]].type === "AddElement"
-				// ) {
-				// 	componentsSlice.caseReducers.removeElement(
-				// 		state,
-				// 		componentsSliceActions.removeElement({
-				// 			elementId: parent.children[0],
-				// 		})
-				// 	);
-				// }
-
-				// if (type === "Section" || type === "Box") {
-				// 	componentsSlice.caseReducers.addElement(
-				// 		state,
-				// 		componentsSliceActions.addElement({
-				// 			type: "AddElement",
-				// 			parentId: elementId,
-				// 		})
-				// 	);
-				// }
-
-				// if (index === -1) {
-				// 	state.components[parentId].children.push(elementId);
-				// } else {
-				// 	state.components[parentId].children.splice(index, 0, elementId);
-				// }
-
-				// if (type !== "AddElement") {
-				// 	state.selectedId = elementId;
-				// }
-
-				state.selectedId = elementId;
-
-				// handle new box
+				if (type !== "AddComponent") {
+					state.selectedId = elementId;
+				}
 			},
 			prepare: ({
 				parentId,
 				type,
 				elementId,
-				index,
 				props,
 			}: {
 				parentId: string;
 				type: IComponentType;
 				elementId?: string;
-				index?: number;
 				props?: any;
 			}) => ({
 				payload: {
 					elementId: elementId || type + "-" + nanoid(5),
 					parentId,
 					type,
-					index: index ?? -1,
 					props,
 				},
 			}),
+		},
+		removeElement: (
+			state,
+			action: PayloadAction<{
+				elementId: string;
+			}>
+		) => {
+			const deleteRecursively = (id: string) => {
+				const element = state.components[id];
+
+				// remove element from parent
+				state.components[element.parentId].childrenIds = state.components[
+					element.parentId
+				].childrenIds.filter((i) => i !== element.id);
+
+				// remove children of elements
+				element.childrenIds.forEach((childId) => {
+					deleteRecursively(childId);
+				});
+
+				// remove element
+				delete state.components[element.id];
+			};
+
+			const elementId = action.payload.elementId;
+
+			const element = state.components[elementId];
+			const parent = state.components[element.parentId];
+
+			deleteRecursively(element.id);
+
+			// Add 'AddComponent' component if after the deletion
+			// parent 'Box' or 'Section' becomes empty
+			if (
+				element.type !== "AddComponent" &&
+				(parent.type === "Section" || parent.type === "Box") &&
+				parent.childrenIds.length === 0
+			) {
+				componentsSlice.caseReducers.addElement(
+					state,
+					componentsSliceActions.addElement({
+						parentId: parent.id,
+						type: "AddComponent",
+					})
+				);
+			}
 		},
 	},
 });

@@ -1,66 +1,43 @@
-import { createElement, FC } from "react";
-import { selectComponent, selectSelectedId } from "redux/components/components.selectors";
-import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { FC } from "react";
+import { useAppSelector } from "redux/hooks";
 import { IComponentType } from "types";
-import cn from "clsx";
-import { componentsSliceActions } from "redux/components/components.slice";
-import { useDropElement } from "hooks/use-drop-component";
+import AddComponent from "./add-component";
+import PrimitiveComponent from "./primitive-component";
 
 export const mapComponentToHTMLElement: {
-  [key in IComponentType]: keyof HTMLElementTagNameMap;
+  [key in IComponentType]: keyof HTMLElementTagNameMap | FC<any>;
 } = {
   root: "div",
   Section: "section",
   Box: "div",
+  Paragraph: "p",
+  AddComponent: AddComponent
 };
 
-const Component: FC<{
+type Props = {
   id: string;
-}> = ({
+}
+
+const Component: FC<Props> = ({
   id
 }) => {
-    const dispatch = useAppDispatch();
-    const component = useAppSelector((state) => selectComponent(state, id))
-    const { type, props } = component;
+  const component = useAppSelector(
+    (state) => state.components.present.components[id]
+  );
 
-    const selectedId = useAppSelector(selectSelectedId);
+  console.log(component)
 
-    const { drop, isOver } = useDropElement({
-      parentId: component.parentId
-    });
-
-    const children = [
-      ...component.childrenIds.map((id: string) => {
-        return <Component key={id} id={id} />;
-      }),
-    ];
-
-    return (
-      <>
-        {
-          createElement(
-            mapComponentToHTMLElement[type],
-            {
-              ...props,
-              className: cn(
-                props.className,
-                selectedId === id && "outline outline-1 outline-[#3f87ff]",
-                isOver && 'bg-blue-50',
-                "hover:outline hover:outline-1 hover:outline-[#3f87ff] transition-shadow duration-200",
-              ),
-              onClick: (e: MouseEvent) => {
-                e.preventDefault();
-                e.stopPropagation();
-
-                dispatch(componentsSliceActions.select(id));
-              },
-              ref: drop,
-            },
-            children
-          )
-        }
-      </>
-    )
+  switch (component.type) {
+    case "AddComponent": {
+      return <AddComponent id={id} />;
+    }
+    case "Box":
+    case "Section": {
+      return <PrimitiveComponent id={id} />;
+    }
+    default:
+      return null;
   }
+}
 
 export default Component;
