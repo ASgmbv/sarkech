@@ -83,7 +83,7 @@ const Section: FC<{
       className={"flex space-x-1 w-[80px] h-10 group"}
       onClick={() => {
         dispatch(
-          componentsSliceActions.addElement({
+          componentsSliceActions.addComponent({
             parentId: "root",
             type: "Section",
           })

@@ -2,13 +2,9 @@ import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { FC } from "react"
 import { IComponent } from "types"
 import InspectorClassesPanel from "./classes";
-import InspectorStylePanel from "./style";
+import InspectorStylePanel from "./style/style";
 
-type Props = {
-  component: IComponent;
-}
-
-const Inspector: FC<Props> = ({ component }) => {
+const Inspector: FC = () => {
 
   return (
     <Box px='4'>
@@ -22,9 +18,7 @@ const Inspector: FC<Props> = ({ component }) => {
             <InspectorStylePanel />
           </TabPanel>
           <TabPanel>
-            <InspectorClassesPanel
-              component={component}
-            />
+            <InspectorClassesPanel />
           </TabPanel>
         </TabPanels>
       </Tabs>

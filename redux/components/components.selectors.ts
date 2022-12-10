@@ -13,25 +13,25 @@ export const selectSelectedComponent = (state: RootState) => {
 
 export const selectComponent = createSelector(
 	(state: RootState) => state.components.present.components,
-	(state: RootState, elementId: string) => elementId,
-	(components, elementId) => {
-		return components[elementId];
+	(state: RootState, componentId: string) => componentId,
+	(components, componentId) => {
+		return components[componentId];
 	}
 );
 
 export const selectAllParents = createSelector(
 	(state: RootState) => state.components.present.components,
-	(state: RootState, elementId: string) => elementId,
-	(components, elementId) => {
+	(state: RootState, componentId: string) => componentId,
+	(components, componentId) => {
 		const parentIds: string[] = [];
 
-		let element = components[elementId];
+		let component = components[componentId];
 
-		parentIds.push(elementId);
+		parentIds.push(componentId);
 
-		while (element.id !== "root") {
-			parentIds.unshift(element.parentId);
-			element = components[element.parentId];
+		while (component.id !== "root") {
+			parentIds.unshift(component.parentId);
+			component = components[component.parentId];
 		}
 
 		return parentIds;

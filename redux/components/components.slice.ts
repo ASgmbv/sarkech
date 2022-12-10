@@ -3,7 +3,7 @@ import { IComponent, IComponentType } from "types";
 import { twMerge } from "tailwind-merge";
 import { nanoid } from "nanoid";
 
-const initialElementProps: {
+const initialProps: {
 	[key in IComponentType]?: object;
 } = {
 	Section: {
@@ -27,7 +27,7 @@ const initialState: {
 			parentId: "root",
 			childrenIds: [],
 			type: "Root",
-			props: initialElementProps["Root"] || {},
+			props: initialProps["Root"] || {},
 		},
 	},
 };
@@ -42,30 +42,30 @@ export const componentsSlice = createSlice({
 		unselect: (state) => {
 			state.selectedId = null;
 		},
-		addElement: {
+		addComponent: {
 			reducer: (
 				state,
 				action: PayloadAction<{
-					elementId: string;
+					componentId: string;
 					parentId: string;
 					type: IComponentType;
 					props?: any;
 				}>
 			) => {
-				const { elementId, parentId, type, props } = action.payload;
+				const { componentId, parentId, type, props } = action.payload;
 
 				const component: IComponent = {
-					id: elementId,
+					id: componentId,
 					type,
 					parentId,
 					childrenIds: [],
 					props: props ||
-						initialElementProps[type] || {
+						initialProps[type] || {
 							className: [],
 						},
 				};
 
-				state.components[elementId] = component;
+				state.components[componentId] = component;
 				const parent = state.components[parentId];
 
 				// Delete 'AddComponent' component after adding a new
@@ -75,10 +75,10 @@ export const componentsSlice = createSlice({
 					parent.childrenIds.length === 1 &&
 					state.components[parent.childrenIds[0]].type === "AddComponent"
 				) {
-					componentsSlice.caseReducers.removeElement(
+					componentsSlice.caseReducers.removeComponent(
 						state,
-						componentsSliceActions.removeElement({
-							elementId: parent.childrenIds[0],
+						componentsSliceActions.removeComponent({
+							componentId: parent.childrenIds[0],
 						})
 					);
 				}
@@ -86,81 +86,81 @@ export const componentsSlice = createSlice({
 				// Add 'AddComponent' component in 'Box' or 'Section' component
 				// when adding these components
 				if (type === "Box" || type === "Section") {
-					componentsSlice.caseReducers.addElement(
+					componentsSlice.caseReducers.addComponent(
 						state,
-						componentsSliceActions.addElement({
+						componentsSliceActions.addComponent({
 							type: "AddComponent",
-							parentId: elementId,
+							parentId: componentId,
 						})
 					);
 				}
 
 				// handle cases when adding to different position
-				state.components[parentId].childrenIds.push(elementId);
+				state.components[parentId].childrenIds.push(componentId);
 
 				if (type !== "AddComponent") {
-					state.selectedId = elementId;
+					state.selectedId = componentId;
 				}
 			},
 			prepare: ({
 				parentId,
 				type,
-				elementId,
+				componentId,
 				props,
 			}: {
 				parentId: string;
 				type: IComponentType;
-				elementId?: string;
+				componentId?: string;
 				props?: any;
 			}) => ({
 				payload: {
-					elementId: elementId || type + "-" + nanoid(5),
+					componentId: componentId || type + "-" + nanoid(5),
 					parentId,
 					type,
 					props,
 				},
 			}),
 		},
-		removeElement: (
+		removeComponent: (
 			state,
 			action: PayloadAction<{
-				elementId: string;
+				componentId: string;
 			}>
 		) => {
 			const deleteRecursively = (id: string) => {
-				const element = state.components[id];
+				const component = state.components[id];
 
-				// remove element from parent
-				state.components[element.parentId].childrenIds = state.components[
-					element.parentId
-				].childrenIds.filter((i) => i !== element.id);
+				// remove component from parent
+				state.components[component.parentId].childrenIds = state.components[
+					component.parentId
+				].childrenIds.filter((i) => i !== component.id);
 
-				// remove children of elements
-				element.childrenIds.forEach((childId) => {
+				// remove children of components
+				component.childrenIds.forEach((childId) => {
 					deleteRecursively(childId);
 				});
 
-				// remove element
-				delete state.components[element.id];
+				// remove component
+				delete state.components[component.id];
 			};
 
-			const elementId = action.payload.elementId;
+			const componentId = action.payload.componentId;
 
-			const element = state.components[elementId];
-			const parent = state.components[element.parentId];
+			const component = state.components[componentId];
+			const parent = state.components[component.parentId];
 
-			deleteRecursively(element.id);
+			deleteRecursively(component.id);
 
 			// Add 'AddComponent' component if after the deletion
 			// parent 'Box' or 'Section' becomes empty
 			if (
-				element.type !== "AddComponent" &&
+				component.type !== "AddComponent" &&
 				(parent.type === "Section" || parent.type === "Box") &&
 				parent.childrenIds.length === 0
 			) {
-				componentsSlice.caseReducers.addElement(
+				componentsSlice.caseReducers.addComponent(
 					state,
-					componentsSliceActions.addElement({
+					componentsSliceActions.addComponent({
 						parentId: parent.id,
 						type: "AddComponent",
 					})
@@ -170,32 +170,52 @@ export const componentsSlice = createSlice({
 		addClasses: (
 			state,
 			action: PayloadAction<{
-				elementId: string;
+				componentId: string;
 				classes: string[];
 			}>
 		) => {
-			const { elementId, classes } = action.payload;
-			const element = state.components[elementId];
+			const { componentId, classes } = action.payload;
+			const component = state.components[componentId];
 
-			element.props.className = twMerge(element.props.className, classes);
+			component.props.className = twMerge(
+				component.props.className,
+				classes
+			);
 		},
 		removeClasses: (
 			state,
 			action: PayloadAction<{
-				elementId: string;
+				componentId: string;
 				classes: string[];
 			}>
 		) => {
-			const { elementId, classes } = action.payload;
-			const element = state.components[elementId];
+			const { componentId, classes } = action.payload;
+			const component = state.components[componentId];
 
-			element.props.className =
-				element.props.className
+			component.props.className =
+				component.props.className
 					?.split(" ")
 					.filter((c: string) => !classes.includes(c))
 					.join(" ") ||
 				// when you remove last class set className field to undefined
 				undefined;
+		},
+		setProps: (
+			state,
+			action: PayloadAction<{
+				componentId: string;
+				props: {
+					[key: string]: any;
+				};
+			}>
+		) => {
+			const { componentId, props } = action.payload;
+			const component = state.components[componentId];
+
+			component.props = {
+				...component.props,
+				...props,
+			};
 		},
 	},
 });

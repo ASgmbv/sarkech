@@ -49,9 +49,7 @@ const Sidebar: FC = () => {
         />
       </Flex>
       <Box>
-        {component ? <Inspector
-          component={component}
-        /> : <ComponentsPanel />}
+        {component ? <Inspector /> : <ComponentsPanel />}
       </Box>
     </Box>
   )

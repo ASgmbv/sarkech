@@ -17,3 +17,5 @@ export type IComponent = {
 	type: IComponentType;
 	props: IProps;
 };
+
+export type Screen = "base" | "sm" | "md" | "lg";

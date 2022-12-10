@@ -4,7 +4,7 @@ import { componentsSliceActions } from "redux/components/components.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import type { IComponentType } from "../types";
 
-export const useDropElement = ({ elementId }: { elementId: string }) => {
+export const useDropComponent = ({ elementId }: { elementId: string }) => {
 	const dispatch = useAppDispatch();
 
 	const component = useAppSelector((state) =>
@@ -38,7 +38,7 @@ export const useDropElement = ({ elementId }: { elementId: string }) => {
 				}
 
 				dispatch(
-					componentsSliceActions.addElement({
+					componentsSliceActions.addComponent({
 						type: item.type,
 						parentId: component.parentId,
 						props: item.props,

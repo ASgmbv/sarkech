@@ -2,7 +2,7 @@ import { createElement, FC, useEffect, useRef } from "react";
 import { selectComponent, selectSelectedId } from "redux/components/components.selectors";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { componentsSliceActions } from "redux/components/components.slice";
-import { useDropElement } from "hooks/use-drop-component";
+import { useDropComponent } from "hooks/use-drop-component";
 import { useDrag } from "react-dnd";
 import Component, { mapComponentToHTMLElement } from "./component";
 import cn from "clsx";
@@ -18,7 +18,7 @@ const PrimitiveComponent: FC<{
 
   const ref = useRef<any>();
 
-  const { drop, isOverShallow, isOver } = useDropElement({
+  const { drop, isOverShallow, isOver } = useDropComponent({
     elementId: id
   });
 

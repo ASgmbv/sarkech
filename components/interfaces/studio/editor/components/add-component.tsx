@@ -1,4 +1,4 @@
-import { useDropElement } from "hooks/use-drop-component";
+import { useDropComponent } from "hooks/use-drop-component";
 import { FC } from "react"
 import { BsPlus } from "react-icons/bs";
 import { componentsSliceActions } from "redux/components/components.slice";
@@ -19,7 +19,7 @@ const AddComponent: FC<Props> = ({
     (state) => selectComponent(state, id)
   )
 
-  const { drop, isOverShallow } = useDropElement({
+  const { drop, isOverShallow } = useDropComponent({
     elementId: id
   })
 
