@@ -5,7 +5,7 @@ import { selectAllParents, selectComponent } from "redux/components/components.s
 import { componentsSliceActions } from "redux/components/components.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 
-const Inspector: FC = () => {
+const Ladder: FC = () => {
   const selectedId = useAppSelector(
     (state) => state.components.present.selectedId
   )
@@ -18,7 +18,7 @@ const Inspector: FC = () => {
       px='4'
     >
       {selectedId ? (
-        <SelectedComponentInspector
+        <SelectedComponentLadder
           id={selectedId}
         />
       ) : null}
@@ -26,7 +26,7 @@ const Inspector: FC = () => {
   )
 }
 
-const SelectedComponentInspector: FC<{
+const SelectedComponentLadder: FC<{
   id: string;
 }> = ({ id }) => {
   const parentIds = useAppSelector(
@@ -42,7 +42,7 @@ const SelectedComponentInspector: FC<{
         <Fragment
           key={id}
         >
-          <InspectorItem id={id} />
+          <LadderItem id={id} />
           {index !== parentIds.length - 1 ? <Icon as={BsArrowRightShort} /> : null}
         </Fragment>
       )}
@@ -50,7 +50,7 @@ const SelectedComponentInspector: FC<{
   )
 }
 
-const InspectorItem: FC<{
+const LadderItem: FC<{
   id: string;
 }> = ({ id }) => {
   const dispatch = useAppDispatch();
@@ -71,4 +71,4 @@ const InspectorItem: FC<{
   )
 }
 
-export default Inspector;
+export default Ladder;

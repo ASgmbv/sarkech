@@ -1,11 +1,12 @@
-import { Box, Flex } from "@chakra-ui/react";
-import { FC, MouseEvent, MouseEventHandler, useEffect, useRef, useState } from "react";
+import { Box, Flex, Icon, Text } from "@chakra-ui/react";
+import { createElement, FC, MouseEvent, MouseEventHandler, useEffect, useRef, useState } from "react";
 import { selectEditorResizing, selectEditorSize } from "redux/editor/editor.selectors";
 import { editorSliceActions } from "redux/editor/editor.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import Canvas from "./canvas";
 import TemplatesModal from "../templates";
 import { componentsSliceActions } from "redux/components/components.slice";
+import { FiMonitor, FiSmartphone, FiTablet } from "react-icons/fi";
 
 const MAX_WIDTH = 1280;
 const MIN_WIDTH = 356;
@@ -131,7 +132,10 @@ const Editor: FC = () => {
         fontSize='xs'
         py='3'
       >
-        {`${editorSize.width} × ${editorSize.height}`}
+        <Device
+          height={editorSize.height}
+          width={editorSize.width}
+        />
       </Box>
 
       <Box
@@ -196,5 +200,32 @@ const ResizeHandle: FC<{
     </Flex>
   );
 };
+
+const Device: FC<{
+  width: number;
+  height: number;
+}> = ({ width, height }) => {
+
+  let icon = FiMonitor;
+
+  if (width < 425) {
+    icon = FiSmartphone;
+  }
+  else if (width < 768) {
+    icon = FiTablet;
+  }
+
+  return (
+    <Flex alignItems='center'>
+      <Text as='span' minW='75px'>
+        {`${width} × ${height}`}
+      </Text>
+      <Icon
+        as={icon}
+        boxSize='4'
+      />
+    </Flex>
+  )
+}
 
 export default Editor;

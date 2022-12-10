@@ -5,6 +5,7 @@ import { selectSelectedComponent } from "redux/components/components.selectors";
 import { componentsSliceActions } from "redux/components/components.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import ComponentsPanel from "./components";
+import Inspector from "./inspector/inspector";
 
 const Sidebar: FC = () => {
   const dispatch = useAppDispatch();
@@ -48,7 +49,9 @@ const Sidebar: FC = () => {
         />
       </Flex>
       <Box>
-        {component ? "" : <ComponentsPanel />}
+        {component ? <Inspector
+          component={component}
+        /> : <ComponentsPanel />}
       </Box>
     </Box>
   )

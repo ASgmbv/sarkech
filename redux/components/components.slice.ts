@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IComponent, IComponentType } from "types";
+import { twMerge } from "tailwind-merge";
 import { nanoid } from "nanoid";
 
 const initialElementProps: {
@@ -9,7 +10,7 @@ const initialElementProps: {
 		className: "p-2",
 	},
 	Box: {
-		className: ["p-2"],
+		className: "p-2",
 	},
 };
 
@@ -165,6 +166,36 @@ export const componentsSlice = createSlice({
 					})
 				);
 			}
+		},
+		addClasses: (
+			state,
+			action: PayloadAction<{
+				elementId: string;
+				classes: string[];
+			}>
+		) => {
+			const { elementId, classes } = action.payload;
+			const element = state.components[elementId];
+
+			element.props.className = twMerge(element.props.className, classes);
+		},
+		removeClasses: (
+			state,
+			action: PayloadAction<{
+				elementId: string;
+				classes: string[];
+			}>
+		) => {
+			const { elementId, classes } = action.payload;
+			const element = state.components[elementId];
+
+			element.props.className =
+				element.props.className
+					?.split(" ")
+					.filter((c: string) => !classes.includes(c))
+					.join(" ") ||
+				// when you remove last class set className field to undefined
+				undefined;
 		},
 	},
 });

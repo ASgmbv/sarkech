@@ -5,10 +5,15 @@ export type IComponentType =
 	| "Paragraph"
 	| "AddComponent";
 
+export type IProps = {
+	className?: string;
+	[key: string]: any;
+};
+
 export type IComponent = {
 	id: string;
 	parentId: string;
 	childrenIds: string[];
 	type: IComponentType;
-	props: Record<string, any>;
+	props: IProps;
 };

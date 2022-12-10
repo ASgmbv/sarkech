@@ -4,7 +4,7 @@ import Editor from "~components/interfaces/studio/editor/editor";
 import Header from "~components/interfaces/studio/studio-header";
 import Sidebar from "~components/interfaces/studio/sidebar/sidebar";
 import { Box, Flex } from "@chakra-ui/react";
-import Inspector from "~components/interfaces/studio/inspector";
+import Ladder from "~components/interfaces/studio/ladder";
 
 function StudioPage() {
   return (
@@ -14,7 +14,7 @@ function StudioPage() {
         <Header />
         <Box as='main'>
           <Editor />
-          <Inspector />
+          <Ladder />
         </Box>
       </Box>
     </Flex>
