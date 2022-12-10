@@ -21,7 +21,6 @@ const initialContent = `
 `;
 
 const Canvas: FC = () => {
-  const dispatch = useAppDispatch();
   const components = useAppSelector(
     (state) => state.components.present.components
   );
@@ -39,10 +38,6 @@ const Canvas: FC = () => {
 
   if (!show) return <></>
 
-  const onOpen = () => {
-    dispatch(editorSliceActions.openTemplatesModal())
-  }
-
   return (
     <IFrame
       initialContent={initialContent}
@@ -57,7 +52,7 @@ const Canvas: FC = () => {
             <Component key={id} id={id} />
           )}
 
-          <AddNewSection onClick={onOpen} />
+          <AddNewSection />
         </div>
       </Frame>
     </IFrame>

@@ -12,10 +12,8 @@ import {
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { editorSliceActions } from "redux/editor/editor.slice";
 import { selectTemplatesModal } from "redux/editor/editor.selectors";
-import { componentsSliceActions } from "redux/components/components.slice";
 
 const categories = [
-  "Basic",
   "Pricing",
   "Testimonials",
   "Team",
@@ -104,21 +102,6 @@ const TemplatesModal: FC = () => {
               </Box>
             </Box>
             <Box p='4'>
-              <Button
-                onClick={() => {
-                  dispatch(
-                    componentsSliceActions.addElement({
-                      type: 'Section',
-                      parentId: 'root',
-                    })
-                  );
-
-                  dispatch(
-                    editorSliceActions.closeTemplatesModal()
-                  )
-                }}>
-                Section
-              </Button>
             </Box>
           </Flex>
         </ModalBody>
