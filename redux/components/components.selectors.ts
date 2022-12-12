@@ -1,5 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "redux/hooks";
+import { getClassGroupId } from "tailwind-merge";
 
 export const selectSelectedId = (state: RootState) => {
 	return state.components.present.selectedId;
@@ -37,3 +38,15 @@ export const selectAllParents = createSelector(
 		return parentIds;
 	}
 );
+
+export const selectClass = (
+	state: RootState,
+	{ componentId, classGroupId }: { componentId: string; classGroupId: string }
+) => {
+	const component = state.components.present.components[componentId];
+	const className = component.props.className;
+
+	// className?.split(' ').forEach((c) => {
+	//   if ()
+	// })
+};

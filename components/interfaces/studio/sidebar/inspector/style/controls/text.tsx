@@ -1,4 +1,4 @@
-import { Box, Flex, Stack, Text, Icon, Button, IconButton } from "@chakra-ui/react"
+import { Box, Stack, Text, } from "@chakra-ui/react"
 import { FC } from "react"
 import {
   BiFontSize,
@@ -7,8 +7,11 @@ import {
   BiAlignLeft,
 } from "react-icons/bi";
 import StyleSelect from "../select";
+import { getClassGroupId } from "tailwind-merge";
 
 const TextControl: FC = () => {
+  console.log(getClassGroupId('p-2'));
+
   return (
     <Box
       py='4'

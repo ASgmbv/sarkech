@@ -1,0 +1,46 @@
+diff --git a/node_modules/tailwind-merge/dist/index.d.ts b/node_modules/tailwind-merge/dist/index.d.ts
+index dc0d2a3..9a85943 100644
+--- a/node_modules/tailwind-merge/dist/index.d.ts
++++ b/node_modules/tailwind-merge/dist/index.d.ts
+@@ -1,5 +1,5 @@
+ import { twJoin } from './lib/tw-join';
+-export { twMerge } from './lib/tw-merge';
++export { twMerge, getClassGroupId } from './lib/tw-merge';
+ export { twJoin } from './lib/tw-join';
+ export { getDefaultConfig } from './lib/default-config';
+ export { extendTailwindMerge } from './lib/extend-tailwind-merge';
+diff --git a/node_modules/tailwind-merge/dist/lib/tw-merge.d.ts b/node_modules/tailwind-merge/dist/lib/tw-merge.d.ts
+index c8a237e..24e28bf 100644
+--- a/node_modules/tailwind-merge/dist/lib/tw-merge.d.ts
++++ b/node_modules/tailwind-merge/dist/lib/tw-merge.d.ts
+@@ -1 +1,2 @@
+ export declare const twMerge: (...classLists: import("./tw-join").ClassNameValue[]) => string;
++export declare const getClassGroupId: (className: any) => any
+\ No newline at end of file
+diff --git a/node_modules/tailwind-merge/dist/lib/tw-merge.mjs b/node_modules/tailwind-merge/dist/lib/tw-merge.mjs
+index 1d710a0..eedb698 100644
+--- a/node_modules/tailwind-merge/dist/lib/tw-merge.mjs
++++ b/node_modules/tailwind-merge/dist/lib/tw-merge.mjs
+@@ -1,7 +1,9 @@
+ import { createTailwindMerge } from './create-tailwind-merge.mjs';
+ import { getDefaultConfig } from './default-config.mjs';
++import { createClassUtils } from './class-utils.mjs';
+ 
+ var twMerge = /*#__PURE__*/createTailwindMerge(getDefaultConfig);
++var getClassGroupId = createClassUtils(getDefaultConfig()).getClassGroupId
+ 
+-export { twMerge };
++export { twMerge, getClassGroupId };
+ //# sourceMappingURL=tw-merge.mjs.map
+diff --git a/node_modules/tailwind-merge/dist/tailwind-merge.mjs b/node_modules/tailwind-merge/dist/tailwind-merge.mjs
+index e195cdf..cb03310 100644
+--- a/node_modules/tailwind-merge/dist/tailwind-merge.mjs
++++ b/node_modules/tailwind-merge/dist/tailwind-merge.mjs
+@@ -1,6 +1,6 @@
+ import { twJoin } from './lib/tw-join.mjs';
+ export { twJoin } from './lib/tw-join.mjs';
+-export { twMerge } from './lib/tw-merge.mjs';
++export { twMerge, getClassGroupId } from './lib/tw-merge.mjs';
+ export { getDefaultConfig } from './lib/default-config.mjs';
+ export { extendTailwindMerge } from './lib/extend-tailwind-merge.mjs';
+ export { createTailwindMerge } from './lib/create-tailwind-merge.mjs';
