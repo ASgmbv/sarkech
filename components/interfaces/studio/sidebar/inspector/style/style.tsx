@@ -1,13 +1,15 @@
-import { Box } from "@chakra-ui/react";
 import { FC } from "react";
+import { Box } from "@chakra-ui/react";
 import ContentControl from "./controls/content";
-import DisplayControl from "./controls/screen";
+import ScreenControl from "./controls/screen";
+import TextControl from "./controls/text";
 
 const InspectorStylePanel: FC = () => {
   return (
     <Box>
-      <DisplayControl />
+      <ScreenControl />
       <ContentControl />
+      <TextControl />
     </Box>
   )
 }
