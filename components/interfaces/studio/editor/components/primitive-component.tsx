@@ -58,7 +58,7 @@ const PrimitiveComponent: FC<{
   return createElement(
     mapComponentToHTMLElement[type],
     {
-      ...props,
+      // ...props,
       className: cn(
         props.className,
         (selectedId === id || isOver) && "outline outline-1 outline-[#3f87ff]",

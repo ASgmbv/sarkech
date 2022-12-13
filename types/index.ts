@@ -7,6 +7,7 @@ export type IComponentType =
 
 export type IProps = {
 	className?: string;
+	tempClassName?: string;
 	[key: string]: any;
 };
 

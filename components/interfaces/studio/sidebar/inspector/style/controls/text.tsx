@@ -7,10 +7,8 @@ import {
   BiAlignLeft,
 } from "react-icons/bi";
 import StyleSelect from "../select";
-import { getClassGroupId } from "tailwind-merge";
 
 const TextControl: FC = () => {
-  console.log(getClassGroupId('p-2'));
 
   return (
     <Box
@@ -34,21 +32,29 @@ const TextControl: FC = () => {
           items={fontSizeOptions}
           icon={BiFontSize}
           label="Size"
+          classGroupId="font-size"
+          prefix="text"
         />
         <StyleSelect
           items={lineHeightOptions}
           icon={BiMoveVertical}
           label="Height"
+          classGroupId="leading"
+          prefix="leading"
         />
         <StyleSelect
           items={fontWeightOptions}
           icon={BiFont}
           label="Weight"
+          classGroupId="font-weight"
+          prefix="font"
         />
         <StyleSelect
           items={textAlignOptions}
           icon={BiAlignLeft}
           label="Align"
+          classGroupId="text-alignment"
+          prefix="text"
         />
       </Stack>
     </Box>

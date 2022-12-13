@@ -176,6 +176,9 @@ export const componentsSlice = createSlice({
 		) => {
 			const { componentId, classes } = action.payload;
 			const component = state.components[componentId];
+			const className = component.props.className;
+
+			component.props.tempClassName = className;
 
 			component.props.className = twMerge(
 				component.props.className,
@@ -216,6 +219,27 @@ export const componentsSlice = createSlice({
 				...component.props,
 				...props,
 			};
+		},
+		setTempClassName: (
+			state,
+			action: PayloadAction<{
+				componentId: string;
+			}>
+		) => {
+			const component = state.components[action.payload.componentId];
+			const tempClassName = component.props.tempClassName;
+			if (tempClassName) component.props.className = tempClassName;
+
+			component.props.tempClassName = undefined;
+		},
+		removeTempClassName: (
+			state,
+			action: PayloadAction<{
+				componentId: string;
+			}>
+		) => {
+			const component = state.components[action.payload.componentId];
+			component.props.tempClassName = undefined;
 		},
 	},
 });

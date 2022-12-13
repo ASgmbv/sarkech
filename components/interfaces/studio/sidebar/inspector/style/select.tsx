@@ -3,12 +3,18 @@ import { FC, useState } from "react"
 import { useSelect } from 'downshift'
 import { FiX } from "react-icons/fi";
 import { IconType } from "react-icons";
+import { selectClassValue, selectSelectedId } from "redux/components/components.selectors";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { componentsSliceActions } from "redux/components/components.slice";
 
 const StyleSelect: FC<{
-  items: any[];
+  items: any[][];
   icon: IconType;
   label: string;
-}> = ({ items, icon, label }) => {
+  classGroupId: string;
+  prefix: string;
+}> = ({ items, icon, label, classGroupId, prefix }) => {
+  const dispatch = useAppDispatch()
   const [selectedItem, setSelectedItem] = useState<string[] | null | undefined>(null)
   const {
     isOpen,
@@ -24,6 +30,49 @@ const StyleSelect: FC<{
     onSelectedItemChange: ({ selectedItem: newSelectedItem }) =>
       setSelectedItem(newSelectedItem),
   })
+
+  const selectedId = useAppSelector(selectSelectedId)
+
+  const classValue = useAppSelector((state) => selectClassValue(state, {
+    classGroupId,
+    componentId: selectedId!,
+    prefix
+  }))
+
+  const onSelect = () => {
+    dispatch(componentsSliceActions.removeTempClassName({
+      componentId: selectedId!,
+    }))
+  }
+
+  const onMouseEnter = (newClass: string) => {
+    dispatch(componentsSliceActions.addClasses({
+      componentId: selectedId!,
+      classes: [newClass]
+    }))
+  }
+
+  const onMouseLeave = () => {
+    dispatch(componentsSliceActions.setTempClassName({
+      componentId: selectedId!
+    }))
+  }
+
+  // ------
+  let displayText = <Text as='span' color='gray.400'>--</Text>
+
+  if (classValue) {
+    const itemValue = items.find((i) => i[0] === classValue)
+
+    if (itemValue) {
+      displayText = <>
+        <Text as='span'>{itemValue[0]}</Text>
+        <Text as='span' color='gray.400'>{` ` + itemValue[1]}</Text>
+      </>
+    } else {
+      displayText = <Text as='span' color='gray.400'>{classValue}</Text>
+    }
+  }
 
   return (
     <Flex alignItems='center'>
@@ -75,14 +124,7 @@ const StyleSelect: FC<{
             }
           >
             <Text as='span' flex='1' textAlign='start'>
-              {selectedItem ? (
-                <>
-                  <Text as='span'>{selectedItem[0]}</Text>
-                  <Text as='span' color='gray.400'>{` ` + selectedItem[1]}</Text>
-                </>
-              ) : (
-                <Text as='span'>--</Text>
-              )}
+              {displayText}
             </Text>
           </Button>
           <Box
@@ -112,6 +154,10 @@ const StyleSelect: FC<{
                   alignItems='center'
                   justifyContent='space-between'
                   fontSize='xs'
+                  onMouseEnter={() => onMouseEnter(prefix + '-' + size[0])}
+                  onMouseLeave={onMouseLeave}
+                  onClick={onSelect}
+                  bg={highlightedIndex === index ? 'gray.100' : undefined}
                 >
                   <Text as='span' color='black'>{size[0]}</Text>
                   <Text as='span' color='gray.400'>{size[1]}</Text>

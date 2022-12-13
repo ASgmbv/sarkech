@@ -38,3 +38,51 @@ export function splitModifiers(className: string) {
 		baseClassName,
 	};
 }
+/**
+ * taken from tailwind codebase
+ */
+
+export function negateValue(value: string) {
+	value = `${value}`;
+
+	if (value === "0") {
+		return "0";
+	}
+
+	// Flip sign of numbers
+	if (/^[+-]?(\d+|\d*\.\d+)(e[+-]?\d+)?(%|\w+)?$/.test(value)) {
+		return value.replace(/^[+-]?/, (sign) => (sign === "-" ? "" : "-"));
+	}
+
+	if (value.includes("var(") || value.includes("calc(")) {
+		return `calc(${value} * -1)`;
+	}
+}
+
+export function retrieveClassValue({
+	prefix,
+	baseClassName,
+}: {
+	prefix: string;
+	baseClassName: string;
+}) {
+	if (prefix) {
+		const isNegative = baseClassName.startsWith("-");
+
+		let value: string | undefined = baseClassName.slice(
+			prefix.length + (isNegative ? 2 : 1)
+		);
+
+		if (value.startsWith("[")) {
+			value = value.substring(1, value.length - 1);
+		}
+
+		if (isNegative) {
+			value = negateValue(value);
+		}
+
+		return value === "" ? "DEFAULT" : value;
+	}
+
+	return baseClassName;
+}
