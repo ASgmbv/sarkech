@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IComponent, IComponentType } from "types";
 import { twMerge } from "tailwind-merge";
 import { nanoid } from "nanoid";
+import { Screen } from "types";
 
 const initialProps: {
 	[key in IComponentType]?: object;
@@ -16,11 +17,13 @@ const initialProps: {
 
 const initialState: {
 	selectedId: string | null;
+	screen: Screen;
 	components: {
 		[id: string]: IComponent;
 	};
 } = {
 	selectedId: null,
+	screen: "base",
 	components: {
 		root: {
 			id: "root",
@@ -41,6 +44,9 @@ export const componentsSlice = createSlice({
 		},
 		unselect: (state) => {
 			state.selectedId = null;
+		},
+		changeScreen: (state, action: PayloadAction<Screen>) => {
+			state.screen = action.payload;
 		},
 		addComponent: {
 			reducer: (
@@ -178,8 +184,6 @@ export const componentsSlice = createSlice({
 			const component = state.components[componentId];
 			const className = component.props.className;
 
-			component.props.tempClassName = className;
-
 			component.props.className = twMerge(
 				component.props.className,
 				classes
@@ -220,7 +224,31 @@ export const componentsSlice = createSlice({
 				...props,
 			};
 		},
-		setTempClassName: (
+		addResponsiveClass: (
+			state,
+			action: PayloadAction<{
+				componentId: string;
+				newClass: string;
+			}>
+		) => {
+			const { componentId, newClass } = action.payload;
+			const component = state.components[componentId];
+			const screen = state.screen;
+
+			component.props.tempClassName = component.props.className;
+
+			let resultClass = newClass;
+
+			if (screen !== "base") {
+				resultClass = screen + ":" + resultClass;
+			}
+
+			component.props.className = twMerge(
+				component.props.className,
+				resultClass
+			);
+		},
+		returnPreviousClassName: (
 			state,
 			action: PayloadAction<{
 				componentId: string;
@@ -228,11 +256,11 @@ export const componentsSlice = createSlice({
 		) => {
 			const component = state.components[action.payload.componentId];
 			const tempClassName = component.props.tempClassName;
-			if (tempClassName) component.props.className = tempClassName;
+			component.props.className = tempClassName;
 
 			component.props.tempClassName = undefined;
 		},
-		removeTempClassName: (
+		keepCurrentClassName: (
 			state,
 			action: PayloadAction<{
 				componentId: string;

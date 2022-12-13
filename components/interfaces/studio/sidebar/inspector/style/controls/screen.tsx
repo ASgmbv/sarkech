@@ -3,8 +3,8 @@ import { FC, Fragment, useState } from "react"
 import { IconType } from "react-icons";
 import { BsArrowRightShort } from "react-icons/bs";
 import { FiMonitor, FiSmartphone, FiSquare, FiTablet } from "react-icons/fi";
-import { selectScreen } from "redux/editor/editor.selectors";
-import { editorSliceActions } from "redux/editor/editor.slice";
+import { selectScreen } from "redux/components/components.selectors";
+import { componentsSliceActions } from "redux/components/components.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { Screen } from "types";
 
@@ -67,7 +67,7 @@ const ScreenControl: FC = () => {
                     />
                   }
                   onClick={() => {
-                    dispatch(editorSliceActions.changeScreen(screen))
+                    dispatch(componentsSliceActions.changeScreen(screen))
                     setOpen(false)
                   }}
                   size='xs'

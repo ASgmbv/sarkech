@@ -1,5 +1,5 @@
+import { FC } from "react"
 import { Box, Flex, Text, Icon, Button } from "@chakra-ui/react"
-import { FC, useState } from "react"
 import { useSelect } from 'downshift'
 import { FiX } from "react-icons/fi";
 import { IconType } from "react-icons";
@@ -15,21 +15,16 @@ const StyleSelect: FC<{
   prefix: string;
 }> = ({ items, icon, label, classGroupId, prefix }) => {
   const dispatch = useAppDispatch()
-  const [selectedItem, setSelectedItem] = useState<string[] | null | undefined>(null)
+
   const {
     isOpen,
     getToggleButtonProps,
     getLabelProps,
     getMenuProps,
-    highlightedIndex,
     getItemProps,
-  } = useSelect({
-    items,
-    // itemToString,
-    selectedItem,
-    onSelectedItemChange: ({ selectedItem: newSelectedItem }) =>
-      setSelectedItem(newSelectedItem),
-  })
+    highlightedIndex,
+    closeMenu,
+  } = useSelect({ items })
 
   const selectedId = useAppSelector(selectSelectedId)
 
@@ -40,25 +35,34 @@ const StyleSelect: FC<{
   }))
 
   const onSelect = () => {
-    dispatch(componentsSliceActions.removeTempClassName({
-      componentId: selectedId!,
-    }))
+    dispatch(
+      componentsSliceActions.keepCurrentClassName({
+        componentId: selectedId!
+      })
+    )
+
+    closeMenu()
   }
 
   const onMouseEnter = (newClass: string) => {
-    dispatch(componentsSliceActions.addClasses({
-      componentId: selectedId!,
-      classes: [newClass]
-    }))
+    dispatch(
+      componentsSliceActions.addResponsiveClass({
+        componentId: selectedId!,
+        newClass
+      })
+    )
   }
 
   const onMouseLeave = () => {
-    dispatch(componentsSliceActions.setTempClassName({
-      componentId: selectedId!
-    }))
+    dispatch(
+      componentsSliceActions.returnPreviousClassName({
+        componentId: selectedId!
+      })
+    )
   }
 
-  // ------
+  // ------------------------------------------------
+
   let displayText = <Text as='span' color='gray.400'>--</Text>
 
   if (classValue) {
@@ -67,7 +71,7 @@ const StyleSelect: FC<{
     if (itemValue) {
       displayText = <>
         <Text as='span'>{itemValue[0]}</Text>
-        <Text as='span' color='gray.400'>{` ` + itemValue[1]}</Text>
+        {itemValue[1] && (<Text as='span' color='gray.400'>{` ` + itemValue[1]}</Text>)}
       </>
     } else {
       displayText = <Text as='span' color='gray.400'>{classValue}</Text>
@@ -154,13 +158,14 @@ const StyleSelect: FC<{
                   alignItems='center'
                   justifyContent='space-between'
                   fontSize='xs'
+                  fontWeight={classValue === size[0] ? 'semibold' : undefined}
                   onMouseEnter={() => onMouseEnter(prefix + '-' + size[0])}
                   onMouseLeave={onMouseLeave}
                   onClick={onSelect}
                   bg={highlightedIndex === index ? 'gray.100' : undefined}
                 >
                   <Text as='span' color='black'>{size[0]}</Text>
-                  <Text as='span' color='gray.400'>{size[1]}</Text>
+                  {size[1] && (<Text as='span' color='gray.400'>{size[1]}</Text>)}
                 </Flex>
               ))
             )}

@@ -13,6 +13,10 @@ export const selectSelectedComponent = (state: RootState) => {
 	return state.components.present.components[id];
 };
 
+export const selectScreen = (state: RootState) => {
+	return state.components.present.screen;
+};
+
 export const selectComponent = createSelector(
 	(state: RootState) => state.components.present.components,
 	(state: RootState, componentId: string) => componentId,
@@ -49,8 +53,8 @@ export const selectClassValue = (
 	}: { componentId: string; classGroupId: string; prefix: string }
 ) => {
 	const component = state.components.present.components[componentId];
-	const className = component.props.className;
-	const screen = state.editor.screen;
+	const className = component.props.tempClassName || component.props.className;
+	const screen = state.components.present.screen;
 
 	let base: string | undefined;
 	let sm: string | undefined;

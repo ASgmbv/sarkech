@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Screen } from "types";
 
 type EditorInitialState = {
 	isTemplatesModalOpen: boolean;
@@ -13,7 +12,6 @@ type EditorInitialState = {
 		startWidth: number;
 	} | null;
 	variant: string | null;
-	screen: Screen;
 };
 
 const initialState: EditorInitialState = {
@@ -24,7 +22,6 @@ const initialState: EditorInitialState = {
 	},
 	resizing: null,
 	variant: null,
-	screen: "base",
 };
 
 export const editorSlice = createSlice({
@@ -61,9 +58,6 @@ export const editorSlice = createSlice({
 		},
 		setVariant: (state, action: PayloadAction<string | null>) => {
 			state.variant = action.payload;
-		},
-		changeScreen: (state, action: PayloadAction<Screen>) => {
-			state.screen = action.payload;
 		},
 	},
 });
