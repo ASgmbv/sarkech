@@ -12,7 +12,7 @@ const TextControl: FC = () => {
 
   return (
     <Box
-      py='4'
+      py='5'
       borderBottom='1px solid'
       borderColor='gray.200'
     >

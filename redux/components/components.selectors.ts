@@ -50,7 +50,11 @@ export const selectClassValue = (
 		componentId,
 		classGroupId,
 		prefix,
-	}: { componentId: string; classGroupId: string; prefix: string }
+	}: {
+		componentId: string;
+		classGroupId: string;
+		prefix?: string;
+	}
 ) => {
 	const component = state.components.present.components[componentId];
 	const className = component.props.tempClassName || component.props.className;

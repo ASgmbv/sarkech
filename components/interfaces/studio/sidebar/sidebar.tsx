@@ -48,7 +48,10 @@ const Sidebar: FC = () => {
           }}
         />
       </Flex>
-      <Box>
+      <Box
+        height='calc(100vh - 48px)'
+        overflow='auto'
+      >
         {component ? <Inspector /> : <ComponentsPanel />}
       </Box>
     </Box>

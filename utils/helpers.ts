@@ -63,8 +63,8 @@ export function retrieveClassValue({
 	prefix,
 	baseClassName,
 }: {
-	prefix: string;
 	baseClassName: string;
+	prefix?: string;
 }) {
 	if (prefix) {
 		const isNegative = baseClassName.startsWith("-");
@@ -81,7 +81,7 @@ export function retrieveClassValue({
 			value = negateValue(value);
 		}
 
-		return value === "" ? "DEFAULT" : value;
+		return value === "" ? "default" : value;
 	}
 
 	return baseClassName;

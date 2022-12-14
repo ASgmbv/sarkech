@@ -6,14 +6,19 @@ import { IconType } from "react-icons";
 import { selectClassValue, selectSelectedId } from "redux/components/components.selectors";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { componentsSliceActions } from "redux/components/components.slice";
+// import { usePopper } from "react-popper";
 
 const StyleSelect: FC<{
   items: any[][];
-  icon: IconType;
+  icon?: IconType;
   label: string;
   classGroupId: string;
-  prefix: string;
+  prefix?: string;
 }> = ({ items, icon, label, classGroupId, prefix }) => {
+  // const [referenceElement, setReferenceElement] = useState();
+  // const [popperElement, setPopperElement] = useState();
+  // const { styles, attributes } = usePopper(referenceElement, popperElement);
+
   const dispatch = useAppDispatch()
 
   const {
@@ -101,6 +106,7 @@ const StyleSelect: FC<{
         <Box position='relative'>
           <Button
             {...getToggleButtonProps()}
+            // ref={setReferenceElement as any}
             bg='white'
             variant='unstyled'
             fontSize='xs'
@@ -120,7 +126,9 @@ const StyleSelect: FC<{
             width='full'
             rounded='sm'
             display='inline-flex'
-            leftIcon={<Icon as={icon} boxSize='4' color='gray.400' />}
+            leftIcon={
+              icon ? (<Icon as={icon} boxSize='4' color='gray.400' />) : null
+            }
             rightIcon={
               screenValue ? (
                 <Icon
@@ -136,7 +144,18 @@ const StyleSelect: FC<{
                   _active={{ bg: 'gray.300' }}
                   onClick={(e) => {
                     e.stopPropagation()
-                    onXCLick(prefix + '-' + screenValue)
+
+                    let className: string;
+
+                    if (prefix) {
+                      if (screenValue === 'default')
+                        className = prefix;
+                      else
+                        className = prefix + '-' + screenValue;
+                    } else
+                      className = screenValue
+
+                    onXCLick(className)
                   }}
                 />
               ) : null
@@ -149,6 +168,9 @@ const StyleSelect: FC<{
           <Box
             as='ul'
             {...getMenuProps()}
+            // {...attributes.popper}
+            // ref={setPopperElement as any}
+            // style={styles.popper}
             position='absolute'
             width='full'
             padding='0'
@@ -174,7 +196,19 @@ const StyleSelect: FC<{
                   justifyContent='space-between'
                   fontSize='xs'
                   fontWeight={classValue === size[0] ? 'semibold' : undefined}
-                  onMouseEnter={() => onMouseEnter(prefix + '-' + size[0])}
+                  onMouseEnter={() => {
+                    let className: string;
+
+                    if (prefix) {
+                      if (size[0] === 'default')
+                        className = prefix;
+                      else
+                        className = prefix + '-' + size[0];
+                    } else
+                      className = size[0]
+
+                    onMouseEnter(className)
+                  }}
                   onMouseLeave={onMouseLeave}
                   onClick={onSelect}
                   bg={highlightedIndex === index ? 'gray.100' : undefined}
