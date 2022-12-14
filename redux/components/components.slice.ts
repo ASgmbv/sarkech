@@ -248,6 +248,31 @@ export const componentsSlice = createSlice({
 				resultClass
 			);
 		},
+		removeResponsiveClass: (
+			state,
+			action: PayloadAction<{
+				componentId: string;
+				classToRemove: string;
+			}>
+		) => {
+			const { componentId, classToRemove } = action.payload;
+			const component = state.components[componentId];
+			const screen = state.screen;
+
+			let resultClass = classToRemove;
+
+			if (screen !== "base") {
+				resultClass = screen + ":" + resultClass;
+			}
+
+			component.props.className =
+				component.props.className
+					?.split(" ")
+					.filter((c: string) => c !== classToRemove)
+					.join(" ") ||
+				// when you remove last class set className field to undefined
+				undefined;
+		},
 		returnPreviousClassName: (
 			state,
 			action: PayloadAction<{

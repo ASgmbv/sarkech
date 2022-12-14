@@ -26,18 +26,21 @@ const StyleSelect: FC<{
     closeMenu,
   } = useSelect({ items })
 
-  const selectedId = useAppSelector(selectSelectedId)
+  const selectedId = useAppSelector(selectSelectedId)!
 
-  const classValue = useAppSelector((state) => selectClassValue(state, {
+  const {
+    value: classValue,
+    screenValue
+  } = useAppSelector((state) => selectClassValue(state, {
     classGroupId,
-    componentId: selectedId!,
+    componentId: selectedId,
     prefix
   }))
 
   const onSelect = () => {
     dispatch(
       componentsSliceActions.keepCurrentClassName({
-        componentId: selectedId!
+        componentId: selectedId
       })
     )
 
@@ -47,7 +50,7 @@ const StyleSelect: FC<{
   const onMouseEnter = (newClass: string) => {
     dispatch(
       componentsSliceActions.addResponsiveClass({
-        componentId: selectedId!,
+        componentId: selectedId,
         newClass
       })
     )
@@ -56,7 +59,16 @@ const StyleSelect: FC<{
   const onMouseLeave = () => {
     dispatch(
       componentsSliceActions.returnPreviousClassName({
-        componentId: selectedId!
+        componentId: selectedId
+      })
+    )
+  }
+
+  const onXCLick = (className: string) => {
+    dispatch(
+      componentsSliceActions.removeResponsiveClass({
+        componentId: selectedId,
+        classToRemove: className
       })
     )
   }
@@ -110,21 +122,24 @@ const StyleSelect: FC<{
             display='inline-flex'
             leftIcon={<Icon as={icon} boxSize='4' color='gray.400' />}
             rightIcon={
-              <Icon
-                as={FiX}
-                opacity='0'
-                aria-label=""
-                rounded='full'
-                boxSize='4'
-                padding='2px'
-                transition='all 0.3s'
-                color='gray.500'
-                _hover={{ bg: 'gray.200' }}
-                _active={{ bg: 'gray.300' }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-              />
+              screenValue ? (
+                <Icon
+                  as={FiX}
+                  opacity='0'
+                  aria-label=""
+                  rounded='full'
+                  boxSize='4'
+                  padding='2px'
+                  transition='all 0.3s'
+                  color='gray.500'
+                  _hover={{ bg: 'gray.200' }}
+                  _active={{ bg: 'gray.300' }}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onXCLick(prefix + '-' + screenValue)
+                  }}
+                />
+              ) : null
             }
           >
             <Text as='span' flex='1' textAlign='start'>

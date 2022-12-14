@@ -60,10 +60,6 @@ export const selectClassValue = (
 	let sm: string | undefined;
 	let md: string | undefined;
 	let lg: string | undefined;
-	let baseval: string | undefined;
-	let smval: string | undefined;
-	let mdval: string | undefined;
-	let lgval: string | undefined;
 
 	className?.split(" ").forEach((c) => {
 		const { baseClassName, modifiers } = splitModifiers(c);
@@ -82,17 +78,13 @@ export const selectClassValue = (
 			});
 
 			if (modifiers.length === 0) {
-				base = className;
-				baseval = classValue;
+				base = classValue;
 			} else if (modifiers[0] === "sm:") {
-				sm = className;
-				smval = classValue;
+				sm = classValue;
 			} else if (modifiers[0] === "md:") {
-				md = className;
-				mdval = classValue;
+				md = classValue;
 			} else if (modifiers[0] === "lg:") {
-				lg = className;
-				lgval = classValue;
+				lg = classValue;
 			}
 		}
 	});
@@ -100,14 +92,24 @@ export const selectClassValue = (
 	let value: string | undefined;
 
 	if (screen === "base") {
-		value = baseval;
+		value = base;
 	} else if (screen === "sm") {
-		value = smval || baseval;
+		value = sm || base;
 	} else if (screen === "md") {
-		value = mdval || smval || baseval;
+		value = md || sm || base;
 	} else if (screen === "lg") {
-		value = lgval || mdval || smval || baseval;
+		value = lg || md || sm || base;
 	}
 
-	return value;
+	return {
+		value,
+		screenValue:
+			screen === "base"
+				? base
+				: screen === "sm"
+				? sm
+				: screen === "md"
+				? md
+				: lg,
+	};
 };
