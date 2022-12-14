@@ -268,7 +268,7 @@ export const componentsSlice = createSlice({
 			component.props.className =
 				component.props.className
 					?.split(" ")
-					.filter((c: string) => c !== classToRemove)
+					.filter((c: string) => c !== resultClass)
 					.join(" ") ||
 				// when you remove last class set className field to undefined
 				undefined;
