@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IComponent, IComponentType } from "types";
+import { IComponent, IComponentType, IProps } from "types";
 import { twMerge } from "tailwind-merge";
 import { nanoid } from "nanoid";
 import { Screen } from "types";
 
 const initialProps: {
-	[key in IComponentType]?: object;
+	[key in IComponentType]?: IProps;
 } = {
 	Section: {
 		className: "p-2",
@@ -65,10 +65,10 @@ export const componentsSlice = createSlice({
 					type,
 					parentId,
 					childrenIds: [],
-					props: props ||
-						initialProps[type] || {
-							className: [],
-						},
+					props: {
+						className: "",
+						...(props ? props : initialProps[type]),
+					},
 				};
 
 				state.components[componentId] = component;
@@ -199,13 +199,10 @@ export const componentsSlice = createSlice({
 			const { componentId, classes } = action.payload;
 			const component = state.components[componentId];
 
-			component.props.className =
-				component.props.className
-					?.split(" ")
-					.filter((c: string) => !classes.includes(c))
-					.join(" ") ||
-				// when you remove last class set className field to undefined
-				undefined;
+			component.props.className = component.props.className
+				?.split(" ")
+				.filter((c: string) => !classes.includes(c))
+				.join(" ");
 		},
 		setProps: (
 			state,
@@ -265,13 +262,10 @@ export const componentsSlice = createSlice({
 				resultClass = screen + ":" + resultClass;
 			}
 
-			component.props.className =
-				component.props.className
-					?.split(" ")
-					.filter((c: string) => c !== resultClass)
-					.join(" ") ||
-				// when you remove last class set className field to undefined
-				undefined;
+			component.props.className = component.props.className
+				?.split(" ")
+				.filter((c: string) => c !== resultClass)
+				.join(" ");
 		},
 		returnPreviousClassName: (
 			state,

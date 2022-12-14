@@ -57,7 +57,7 @@ export const selectClassValue = (
 	}
 ) => {
 	const component = state.components.present.components[componentId];
-	const className = component.props.tempClassName || component.props.className;
+	const className = component.props.tempClassName ?? component.props.className;
 	const screen = state.components.present.screen;
 
 	let base: string | undefined;

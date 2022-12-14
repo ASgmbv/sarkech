@@ -126,9 +126,7 @@ const StyleSelect: FC<{
             width='full'
             rounded='sm'
             display='inline-flex'
-            leftIcon={
-              icon ? (<Icon as={icon} boxSize='4' color='gray.400' />) : null
-            }
+            leftIcon={icon ? (<Icon as={icon} boxSize='4' color='gray.400' />) : null}
             rightIcon={
               screenValue ? (
                 <Icon

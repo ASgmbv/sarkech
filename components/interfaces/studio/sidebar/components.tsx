@@ -58,7 +58,7 @@ const components: (SingleComponent | VariableComponent)[] = [
           type: "Paragraph",
           previewImage: '/images/box.svg',
           props: {
-            className: ''
+            children: 'Paragraph'
           }
         }
       ]
@@ -299,9 +299,7 @@ const Variant: FC<{
     type,
     item: {
       type,
-      props: {
-        children: name
-      }
+      props
     },
     collect: (monitor) => ({
       isDragging: monitor.isDragging()

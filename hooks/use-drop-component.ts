@@ -11,10 +11,6 @@ export const useDropComponent = ({ elementId }: { elementId: string }) => {
 		selectComponent(state, elementId)
 	);
 
-	const parent = useAppSelector((state) =>
-		selectComponent(state, component.parentId)
-	);
-
 	// 'Section' component does not let to drop other components
 	const acceptedTypes =
 		component.type === "Section" ? [] : ["Box", "Paragraph"];

@@ -50,7 +50,9 @@ const InspectorClassesPanel: FC = () => {
       </Box>
       <Box>
         <Wrap spacing='3'>
-          {component.props.className?.split(' ')
+          {component.props.className
+            ?.split(' ')
+            .filter(Boolean)
             .map((c) => (
               <WrapItem key={c}>
                 <Tag
