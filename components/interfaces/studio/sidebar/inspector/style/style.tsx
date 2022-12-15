@@ -16,10 +16,10 @@ const InspectorStylePanel: FC = () => {
       <ScreenControl />
       <ContentControl />
       <LayoutControl />
+      <StylesControl />
       <TextControl />
       <PaddingControl />
       <MarginControl />
-      <StylesControl />
       <WidthControl />
       <HeightControl />
     </Box>

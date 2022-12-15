@@ -12,10 +12,12 @@ const StyleSelect: FC<{
   items: any[][];
   icon?: IconType;
   label?: string;
-  classGroupId: string;
   prefix?: string;
+  classGroupId?: string;
+  value?: string | null;
   showBorder?: boolean;
-}> = ({ items, icon, label, classGroupId, prefix, showBorder = true }) => {
+  showReset?: boolean;
+}> = ({ items, icon, label, classGroupId, prefix, showBorder = true, showReset = true, value }) => {
   // const [referenceElement, setReferenceElement] = useState();
   // const [popperElement, setPopperElement] = useState();
   // const { styles, attributes } = usePopper(referenceElement, popperElement);
@@ -37,11 +39,17 @@ const StyleSelect: FC<{
   const {
     value: classValue,
     screenValue
-  } = useAppSelector((state) => selectClassValue(state, {
-    classGroupId,
-    componentId: selectedId,
-    prefix
-  }))
+  } = useAppSelector((state) => {
+
+    return classGroupId ? selectClassValue(state, {
+      classGroupId,
+      componentId: selectedId,
+      prefix
+    }) : ({
+      value: undefined,
+      screenValue: undefined
+    })
+  })
 
   const onSelect = () => {
     dispatch(
@@ -54,6 +62,7 @@ const StyleSelect: FC<{
   }
 
   const onMouseEnter = (newClass: string) => {
+
     dispatch(
       componentsSliceActions.addResponsiveClass({
         componentId: selectedId,
@@ -81,10 +90,16 @@ const StyleSelect: FC<{
 
   // ------------------------------------------------
 
+  /**
+   * use value depending of classGroupId
+   */
+
+  const val = classGroupId === undefined ? value : classValue
+
   let displayText = <Text as='span' color='gray.400'>--</Text>
 
-  if (classValue) {
-    const itemValue = items.find((i) => i[0] === classValue)
+  if (val) {
+    const itemValue = items.find((i) => i[0] === val)
 
     if (itemValue) {
       displayText = <>
@@ -92,7 +107,7 @@ const StyleSelect: FC<{
         {itemValue[1] && (<Text as='span' color='gray.400'>{` ` + itemValue[1]}</Text>)}
       </>
     } else {
-      displayText = <Text as='span' color='gray.400'>{classValue}</Text>
+      displayText = <Text as='span' color='gray.400'>{val}</Text>
     }
   }
 
@@ -123,10 +138,12 @@ const StyleSelect: FC<{
           border={showBorder ? '1px solid' : undefined}
           borderColor='gray.200'
           _hover={{
+            border: '1px solid',
             borderColor: 'gray.300',
             svg: { opacity: 1, }
           }}
           _focus={{
+            border: '1px solid',
             borderColor: 'gray.300'
           }}
           width='full'
@@ -139,7 +156,7 @@ const StyleSelect: FC<{
               <Box boxSize='4'></Box>
           }
           rightIcon={
-            screenValue ? (
+            (showReset && screenValue) ? (
               <Icon
                 as={FiX}
                 opacity='0'
@@ -208,7 +225,7 @@ const StyleSelect: FC<{
                 alignItems='center'
                 justifyContent='space-between'
                 fontSize='xs'
-                fontWeight={classValue === size[0] ? 'semibold' : undefined}
+                fontWeight={val === size[0] ? 'semibold' : undefined}
                 onMouseEnter={() => {
                   let className: string;
 

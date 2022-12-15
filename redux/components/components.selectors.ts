@@ -1,7 +1,6 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "redux/hooks";
-import { getClassGroupId } from "tailwind-merge";
-import { retrieveClassValue, splitModifiers } from "utils/helpers";
+import { getResponsiveClassValue } from "utils/helpers";
 
 export const selectSelectedId = (state: RootState) => {
 	return state.components.present.selectedId;
@@ -60,37 +59,10 @@ export const selectClassValue = (
 	const className = component.props.tempClassName ?? component.props.className;
 	const screen = state.components.present.screen;
 
-	let base: string | undefined;
-	let sm: string | undefined;
-	let md: string | undefined;
-	let lg: string | undefined;
-
-	className?.split(" ").forEach((c) => {
-		const { baseClassName, modifiers } = splitModifiers(c);
-
-		if (
-			getClassGroupId(baseClassName) === classGroupId &&
-			(modifiers.length === 0 ||
-				(modifiers.length === 1 &&
-					(modifiers[0] === "sm:" ||
-						modifiers[0] === "md:" ||
-						modifiers[0] === "lg:")))
-		) {
-			const classValue = retrieveClassValue({
-				baseClassName,
-				prefix,
-			});
-
-			if (modifiers.length === 0) {
-				base = classValue;
-			} else if (modifiers[0] === "sm:") {
-				sm = classValue;
-			} else if (modifiers[0] === "md:") {
-				md = classValue;
-			} else if (modifiers[0] === "lg:") {
-				lg = classValue;
-			}
-		}
+	const { base, lg, md, sm } = getResponsiveClassValue({
+		className,
+		classGroupId,
+		prefix,
 	});
 
 	let value: string | undefined;
@@ -115,5 +87,139 @@ export const selectClassValue = (
 				: screen === "md"
 				? md
 				: lg,
+	};
+};
+
+export const selectSpacingValue = (
+	state: RootState,
+	{
+		componentId,
+		classGroupId,
+		prefix,
+	}: {
+		componentId: string;
+		classGroupId: string;
+		prefix?: string;
+	}
+) => {
+	const component = state.components.present.components[componentId];
+	const className = component.props.tempClassName ?? component.props.className;
+	const screen = state.components.present.screen;
+
+	const mt = getResponsiveClassValue({
+		className,
+		prefix: prefix + "t",
+		classGroupId: classGroupId + "t",
+	});
+
+	const mr = getResponsiveClassValue({
+		className,
+		prefix: prefix + "r",
+		classGroupId: classGroupId + "r",
+	});
+
+	const mb = getResponsiveClassValue({
+		className,
+		prefix: prefix + "b",
+		classGroupId: classGroupId + "b",
+	});
+
+	const ml = getResponsiveClassValue({
+		className,
+		prefix: prefix + "l",
+		classGroupId: classGroupId + "l",
+	});
+
+	const mx = getResponsiveClassValue({
+		className,
+		prefix: prefix + "x",
+		classGroupId: classGroupId + "x",
+	});
+
+	const my = getResponsiveClassValue({
+		className,
+		prefix: prefix + "y",
+		classGroupId: classGroupId + "y",
+	});
+
+	const m = getResponsiveClassValue({
+		className,
+		prefix,
+		classGroupId,
+	});
+
+	const topbase = mt.base || my.base || m.base;
+	const topsm = mt.sm || my.sm || m.sm;
+	const topmd = mt.md || my.md || m.md;
+	const toplg = mt.lg || my.lg || m.lg;
+
+	let top: string | undefined;
+
+	if (screen === "base") {
+		top = topbase;
+	} else if (screen === "sm") {
+		top = topsm || topbase;
+	} else if (screen === "md") {
+		top = topmd || topsm || topbase;
+	} else if (screen === "lg") {
+		top = toplg || topmd || topsm || topbase;
+	}
+
+	const bottombase = mb.base || my.base || m.base;
+	const bottomsm = mb.sm || my.sm || m.sm;
+	const bottommd = mb.md || my.md || m.md;
+	const bottomlg = mb.lg || my.lg || m.lg;
+
+	let bottom: string | undefined;
+
+	if (screen === "base") {
+		bottom = bottombase;
+	} else if (screen === "sm") {
+		bottom = bottomsm || bottombase;
+	} else if (screen === "md") {
+		bottom = bottommd || bottomsm || bottombase;
+	} else if (screen === "lg") {
+		bottom = bottomlg || bottommd || bottomsm || bottombase;
+	}
+
+	const leftbase = ml.base || mx.base || m.base;
+	const leftsm = ml.sm || mx.sm || m.sm;
+	const leftmd = ml.md || mx.md || m.md;
+	const leftlg = ml.lg || mx.lg || m.lg;
+
+	let left: string | undefined;
+
+	if (screen === "base") {
+		left = leftbase;
+	} else if (screen === "sm") {
+		left = leftsm || leftbase;
+	} else if (screen === "md") {
+		left = leftmd || leftsm || leftbase;
+	} else if (screen === "lg") {
+		left = leftlg || leftmd || leftsm || leftbase;
+	}
+
+	const rightbase = mr.base || mx.base || m.base;
+	const rightsm = mr.sm || mx.sm || m.sm;
+	const rightmd = mr.md || mx.md || m.md;
+	const rightlg = mr.lg || mx.lg || m.lg;
+
+	let right: string | undefined;
+
+	if (screen === "base") {
+		right = rightbase;
+	} else if (screen === "sm") {
+		right = rightsm || rightbase;
+	} else if (screen === "md") {
+		right = rightmd || rightsm || rightbase;
+	} else if (screen === "lg") {
+		right = rightlg || rightmd || rightsm || rightbase;
+	}
+
+	return {
+		top,
+		bottom,
+		left,
+		right,
 	};
 };

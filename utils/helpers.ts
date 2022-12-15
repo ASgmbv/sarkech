@@ -2,6 +2,8 @@
  * taken from tailwind codebase
  */
 
+import { getClassGroupId } from "tailwind-merge";
+
 export function splitModifiers(className: string) {
 	const modifiers = [];
 
@@ -59,9 +61,9 @@ export function negateValue(value: string) {
 	}
 }
 
-export function retrieveClassValue({
-	prefix,
+export function getClassValue({
 	baseClassName,
+	prefix,
 }: {
 	baseClassName: string;
 	prefix?: string;
@@ -85,4 +87,54 @@ export function retrieveClassValue({
 	}
 
 	return baseClassName;
+}
+
+export function getResponsiveClassValue({
+	className,
+	classGroupId,
+	prefix,
+}: {
+	classGroupId: string;
+	className?: string;
+	prefix?: string;
+}) {
+	let base: string | undefined;
+	let sm: string | undefined;
+	let md: string | undefined;
+	let lg: string | undefined;
+
+	className?.split(" ").forEach((c) => {
+		const { baseClassName, modifiers } = splitModifiers(c);
+
+		if (
+			getClassGroupId(baseClassName) === classGroupId &&
+			(modifiers.length === 0 ||
+				(modifiers.length === 1 &&
+					(modifiers[0] === "sm:" ||
+						modifiers[0] === "md:" ||
+						modifiers[0] === "lg:")))
+		) {
+			const classValue = getClassValue({
+				baseClassName,
+				prefix,
+			});
+
+			if (modifiers.length === 0) {
+				base = classValue;
+			} else if (modifiers[0] === "sm:") {
+				sm = classValue;
+			} else if (modifiers[0] === "md:") {
+				md = classValue;
+			} else if (modifiers[0] === "lg:") {
+				lg = classValue;
+			}
+		}
+	});
+
+	return {
+		base,
+		sm,
+		md,
+		lg,
+	};
 }
