@@ -6,6 +6,9 @@ import TextControl from "./controls/text";
 import StylesControl from "./controls/styles";
 import LayoutControl from "./controls/layout";
 import WidthControl from "./controls/width";
+import HeightControl from "./controls/height";
+import PaddingControl from "./controls/padding";
+import MarginControl from "./controls/margin";
 
 const InspectorStylePanel: FC = () => {
   return (
@@ -14,8 +17,11 @@ const InspectorStylePanel: FC = () => {
       <ContentControl />
       <LayoutControl />
       <TextControl />
+      <PaddingControl />
+      <MarginControl />
       <StylesControl />
       <WidthControl />
+      <HeightControl />
     </Box>
   )
 }

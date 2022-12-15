@@ -2,7 +2,7 @@ import { FC } from "react"
 import { Box, Stack, Text } from "@chakra-ui/react"
 import StyleSelect from "../select"
 
-const WidthControl: FC = () => {
+const HeightControl: FC = () => {
   return (
     <Box
       py='5'
@@ -14,7 +14,7 @@ const WidthControl: FC = () => {
         fontWeight='medium'
         mb='3'
       >
-        Width
+        Height
       </Text>
       <Stack
         ml='4'
@@ -114,4 +114,4 @@ const widthOptions = [
   ['fit', 'fit-content'],
 ]
 
-export default WidthControl
+export default HeightControl
