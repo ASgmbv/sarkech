@@ -17,7 +17,8 @@ const StyleSelect: FC<{
   value?: string | null;
   showBorder?: boolean;
   showReset?: boolean;
-}> = ({ items, icon, label, classGroupId, prefix, showBorder = true, showReset = true, value }) => {
+  defaultVal?: string;
+}> = ({ items, icon, label, classGroupId, prefix, showBorder = true, showReset = true, value, defaultVal }) => {
   // const [referenceElement, setReferenceElement] = useState();
   // const [popperElement, setPopperElement] = useState();
   // const { styles, attributes } = usePopper(referenceElement, popperElement);
@@ -94,7 +95,7 @@ const StyleSelect: FC<{
    * use value depending of classGroupId
    */
 
-  const val = classGroupId === undefined ? value : classValue
+  const val = (classGroupId === undefined ? value : classValue) || defaultVal;
 
   let displayText = <Text as='span' color='gray.400'>--</Text>
 

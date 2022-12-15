@@ -22,29 +22,29 @@ const HeightControl: FC = () => {
         spacing='3'
       >
         <StyleSelect
-          items={widthOptions}
+          items={heightOptions}
           label="Width"
-          classGroupId="w"
-          prefix="w"
+          classGroupId="h"
+          prefix="h"
         />
         <StyleSelect
-          items={widthOptions}
+          items={maxHeightOpptions}
           label="Max"
-          classGroupId="w"
-          prefix="w"
+          classGroupId="max-h"
+          prefix="max-h"
         />
         <StyleSelect
-          items={widthOptions}
+          items={minHeightOptions}
           label="Min"
-          classGroupId="w"
-          prefix="w"
+          classGroupId="min-h"
+          prefix="min-h"
         />
       </Stack>
     </Box>
   )
 }
 
-const widthOptions = [
+const heightOptions = [
   ['0', '0px'],
   ['px', '1px'],
   ['0.5', '2px'],
@@ -109,6 +109,58 @@ const widthOptions = [
   ['11/12', '91.6%'],
   ['full', '100%'],
   ['screen', '100vw'],
+  ['min', 'min-content'],
+  ['max', 'max-content'],
+  ['fit', 'fit-content'],
+]
+
+const maxHeightOpptions = [
+  ['0', '0px;'],
+  ['px', '1px;'],
+  ['0.5', '2px'],
+  ['1', '4px'],
+  ['1.5', '6px'],
+  ['2', '8px'],
+  ['2.5', '10px'],
+  ['3', '12px'],
+  ['3.5', '14px'],
+  ['4', '16px'],
+  ['5', '20px'],
+  ['6', '24px'],
+  ['7', '28px'],
+  ['8', '32px'],
+  ['9', '36px'],
+  ['10', '40px'],
+  ['11', '44px'],
+  ['12', '48px'],
+  ['14', '56px'],
+  ['16', '64px'],
+  ['20', '80px'],
+  ['24', '96px'],
+  ['28', '112px'],
+  ['32', '128px'],
+  ['36', '144px'],
+  ['40', '160px'],
+  ['44', '176px'],
+  ['48', '192px'],
+  ['52', '208px'],
+  ['56', '224px'],
+  ['60', '240px'],
+  ['64', '256px'],
+  ['72', '288px'],
+  ['80', '320px'],
+  ['96', '384px'],
+  ['full', '100%;'],
+  ['screen', '100vh;'],
+  ['min', 'min-content;'],
+  ['max', 'max-content;'],
+  ['fit', 'fit-content;'],
+]
+
+const minHeightOptions = [
+  ['0', '0px'],
+  ['full', '100%'],
+  ['screen', '100vh'],
   ['min', 'min-content'],
   ['max', 'max-content'],
   ['fit', 'fit-content'],

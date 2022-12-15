@@ -58,6 +58,7 @@ const MarginControl: FC = () => {
             showBorder={false}
             showReset={false}
             value={top}
+            defaultVal="0"
           />
         </Box>
 
@@ -74,6 +75,7 @@ const MarginControl: FC = () => {
               showBorder={false}
               showReset={false}
               value={left}
+              defaultVal="0"
             />
           </Box>
 
@@ -124,6 +126,7 @@ const MarginControl: FC = () => {
               showBorder={false}
               showReset={false}
               value={right}
+              defaultVal="0"
             />
           </Box>
         </Flex>
@@ -140,6 +143,7 @@ const MarginControl: FC = () => {
             showBorder={false}
             showReset={false}
             value={bottom}
+            defaultVal="0"
           />
         </Box>
       </Box>

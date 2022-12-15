@@ -28,16 +28,16 @@ const WidthControl: FC = () => {
           prefix="w"
         />
         <StyleSelect
-          items={widthOptions}
+          items={maxWidthOptions}
           label="Max"
-          classGroupId="w"
-          prefix="w"
+          classGroupId="max-w"
+          prefix="max-w"
         />
         <StyleSelect
-          items={widthOptions}
+          items={minWidthOptions}
           label="Min"
-          classGroupId="w"
-          prefix="w"
+          classGroupId="min-w"
+          prefix="min-w"
         />
       </Stack>
     </Box>
@@ -109,6 +109,40 @@ const widthOptions = [
   ['11/12', '91.6%'],
   ['full', '100%'],
   ['screen', '100vw'],
+  ['min', 'min-content'],
+  ['max', 'max-content'],
+  ['fit', 'fit-content'],
+]
+
+const maxWidthOptions = [
+  ['0', '0px'],
+  ['none', 'none'],
+  ['xs', '320px'],
+  ['sm', '384px'],
+  ['md', '448px'],
+  ['lg', '512px'],
+  ['xl', '576px'],
+  ['2xl', '672px'],
+  ['3xl', '768px'],
+  ['4xl', '896px'],
+  ['5xl', '1024px'],
+  ['6xl', '1152px'],
+  ['7xl', '1280px'],
+  ['full', '100%'],
+  ['min', 'min-content'],
+  ['max', 'max-content'],
+  ['fit', 'fit-content'],
+  ['prose', '65ch'],
+  ['screen', '640px'],
+  ['screen', '768px'],
+  ['screen', '1024px'],
+  ['screen', '1280px'],
+  ['screen', '1536px']
+]
+
+const minWidthOptions = [
+  ['0', '0px'],
+  ['full', '100%'],
   ['min', 'min-content'],
   ['max', 'max-content'],
   ['fit', 'fit-content'],
