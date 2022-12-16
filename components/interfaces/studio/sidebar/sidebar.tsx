@@ -1,7 +1,7 @@
 import { Box, Flex, Icon, IconButton, Text, } from "@chakra-ui/react";
 import { FC } from "react";
 import { BsGrid } from "react-icons/bs";
-import { selectSelectedComponent } from "redux/components/components.selectors";
+import { selectSelectedId } from "redux/components/components.selectors";
 import { componentsSliceActions } from "redux/components/components.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import ComponentsPanel from "./components";
@@ -9,7 +9,7 @@ import Inspector from "./inspector/inspector";
 
 const Sidebar: FC = () => {
   const dispatch = useAppDispatch();
-  const component = useAppSelector(selectSelectedComponent);
+  const component = useAppSelector(selectSelectedId);
 
   return (
     <Box
@@ -35,7 +35,8 @@ const Sidebar: FC = () => {
           fontWeight='medium'
           letterSpacing='wide'
         >
-          {component ? component.type : "Components"}
+          {/* {component ? component.type : "Components"} */}
+          Components
         </Text>
 
         <IconButton

@@ -228,13 +228,13 @@ export const componentsSlice = createSlice({
 				newClass: string;
 			}>
 		) => {
-			const { componentId, newClass } = action.payload;
+			const componentId = action.payload.componentId;
 			const component = state.components[componentId];
 			const screen = state.screen;
 
 			component.props.tempClassName = component.props.className;
 
-			let resultClass = newClass;
+			let resultClass = action.payload.newClass;
 
 			if (screen !== "base") {
 				resultClass = screen + ":" + resultClass;

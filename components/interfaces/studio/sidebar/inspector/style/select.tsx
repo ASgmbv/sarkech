@@ -30,7 +30,7 @@ const StyleSelect: FC<Props> = ({
   showReset = true,
   isColorSelect = false,
   value,
-  defaultVal
+  defaultVal,
 }) => {
   const dispatch = useAppDispatch()
 
@@ -252,7 +252,7 @@ const StyleSelect: FC<Props> = ({
                 }}
                 onMouseLeave={onMouseLeave}
                 onClick={onSelect}
-                bg={highlightedIndex === index ? 'gray.100' : undefined}
+                _hover={{ bg: 'gray.100' }}
               >
                 <Text as='span' color='black'>{item[0]}</Text>
                 {item[1] && (<Text as='span' color='gray.400'>{item[1]}</Text>)}

@@ -244,18 +244,3 @@ export const makeSelectSpacingValue = () => {
 
 	return selectSpacingValue;
 };
-
-//   (
-//     state: RootState,
-//   {
-//     componentId,
-//     classGroupId,
-//     prefix,
-//   }: {
-//     componentId: string;
-//     classGroupId: string;
-//     prefix?: string;
-//   }
-// ) => {
-
-// }
