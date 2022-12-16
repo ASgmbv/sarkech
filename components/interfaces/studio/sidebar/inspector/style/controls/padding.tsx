@@ -64,7 +64,7 @@ const PaddingControl: FC = () => {
 
         <Flex
           alignItems='center'
-          my='4'
+          my='3'
         >
           <Box flex='1'>
             <StyleSelect

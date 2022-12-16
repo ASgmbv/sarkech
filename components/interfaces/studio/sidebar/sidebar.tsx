@@ -1,4 +1,4 @@
-import { Box, Flex, Icon, IconButton, Text } from "@chakra-ui/react";
+import { Box, Flex, Icon, IconButton, Text, } from "@chakra-ui/react";
 import { FC } from "react";
 import { BsGrid } from "react-icons/bs";
 import { selectSelectedComponent } from "redux/components/components.selectors";

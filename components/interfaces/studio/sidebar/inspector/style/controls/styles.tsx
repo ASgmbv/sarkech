@@ -1,6 +1,7 @@
 import { Box, Stack, Text } from "@chakra-ui/react"
 import { FC } from "react"
 import { FiCircle, FiSun } from "react-icons/fi"
+import ColorSelect from "../color-select"
 import StyleSelect from "../select"
 
 const StylesControl: FC = () => {
@@ -35,6 +36,11 @@ const StylesControl: FC = () => {
           label="Radius"
           classGroupId="rounded"
           prefix="rounded"
+        />
+        <ColorSelect
+          prefix="bg"
+          classGroupId="bg-color"
+          label="Background"
         />
       </Stack>
     </Box>

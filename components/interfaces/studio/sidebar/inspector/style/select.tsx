@@ -1,14 +1,13 @@
 import { FC } from "react"
-import { Box, Flex, Text, Icon, Button } from "@chakra-ui/react"
+import { Box, Flex, Text, Icon, Button, usePopper, useMergeRefs } from "@chakra-ui/react"
 import { useSelect } from 'downshift'
 import { FiX } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { selectClassValue, selectSelectedId } from "redux/components/components.selectors";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { componentsSliceActions } from "redux/components/components.slice";
-// import { usePopper } from "react-popper";
 
-const StyleSelect: FC<{
+type Props = {
   items: any[][];
   icon?: IconType;
   label?: string;
@@ -18,11 +17,21 @@ const StyleSelect: FC<{
   showBorder?: boolean;
   showReset?: boolean;
   defaultVal?: string;
-}> = ({ items, icon, label, classGroupId, prefix, showBorder = true, showReset = true, value, defaultVal }) => {
-  // const [referenceElement, setReferenceElement] = useState();
-  // const [popperElement, setPopperElement] = useState();
-  // const { styles, attributes } = usePopper(referenceElement, popperElement);
+  isColorSelect?: boolean;
+}
 
+const StyleSelect: FC<Props> = ({
+  items,
+  icon,
+  label,
+  classGroupId,
+  prefix,
+  showBorder = true,
+  showReset = true,
+  isColorSelect = false,
+  value,
+  defaultVal
+}) => {
   const dispatch = useAppDispatch()
 
   const {
@@ -41,7 +50,6 @@ const StyleSelect: FC<{
     value: classValue,
     screenValue
   } = useAppSelector((state) => {
-
     return classGroupId ? selectClassValue(state, {
       classGroupId,
       componentId: selectedId,
@@ -63,7 +71,6 @@ const StyleSelect: FC<{
   }
 
   const onMouseEnter = (newClass: string) => {
-
     dispatch(
       componentsSliceActions.addResponsiveClass({
         componentId: selectedId,
@@ -112,6 +119,14 @@ const StyleSelect: FC<{
     }
   }
 
+  const { popperRef, referenceRef } = usePopper({
+    offset: [0, 0],
+    matchWidth: !isColorSelect
+  })
+
+  const buttonRefs = useMergeRefs(referenceRef, getToggleButtonProps().ref)
+  const listRefs = useMergeRefs(popperRef, getMenuProps().ref)
+
   return (
     <Flex alignItems='center'>
       {label ? (
@@ -122,13 +137,10 @@ const StyleSelect: FC<{
         </Box>
       ) : null}
 
-      <Box
-        flex='1'
-        position='relative'
-      >
+      <Box flex='1'>
         <Button
           {...getToggleButtonProps()}
-          // ref={setReferenceElement as any}
+          ref={buttonRefs}
           bg='white'
           variant='unstyled'
           fontSize='xs'
@@ -199,44 +211,42 @@ const StyleSelect: FC<{
         <Box
           as='ul'
           {...getMenuProps()}
-          // {...attributes.popper}
-          // ref={setPopperElement as any}
-          // style={styles.popper}
-          position='absolute'
-          width='full'
+          ref={listRefs}
           padding='0'
           bg='white'
           maxHeight='60'
           overflowY='auto'
           rounded='sm'
-          zIndex='1'
+          zIndex='100'
           shadow={isOpen ? 'sm' : undefined}
-          borderX={isOpen ? '1px solid' : undefined}
-          borderBottom={isOpen ? '1px solid' : undefined}
+          border={isOpen ? '1px solid' : undefined}
           borderColor={isOpen ? 'gray.200' : undefined}
         >
           {isOpen && (
-            items.map((size, index) => (
+            items.map((item, index) => (
               <Flex
                 as='li'
-                key={`${size[0]} ${index}`}
-                {...getItemProps({ item: size, index })}
+                key={`${item[0]} ${index}`}
+                {...getItemProps({
+                  item,
+                  index
+                })}
                 py='2'
                 px='3'
                 alignItems='center'
                 justifyContent='space-between'
                 fontSize='xs'
-                fontWeight={val === size[0] ? 'semibold' : undefined}
+                fontWeight={val === item[0] ? 'semibold' : undefined}
                 onMouseEnter={() => {
                   let className: string;
 
                   if (prefix) {
-                    if (size[0] === 'default')
+                    if (item[0] === 'default')
                       className = prefix;
                     else
-                      className = prefix + '-' + size[0];
+                      className = prefix + '-' + item[0];
                   } else
-                    className = size[0]
+                    className = item[0]
 
                   onMouseEnter(className)
                 }}
@@ -244,8 +254,8 @@ const StyleSelect: FC<{
                 onClick={onSelect}
                 bg={highlightedIndex === index ? 'gray.100' : undefined}
               >
-                <Text as='span' color='black'>{size[0]}</Text>
-                {size[1] && (<Text as='span' color='gray.400'>{size[1]}</Text>)}
+                <Text as='span' color='black'>{item[0]}</Text>
+                {item[1] && (<Text as='span' color='gray.400'>{item[1]}</Text>)}
               </Flex>
             ))
           )}
