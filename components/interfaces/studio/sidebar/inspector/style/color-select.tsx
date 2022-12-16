@@ -35,14 +35,17 @@ const ColorSelect: FC<Props> = ({
   const dispatch = useAppDispatch()
   const selectedId = useAppSelector(selectSelectedId)!
 
-  const {
-    value: classValue,
-    screenValue
-  } = useAppSelector((state) => selectClassValue(state, {
-    classGroupId,
-    componentId: selectedId,
-    prefix
-  }))
+  const classValue = undefined;
+  const screenValue = undefined;
+
+  // const {
+  //   value: classValue,
+  //   screenValue
+  // } = useAppSelector((state) => selectClassValue(state, {
+  //   classGroupId,
+  //   componentId: selectedId,
+  //   prefix
+  // }))
 
   const onSelect = () => {
     dispatch(

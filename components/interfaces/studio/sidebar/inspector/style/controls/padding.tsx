@@ -24,13 +24,18 @@ const PaddingControl: FC = () => {
   const [mode, setMode] = useState<SpacingChangeModes>("none");
   const selectedId = useAppSelector(selectSelectedId)!
 
-  const { bottom, left, right, top } = useAppSelector((state) =>
-    selectSpacingValue(state, {
-      classGroupId: 'p',
-      prefix: 'p',
-      componentId: selectedId
-    })
-  )
+  // const { bottom, left, right, top } = useAppSelector((state) =>
+  //   selectSpacingValue(state, {
+  //     classGroupId: 'p',
+  //     prefix: 'p',
+  //     componentId: selectedId
+  //   })
+  // )
+
+  const bottom = undefined;
+  const left = undefined;
+  const right = undefined;
+  const top = undefined;
 
   return (
     <Box

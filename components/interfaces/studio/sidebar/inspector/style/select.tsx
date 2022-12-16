@@ -1,9 +1,9 @@
-import { FC } from "react"
+import { FC, useMemo } from "react"
 import { Box, Flex, Text, Icon, Button, usePopper, useMergeRefs } from "@chakra-ui/react"
 import { useSelect } from 'downshift'
 import { FiX } from "react-icons/fi";
 import { IconType } from "react-icons";
-import { selectClassValue, selectSelectedId } from "redux/components/components.selectors";
+import { makeSelectClassValue, selectSelectedId } from "redux/components/components.selectors";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { componentsSliceActions } from "redux/components/components.slice";
 
@@ -46,19 +46,19 @@ const StyleSelect: FC<Props> = ({
 
   const selectedId = useAppSelector(selectSelectedId)!
 
+  const selectClassValue = useMemo(makeSelectClassValue, [])
+
   const {
-    value: classValue,
-    screenValue
-  } = useAppSelector((state) => {
-    return classGroupId ? selectClassValue(state, {
+    screenValue,
+    value: classValue
+  } = useAppSelector(
+    (state) => selectClassValue(
+      state,
+      selectedId,
       classGroupId,
-      componentId: selectedId,
       prefix
-    }) : ({
-      value: undefined,
-      screenValue: undefined
-    })
-  })
+    )
+  )
 
   const onSelect = () => {
     dispatch(

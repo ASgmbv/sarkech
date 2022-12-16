@@ -43,51 +43,65 @@ export const selectAllParents = createSelector(
 	}
 );
 
-export const selectClassValue = (
-	state: RootState,
-	{
-		componentId,
-		classGroupId,
-		prefix,
-	}: {
-		componentId: string;
-		classGroupId: string;
-		prefix?: string;
-	}
-) => {
-	const component = state.components.present.components[componentId];
-	const className = component.props.tempClassName ?? component.props.className;
-	const screen = state.components.present.screen;
+export const makeSelectClassValue = () => {
+	const selectClassValue = createSelector(
+		[
+			(state: RootState) => state.components.present.screen,
+			(state: RootState, componentId: string) =>
+				state.components.present.components[componentId],
+			(state: RootState, componentId: string, classGroupId?: string) =>
+				classGroupId,
+			(
+				state: RootState,
+				componentId: string,
+				classGroupId?: string,
+				prefix?: string
+			) => prefix,
+		],
+		(screen, component, classGroupId, prefix) => {
+			if (!classGroupId) {
+				return {
+					value: undefined,
+					screenValue: undefined,
+				};
+			}
 
-	const { base, lg, md, sm } = getResponsiveClassValue({
-		className,
-		classGroupId,
-		prefix,
-	});
+			const className =
+				component.props.tempClassName ?? component.props.className;
 
-	let value: string | undefined;
+			const { base, lg, md, sm } = getResponsiveClassValue({
+				className,
+				classGroupId,
+				prefix,
+			});
 
-	if (screen === "base") {
-		value = base;
-	} else if (screen === "sm") {
-		value = sm || base;
-	} else if (screen === "md") {
-		value = md || sm || base;
-	} else if (screen === "lg") {
-		value = lg || md || sm || base;
-	}
+			let value: string | undefined;
 
-	return {
-		value,
-		screenValue:
-			screen === "base"
-				? base
-				: screen === "sm"
-				? sm
-				: screen === "md"
-				? md
-				: lg,
-	};
+			if (screen === "base") {
+				value = base;
+			} else if (screen === "sm") {
+				value = sm || base;
+			} else if (screen === "md") {
+				value = md || sm || base;
+			} else if (screen === "lg") {
+				value = lg || md || sm || base;
+			}
+
+			return {
+				value,
+				screenValue:
+					screen === "base"
+						? base
+						: screen === "sm"
+						? sm
+						: screen === "md"
+						? md
+						: lg,
+			};
+		}
+	);
+
+	return selectClassValue;
 };
 
 export const selectSpacingValue = (
