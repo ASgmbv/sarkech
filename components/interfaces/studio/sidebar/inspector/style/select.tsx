@@ -254,7 +254,7 @@ const StyleSelect: FC<Props> = ({
                 }}
                 onMouseLeave={onMouseLeave}
                 onClick={onSelect}
-                _hover={{ bg: 'gray.100' }}
+                bg={highlightedIndex === index ? 'gray.100' : undefined}
               >
                 <Text as='span' color='black'>{item[0]}</Text>
                 {item[1] && (<Text as='span' color='gray.400'>{item[1]}</Text>)}
