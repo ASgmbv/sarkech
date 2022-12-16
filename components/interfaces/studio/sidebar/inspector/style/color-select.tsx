@@ -1,8 +1,8 @@
 import { Box, Button, Flex, Icon, Stack, Text, useMergeRefs, usePopper } from "@chakra-ui/react";
 import { useSelect } from "downshift";
-import { FC } from "react";
+import { FC, useMemo } from "react";
 import { FiSquare, FiX } from "react-icons/fi";
-import { selectClassValue, selectSelectedId } from "redux/components/components.selectors";
+import { makeSelectClassValue, selectSelectedId } from "redux/components/components.selectors";
 import { componentsSliceActions } from "redux/components/components.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 
@@ -35,17 +35,17 @@ const ColorSelect: FC<Props> = ({
   const dispatch = useAppDispatch()
   const selectedId = useAppSelector(selectSelectedId)!
 
-  const classValue = undefined;
-  const screenValue = undefined;
+  const selectClassValue = useMemo(makeSelectClassValue, [])
 
-  // const {
-  //   value: classValue,
-  //   screenValue
-  // } = useAppSelector((state) => selectClassValue(state, {
-  //   classGroupId,
-  //   componentId: selectedId,
-  //   prefix
-  // }))
+  const {
+    value: classValue,
+    screenValue
+  } = useAppSelector((state) => selectClassValue(
+    state,
+    selectedId,
+    classGroupId,
+    prefix
+  ))
 
   const onSelect = () => {
     dispatch(

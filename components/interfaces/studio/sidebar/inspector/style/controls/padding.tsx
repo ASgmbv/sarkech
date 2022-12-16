@@ -1,6 +1,6 @@
 import { Box, Flex, Text } from "@chakra-ui/react"
-import { FC, useState } from "react"
-import { selectSelectedId, selectSpacingValue } from "redux/components/components.selectors";
+import { FC, useMemo, useState } from "react"
+import { selectSelectedId, makeSelectSpacingValue } from "redux/components/components.selectors";
 import { useAppSelector } from "redux/hooks";
 import StyleSelect from "../select"
 
@@ -24,18 +24,11 @@ const PaddingControl: FC = () => {
   const [mode, setMode] = useState<SpacingChangeModes>("none");
   const selectedId = useAppSelector(selectSelectedId)!
 
-  // const { bottom, left, right, top } = useAppSelector((state) =>
-  //   selectSpacingValue(state, {
-  //     classGroupId: 'p',
-  //     prefix: 'p',
-  //     componentId: selectedId
-  //   })
-  // )
+  const selectSpacingValue = useMemo(makeSelectSpacingValue, [])
 
-  const bottom = undefined;
-  const left = undefined;
-  const right = undefined;
-  const top = undefined;
+  const { bottom, left, right, top } = useAppSelector((state) =>
+    selectSpacingValue(state, selectedId, 'p', 'p')
+  )
 
   return (
     <Box
