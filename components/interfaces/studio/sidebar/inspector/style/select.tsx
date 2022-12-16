@@ -6,6 +6,7 @@ import { IconType } from "react-icons";
 import { makeSelectClassValue, selectSelectedId } from "redux/components/components.selectors";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { componentsSliceActions } from "redux/components/components.slice";
+import { shallowEqual } from "react-redux";
 
 type Props = {
   items: any[][];
@@ -57,7 +58,8 @@ const StyleSelect: FC<Props> = ({
       selectedId,
       classGroupId,
       prefix
-    )
+    ),
+    shallowEqual
   )
 
   const onSelect = () => {
