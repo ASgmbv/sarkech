@@ -21,25 +21,13 @@ const PrimitiveComponent: FC<{
   const ref = useRef<any>();
 
   const { drop, isOverShallow, isOver } = useDropComponent({
-    elementId: id
+    componentId: id
   });
 
   const [, drag, preview] = useDrag(() => ({
-    type: `drag_${component.id}`
+    type: `drag_${component.type}`,
+    item: component
   }))
-
-  // useEffect(() => {
-  //   const img = new Image();
-
-  //   if (element.type === "Box") {
-  //     img.src = boxPreview;
-  //   }
-
-  //   preview(img, {
-  //     offsetX: 0,
-  //     offsetY: 0,
-  //   });
-  // }, [preview, element.type]);
 
   const rootChildrenIds = useAppSelector(
     (state) => state.components.present.components["root"].childrenIds

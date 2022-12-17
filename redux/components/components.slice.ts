@@ -188,6 +188,126 @@ export const componentsSlice = createSlice({
 				);
 			}
 		},
+		duplicateComponent: {
+			reducer: (
+				state,
+				action: PayloadAction<{
+					componentId: string;
+					newElementId: string;
+					parentId?: string;
+				}>
+			) => {
+				const { componentId, newElementId, parentId } = action.payload;
+				const component = state.components[componentId];
+
+				// duplicate itself
+				const index =
+					state.components[component.parentId].childrenIds.indexOf(
+						componentId
+					);
+
+				componentsSlice.caseReducers.addComponent(
+					state,
+					componentsSliceActions.addComponent({
+						type: component.type,
+						parentId: parentId || component.parentId,
+						componentId: newElementId,
+						props: component.props,
+						index,
+					})
+				);
+
+				// duplicate children
+				component.childrenIds.forEach((child) => {
+					componentsSlice.caseReducers.duplicateComponent(
+						state,
+						componentsSliceActions.duplicateComponent({
+							componentId: child,
+							parentId: newElementId,
+						})
+					);
+				});
+			},
+			prepare: ({
+				componentId,
+				parentId,
+			}: {
+				componentId: string;
+				parentId?: string;
+			}) => {
+				return {
+					payload: {
+						newElementId: componentId.split("-")[0] + "-" + nanoid(),
+						componentId,
+						parentId,
+					},
+				};
+			},
+		},
+		moveComponent: (
+			state,
+			action: PayloadAction<{
+				componentId: string;
+				oldParentId: string;
+				newParentId: string;
+				targetComponentId: string;
+				isAfter: boolean;
+			}>
+		) => {
+			const {
+				componentId,
+				oldParentId,
+				newParentId,
+				targetComponentId,
+				isAfter,
+			} = action.payload;
+
+			const newParent = state.components[newParentId];
+			const oldParent = state.components[oldParentId];
+
+			if (
+				(newParent.type === "Section" || newParent.type === "Box") &&
+				newParent.childrenIds.length === 1 &&
+				state.components[newParent.childrenIds[0]].type === "AddComponent"
+			) {
+				componentsSlice.caseReducers.removeComponent(
+					state,
+					componentsSliceActions.removeComponent({
+						componentId: newParent.childrenIds[0],
+					})
+				);
+			}
+
+			state.components[oldParentId].childrenIds = state.components[
+				oldParentId
+			].childrenIds.filter((id) => id !== componentId);
+
+			const index =
+				state.components[newParentId].childrenIds.indexOf(
+					targetComponentId
+				);
+
+			state.components[newParentId].childrenIds.splice(
+				isAfter ? index + 1 : index,
+				0,
+				componentId
+			);
+
+			state.components[componentId].parentId = newParentId;
+
+			if (
+				(oldParent.type === "Section" || oldParent.type === "Box") &&
+				oldParent.childrenIds.length === 0
+			) {
+				componentsSlice.caseReducers.addComponent(
+					state,
+					componentsSliceActions.addComponent({
+						parentId: oldParentId,
+						type: "AddComponent",
+					})
+				);
+			}
+		},
 		addClasses: (
 			state,
 			action: PayloadAction<{

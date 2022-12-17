@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Icon } from "@chakra-ui/react";
-import { FC, Fragment } from "react";
+import { FC, Fragment, useMemo } from "react";
 import { BsArrowRightShort } from "react-icons/bs";
-import { selectAllParents, selectComponent } from "redux/components/components.selectors";
+import { makeSelectAllParents, selectComponent } from "redux/components/components.selectors";
 import { componentsSliceActions } from "redux/components/components.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 
@@ -29,6 +29,8 @@ const Ladder: FC = () => {
 const SelectedComponentLadder: FC<{
   id: string;
 }> = ({ id }) => {
+  const selectAllParents = useMemo(makeSelectAllParents, [])
+
   const parentIds = useAppSelector(
     (state) => selectAllParents(state, id)
   )
@@ -42,7 +44,7 @@ const SelectedComponentLadder: FC<{
         <Fragment
           key={id}
         >
-          <LadderItem id={id} />
+          {/* <LadderItem id={id} /> */}
           {index !== parentIds.length - 1 ? <Icon as={BsArrowRightShort} /> : null}
         </Fragment>
       )}

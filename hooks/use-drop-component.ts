@@ -1,22 +1,36 @@
+import { useMemo } from "react";
 import { useDrop } from "react-dnd";
-import { selectComponent } from "redux/components/components.selectors";
+import {
+	makeSelectAllParents,
+	selectComponent,
+} from "redux/components/components.selectors";
 import { componentsSliceActions } from "redux/components/components.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
-import type { IComponentType } from "../types";
+import type { IComponent, IComponentType } from "../types";
 
-export const useDropComponent = ({ elementId }: { elementId: string }) => {
+const getAcceptTypes = (types: IComponentType[]) => {
+	return [...types, ...types.map((type) => `drag_${type}`)];
+};
+
+export const useDropComponent = ({ componentId }: { componentId: string }) => {
 	const dispatch = useAppDispatch();
 
 	const component = useAppSelector((state) =>
-		selectComponent(state, elementId)
+		selectComponent(state, componentId)
 	);
 
 	// 'Section' component does not let to drop other components
 	const acceptedTypes =
-		component.type === "Section" ? [] : ["Box", "Paragraph"];
+		component.type === "Section" ? [] : getAcceptTypes(["Box", "Paragraph"]);
+
+	const selectAllParents = useMemo(makeSelectAllParents, []);
+
+	const parentIds = useAppSelector((state) =>
+		selectAllParents(state, componentId)
+	);
 
 	const [{ isOver, isOverShallow }, drop] = useDrop<
-		{ type: IComponentType; props: any },
+		IComponent,
 		any,
 		{ isOver: boolean; isOverShallow: boolean }
 	>(
@@ -33,6 +47,42 @@ export const useDropComponent = ({ elementId }: { elementId: string }) => {
 					return;
 				}
 
+				const dndType = monitor.getItemType();
+
+				/**
+				 * Handle drag of elements
+				 */
+				if (
+					typeof dndType === "string" &&
+					dndType.substring(0, 4) === "drag"
+				) {
+					/**
+					 * Do not let parent drag to its children
+					 */
+					if (item.id && parentIds.includes(item.id)) {
+						return;
+					}
+
+					dispatch(
+						componentsSliceActions.moveComponent({
+							componentId: item.id,
+							oldParentId: item.parentId,
+							targetComponentId: component.id,
+							newParentId:
+								component.type === "Section" &&
+								dndType !== "drag_Section"
+									? component.id
+									: component.parentId,
+							isAfter: true,
+						})
+					);
+
+					return;
+				}
+
+				/**
+				 * Handle new elements
+				 */
 				dispatch(
 					componentsSliceActions.addComponent({
 						type: item.type,

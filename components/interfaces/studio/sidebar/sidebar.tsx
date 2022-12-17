@@ -1,19 +1,25 @@
 import { Box, Flex, Icon, IconButton, Text, } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, MouseEventHandler } from "react";
 import { BsGrid } from "react-icons/bs";
-import { selectSelectedId } from "redux/components/components.selectors";
+import { selectSelectedComponent } from "redux/components/components.selectors";
 import { componentsSliceActions } from "redux/components/components.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import ComponentsPanel from "./components";
 import Inspector from "./inspector/inspector";
+import { BiDuplicate } from "react-icons/bi";
+import { AiOutlineDelete } from "react-icons/ai";
 
 const Sidebar: FC = () => {
   const dispatch = useAppDispatch();
-  const component = useAppSelector(selectSelectedId);
+  const component = useAppSelector(
+    selectSelectedComponent,
+    (oldValue, newValue) => oldValue?.type === newValue?.type
+  );
 
   return (
-    <Box
+    <Flex
       as='aside'
+      flexDir='column'
       width='310px'
       borderRight='1px solid'
       borderColor='gray.200'
@@ -35,8 +41,7 @@ const Sidebar: FC = () => {
           fontWeight='medium'
           letterSpacing='wide'
         >
-          {/* {component ? component.type : "Components"} */}
-          Components
+          {component ? component.type : "Components"}
         </Text>
 
         <IconButton
@@ -49,13 +54,76 @@ const Sidebar: FC = () => {
           }}
         />
       </Flex>
+
       <Box
-        height='calc(100vh - 48px)'
+        flex='1'
         overflow='auto'
       >
         {component ? <Inspector /> : <ComponentsPanel />}
       </Box>
-    </Box>
+
+      {component ? <Utils componentId={component.id} /> : null}
+
+    </Flex>
+  )
+}
+
+const Utils: FC<{ componentId: string }> = ({ componentId }) => {
+  const dispatch = useAppDispatch();
+
+  const onDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
+    dispatch(
+      componentsSliceActions.removeComponent({
+        componentId
+      })
+    );
+  }
+
+  const onDuplicate: MouseEventHandler<HTMLButtonElement> = (e) => {
+    dispatch(
+      componentsSliceActions.duplicateComponent({
+        componentId
+      })
+    );
+  }
+
+  return (
+    <Flex
+      alignItems='center'
+      height='54px'
+      borderTop='1px solid'
+      borderColor='gray.200'
+      px='4'
+      justifyContent='end'
+    >
+      <IconButton
+        aria-label="Delete"
+        onClick={onDelete}
+        icon={
+          <Icon
+            as={AiOutlineDelete}
+            boxSize='4'
+          />
+        }
+        variant='ghost'
+        size='sm'
+        mr='2'
+      />
+
+      <IconButton
+        aria-label="Duplicate"
+        onClick={onDuplicate}
+        icon={
+          <Icon
+            as={BiDuplicate}
+            boxSize='4'
+          />
+        }
+        variant='ghost'
+        size='sm'
+      />
+
+    </Flex>
   )
 }
 

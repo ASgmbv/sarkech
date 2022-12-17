@@ -24,24 +24,28 @@ export const selectComponent = createSelector(
 	}
 );
 
-export const selectAllParents = createSelector(
-	(state: RootState) => state.components.present.components,
-	(state: RootState, componentId: string) => componentId,
-	(components, componentId) => {
-		const parentIds: string[] = [];
+export const makeSelectAllParents = () => {
+	const selectAllParents = createSelector(
+		(state: RootState) => state.components.present.components,
+		(state: RootState, componentId: string) => componentId,
+		(components, componentId) => {
+			const parentIds: string[] = [];
 
-		let component = components[componentId];
+			let component = components[componentId];
 
-		parentIds.push(componentId);
+			parentIds.push(componentId);
 
-		while (component.id !== "root") {
-			parentIds.unshift(component.parentId);
-			component = components[component.parentId];
+			while (component.id !== "root") {
+				parentIds.unshift(component.parentId);
+				component = components[component.parentId];
+			}
+
+			return parentIds;
 		}
+	);
 
-		return parentIds;
-	}
-);
+	return selectAllParents;
+};
 
 export const makeSelectClassValue = () => {
 	const selectClassValue = createSelector(

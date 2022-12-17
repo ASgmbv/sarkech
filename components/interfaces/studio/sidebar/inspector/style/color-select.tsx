@@ -2,6 +2,7 @@ import { Box, Button, Flex, Icon, Stack, Text, useMergeRefs, usePopper } from "@
 import { useSelect } from "downshift";
 import { FC, useMemo } from "react";
 import { FiSquare, FiX } from "react-icons/fi";
+import { shallowEqual } from "react-redux";
 import { makeSelectClassValue, selectSelectedId } from "redux/components/components.selectors";
 import { componentsSliceActions } from "redux/components/components.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
@@ -45,7 +46,9 @@ const ColorSelect: FC<Props> = ({
     selectedId,
     classGroupId,
     prefix
-  ))
+  ),
+    shallowEqual
+  )
 
   const onSelect = () => {
     dispatch(
