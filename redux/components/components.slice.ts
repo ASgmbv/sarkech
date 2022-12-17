@@ -56,9 +56,11 @@ export const componentsSlice = createSlice({
 					parentId: string;
 					type: IComponentType;
 					props?: any;
+					index: number;
 				}>
 			) => {
-				const { componentId, parentId, type, props } = action.payload;
+				const { componentId, parentId, type, props, index } =
+					action.payload;
 
 				const component: IComponent = {
 					id: componentId,
@@ -102,7 +104,15 @@ export const componentsSlice = createSlice({
 				}
 
 				// handle cases when adding to different position
-				state.components[parentId].childrenIds.push(componentId);
+				if (index === -1) {
+					state.components[parentId].childrenIds.push(componentId);
+				} else {
+					state.components[parentId].childrenIds.splice(
+						index,
+						0,
+						componentId
+					);
+				}
 
 				if (type !== "AddComponent") {
 					state.selectedId = componentId;
@@ -113,17 +123,20 @@ export const componentsSlice = createSlice({
 				type,
 				componentId,
 				props,
+				index,
 			}: {
 				parentId: string;
 				type: IComponentType;
 				componentId?: string;
 				props?: any;
+				index?: number;
 			}) => ({
 				payload: {
 					componentId: componentId || type + "-" + nanoid(5),
 					parentId,
 					type,
 					props,
+					index: index ?? -1,
 				},
 			}),
 		},
@@ -154,6 +167,8 @@ export const componentsSlice = createSlice({
 
 			const component = state.components[componentId];
 			const parent = state.components[component.parentId];
+
+			state.selectedId = null;
 
 			deleteRecursively(component.id);
 

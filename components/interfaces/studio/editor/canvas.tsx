@@ -25,6 +25,10 @@ const Canvas: FC = () => {
     (state) => state.components.present.components
   );
 
+  const newSectionPositions = useAppSelector(
+    (state) => state.editor.newSectionPositions
+  );
+
   /**
    * This is needed to escape bug with
    * Frame component, otherwise the content
@@ -48,9 +52,20 @@ const Canvas: FC = () => {
     >
       <Frame>
         <div className='p-[1px]'>
-          {components.root.childrenIds.map((id: string) =>
-            <Component key={id} id={id} />
-          )}
+          {
+            components.root.childrenIds.map((id: string) => {
+              if (newSectionPositions.includes(id)) {
+                return (
+                  <>
+                    <AddNewSection key={id} sectionId={id} />
+                    <Component key={id} id={id} />
+                  </>
+                );
+              }
+
+              return (<Component key={id} id={id} />)
+            })
+          }
 
           <AddNewSection />
         </div>

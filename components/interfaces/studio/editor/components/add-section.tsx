@@ -4,19 +4,26 @@ import { componentsSliceActions } from "redux/components/components.slice";
 import { editorSliceActions } from "redux/editor/editor.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 
-const AddNewSection: FC = () => {
+const AddNewSection: FC<{ sectionId?: string; }> = ({ sectionId }) => {
   const dispatch = useAppDispatch();
-  const [sections, setSections] = useState(false);
+  const [showSections, setSections] = useState(false);
 
   return (
     <div className={"mx-auto px-4 my-6 max-w-3xl"}>
       <div className={"border-2 border-dashed px-4 py-6 bg-white"}>
-        {sections ? (
+
+        {showSections || sectionId ? (
           <div className={"flex justify-end"}>
             <button
               className={"self-end"}
               aria-label="Close 'select section structure'"
               onClick={() => {
+                if (sectionId) {
+                  dispatch(
+                    editorSliceActions.removeNewSectionPosition(sectionId)
+                  );
+                }
+
                 setSections(false);
               }}
             >
@@ -24,7 +31,9 @@ const AddNewSection: FC = () => {
             </button>
           </div>
         ) : null}
-        {sections ? (
+
+
+        {showSections ? (
           <div className={"flex flex-col items-center"}>
             <div className={"text-sm mb-4"}>
               Select section structure
@@ -33,8 +42,17 @@ const AddNewSection: FC = () => {
               {[1, 2, 3, 4].map((i) => (
                 <Section
                   key={`section-${i}`}
+                  sectionId={sectionId}
                   count={i}
                   hideSections={() => {
+                    if (sectionId) {
+                      dispatch(
+                        editorSliceActions.removeNewSectionPosition(
+                          sectionId
+                        )
+                      );
+                    }
+
                     setSections(false);
                   }}
                 />
@@ -78,6 +96,8 @@ const Section: FC<{
     (state) => state.components.present.components["root"].childrenIds
   );
 
+  const index = sectionId ? rootChildren.indexOf(sectionId) : undefined;
+
   return (
     <button
       className={"flex space-x-1 w-[80px] h-10 group"}
@@ -86,6 +106,7 @@ const Section: FC<{
           componentsSliceActions.addComponent({
             parentId: "root",
             type: "Section",
+            index
           })
         );
         hideSections();
