@@ -20,7 +20,8 @@ const AddComponent: FC<Props> = ({
   )
 
   const { drop, isOverShallow } = useDropComponent({
-    componentId: id
+    componentId: id,
+    isAfter: true,
   })
 
   return (

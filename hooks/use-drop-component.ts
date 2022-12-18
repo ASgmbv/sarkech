@@ -12,7 +12,13 @@ const getAcceptTypes = (types: IComponentType[]) => {
 	return [...types, ...types.map((type) => `drag_${type}`)];
 };
 
-export const useDropComponent = ({ componentId }: { componentId: string }) => {
+export const useDropComponent = ({
+	componentId,
+	isAfter,
+}: {
+	componentId: string;
+	isAfter: boolean;
+}) => {
 	const dispatch = useAppDispatch();
 
 	const component = useAppSelector((state) =>
@@ -21,7 +27,9 @@ export const useDropComponent = ({ componentId }: { componentId: string }) => {
 
 	// 'Section' component does not let to drop other components
 	const acceptedTypes =
-		component.type === "Section" ? [] : getAcceptTypes(["Box", "Paragraph"]);
+		component.type === "Section"
+			? ["drag_Section"]
+			: getAcceptTypes(["Box", "Paragraph"]);
 
 	const selectAllParents = useMemo(makeSelectAllParents, []);
 
@@ -73,7 +81,7 @@ export const useDropComponent = ({ componentId }: { componentId: string }) => {
 								dndType !== "drag_Section"
 									? component.id
 									: component.parentId,
-							isAfter: true,
+							isAfter,
 						})
 					);
 
@@ -92,7 +100,7 @@ export const useDropComponent = ({ componentId }: { componentId: string }) => {
 				);
 			},
 		}),
-		[component]
+		[component, parentIds, isAfter]
 	);
 
 	return { isOver, isOverShallow, drop };

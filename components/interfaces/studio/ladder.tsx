@@ -44,7 +44,7 @@ const SelectedComponentLadder: FC<{
         <Fragment
           key={id}
         >
-          {/* <LadderItem id={id} /> */}
+          <LadderItem id={id} />
           {index !== parentIds.length - 1 ? <Icon as={BsArrowRightShort} /> : null}
         </Fragment>
       )}

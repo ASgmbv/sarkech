@@ -8,6 +8,9 @@ import Component, { mapComponentToHTMLElement } from "./component";
 import cn from "clsx";
 import { BsPlus, BsX } from "react-icons/bs";
 import { editorSliceActions } from "redux/editor/editor.slice";
+import { VscGripper } from "react-icons/vsc";
+import { IComponent } from "types";
+import { useDragSection } from "hooks/use-drag-section";
 
 const PrimitiveComponent: FC<{
   id: string;
@@ -20,8 +23,11 @@ const PrimitiveComponent: FC<{
 
   const ref = useRef<any>();
 
+  const { ref: sectionRef, isAfter } = useDragSection();
+
   const { drop, isOverShallow, isOver } = useDropComponent({
-    componentId: id
+    componentId: id,
+    isAfter: isAfter ?? true
   });
 
   const [, drag, preview] = useDrag(() => ({
@@ -40,7 +46,7 @@ const PrimitiveComponent: FC<{
     <EditSection
       key={'edit-component'}
       isFirst={rootChildrenIds.indexOf(component.id) === 0}
-      componentId={component.id}
+      component={component}
     />
   ]
 
@@ -64,6 +70,8 @@ const PrimitiveComponent: FC<{
         isOverShallow && 'bg-blue-50',
         "hover:outline hover:outline-1 hover:outline-[#3f87ff]",
         component.type === "Section" && "hover:relative group",
+        isOver && component.type === 'Section' && isAfter !== null && isAfter && 'shadow-[#3f87ff_0px_-2px_0px_0px_inset]',
+        isOver && component.type === 'Section' && isAfter !== null && !isAfter && 'shadow-[#3f87ff_0px_2px_0px_0px_inset]',
       ),
       onClick: (e: MouseEvent) => {
         e.preventDefault();
@@ -71,7 +79,7 @@ const PrimitiveComponent: FC<{
 
         dispatch(componentsSliceActions.select(id));
       },
-      ref: drop(drag(ref))
+      ref: drop(drag(component.type === 'Section' ? sectionRef : ref))
     },
 
     // if the component is not container type ('Box' or 'Section') 
@@ -82,8 +90,8 @@ const PrimitiveComponent: FC<{
 
 const EditSection: FC<{
   isFirst: boolean;
-  componentId: string;
-}> = ({ isFirst, componentId }) => {
+  component: IComponent;
+}> = ({ isFirst, component }) => {
   const dispatch = useAppDispatch()
 
   const onDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -92,7 +100,7 @@ const EditSection: FC<{
 
     dispatch(
       componentsSliceActions.removeComponent({
-        componentId
+        componentId: component.id
       })
     );
   }
@@ -102,13 +110,27 @@ const EditSection: FC<{
     e.stopPropagation();
 
     dispatch(
-      editorSliceActions.addNewSectionPosition(componentId)
+      editorSliceActions.addNewSectionPosition(component.id)
     );
   }
 
+  const [, drag, preview] = useDrag(() => ({
+    type: "drag_Section",
+    item: component
+  }));
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = '/images/box.svg';
+
+    preview(img, {
+      offsetX: 0,
+      offsetY: 0,
+    });
+  }, [preview])
+
   return (
     <div
-      // ref={drag}
       className={cn(
         "text-base font-normal text-black tracking-normal",
         "absolute left-1/2 -translate-x-1/2 hidden group-hover:block",
@@ -121,9 +143,12 @@ const EditSection: FC<{
       >
         <BsPlus />
       </button>
-      {/* <button className={buttonClassName}>
+      <button
+        ref={drag}
+        className='bg-gray-200 p-1'
+      >
         <VscGripper />
-      </button> */}
+      </button>
       <button
         className='bg-gray-200 p-1'
         onClick={onDelete}
