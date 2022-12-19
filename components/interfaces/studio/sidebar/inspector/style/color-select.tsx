@@ -197,12 +197,17 @@ const ColorSelect: FC<Props> = ({
           borderColor={isOpen ? 'gray.200' : undefined}
         >
           {isOpen && (
-            <Stack px='4' py='3'>
+            <Stack
+              px='4'
+              py='3'
+              spacing='1'
+            >
               {Object.entries(palette).map(([color, values]) => (
                 <Stack
                   key={color}
                   direction='row'
                   alignItems='center'
+                  spacing='1'
                 >
                   <>
                     <Box width='80px'>

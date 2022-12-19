@@ -6,6 +6,7 @@ import {
   BiMoveVertical,
   BiAlignLeft,
 } from "react-icons/bi";
+import ColorSelect from "../color-select";
 import StyleSelect from "../select";
 
 const TextControl: FC = () => {
@@ -55,6 +56,11 @@ const TextControl: FC = () => {
           label="Align"
           classGroupId="text-alignment"
           prefix="text"
+        />
+        <ColorSelect
+          prefix="text"
+          classGroupId="text-color"
+          label="Color"
         />
       </Stack>
     </Box>

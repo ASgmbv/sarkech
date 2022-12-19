@@ -13,6 +13,7 @@ type EditorInitialState = {
 	} | null;
 	variant: string | null;
 	newSectionPositions: string[];
+	showCodePanel: boolean;
 };
 
 const initialState: EditorInitialState = {
@@ -24,6 +25,7 @@ const initialState: EditorInitialState = {
 	resizing: null,
 	variant: null,
 	newSectionPositions: [],
+	showCodePanel: false,
 };
 
 export const editorSlice = createSlice({
@@ -35,6 +37,12 @@ export const editorSlice = createSlice({
 		},
 		closeTemplatesModal: (state) => {
 			state.isTemplatesModalOpen = false;
+		},
+		openCodePanelModal: (state) => {
+			state.showCodePanel = true;
+		},
+		closeCodePanelModal: (state) => {
+			state.showCodePanel = false;
 		},
 		addNewSectionPosition: (state, action: PayloadAction<string>) => {
 			state.newSectionPositions.push(action.payload);
