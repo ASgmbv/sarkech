@@ -407,7 +407,7 @@ export const componentsSlice = createSlice({
 				const components = template.components;
 
 				for (const id in components) {
-					const newId = components[id].type + "-" + nanoid();
+					const newId = components[id].type + "-" + nanoid(5);
 					str = str.replaceAll(id, newId);
 				}
 
