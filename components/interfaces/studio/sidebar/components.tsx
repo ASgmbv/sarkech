@@ -48,6 +48,15 @@ const components: (SingleComponent | VariableComponent)[] = [
     }
   },
   {
+    category: 'single',
+    component: {
+      name: "Container",
+      type: "Box",
+      icon: BsSquareFill,
+      previewImage: '/images/box.svg'
+    }
+  },
+  {
     category: 'variable',
     component: {
       name: "Text",

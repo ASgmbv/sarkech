@@ -3,67 +3,63 @@ import { ITemplate } from "types";
 export const templates: ITemplate[] = [
 	{
 		name: "Hero 1",
-		id: "Section-lQIz4B7iGygwsm5gqZKeB",
+		id: "Section-UdyQp",
 		components: {
-			"Section-lQIz4B7iGygwsm5gqZKeB": {
-				id: "Section-lQIz4B7iGygwsm5gqZKeB",
+			"Section-UdyQp": {
+				id: "Section-UdyQp",
 				type: "Section",
 				parentId: "root",
-				childrenIds: [
-					"H1-d2lQZf9McOlaVGd7nBdG_",
-					"Paragraph-tEYkG9dfRFr5yk1fAZMZv",
-					"Box-HZ07e",
-				],
+				childrenIds: ["H1-wBF9Y", "Paragraph-v86Rm", "Box-OSD7Z"],
 				props: {
 					className: "py-10 px-0 bg-gray-50 flex flex-col items-center",
 				},
 			},
-			"H1-d2lQZf9McOlaVGd7nBdG_": {
-				id: "H1-d2lQZf9McOlaVGd7nBdG_",
+			"H1-wBF9Y": {
+				id: "H1-wBF9Y",
 				type: "H1",
-				parentId: "Section-lQIz4B7iGygwsm5gqZKeB",
+				parentId: "Section-UdyQp",
 				childrenIds: [],
 				props: {
 					className:
-						"mt-0 text-center max-w-sm text-4xl py-1 tracking-wide mb-4 leading-snug",
+						"mt-0 text-center py-1 tracking-wide mb-4 text-2xl sm:text-3xl md:text-4xl max-w-xs sm:max-w-sm",
 					children: "Talk to your customer, directly on your site",
 				},
 			},
-			"Paragraph-tEYkG9dfRFr5yk1fAZMZv": {
-				id: "Paragraph-tEYkG9dfRFr5yk1fAZMZv",
+			"Paragraph-v86Rm": {
+				id: "Paragraph-v86Rm",
 				type: "Paragraph",
-				parentId: "Section-lQIz4B7iGygwsm5gqZKeB",
+				parentId: "Section-UdyQp",
 				childrenIds: [],
 				props: {
 					children:
 						"Engage visitors with instant live video calls. No meeting links or downloads required.",
 					className:
-						"text-center max-w-xs text-slate-500 leading-relaxed mb-4",
+						"text-center max-w-xs text-slate-500 mb-4 text-sm sm:text-base",
 				},
 			},
-			"Button-HDmp-": {
-				id: "Button-HDmp-",
+			"Button-0uPmu": {
+				id: "Button-0uPmu",
 				type: "Button",
-				parentId: "Box-HZ07e",
+				parentId: "Box-OSD7Z",
 				childrenIds: [],
 				props: {
 					children: "Book demo",
 					className: "font-bold py-2 px-4 text-sm text-emerald-700",
 				},
 			},
-			"Box-HZ07e": {
-				id: "Box-HZ07e",
+			"Box-OSD7Z": {
+				id: "Box-OSD7Z",
 				type: "Box",
-				parentId: "Section-lQIz4B7iGygwsm5gqZKeB",
-				childrenIds: ["Button-TEPK2uxOGq2QGAE0Mh068", "Button-HDmp-"],
+				parentId: "Section-UdyQp",
+				childrenIds: ["Button-KKC7P", "Button-0uPmu"],
 				props: {
 					className: "p-2",
 				},
 			},
-			"Button-TEPK2uxOGq2QGAE0Mh068": {
-				id: "Button-TEPK2uxOGq2QGAE0Mh068",
+			"Button-KKC7P": {
+				id: "Button-KKC7P",
 				type: "Button",
-				parentId: "Box-HZ07e",
+				parentId: "Box-OSD7Z",
 				childrenIds: [],
 				props: {
 					children: "Try here",

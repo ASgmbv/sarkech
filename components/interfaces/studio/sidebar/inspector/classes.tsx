@@ -49,7 +49,7 @@ const InspectorClassesPanel: FC = () => {
         </form>
       </Box>
       <Box>
-        <Wrap spacing='3'>
+        <Wrap spacing='2'>
           {component.props.className
             ?.split(' ')
             .filter(Boolean)
