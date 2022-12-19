@@ -70,9 +70,9 @@ const components: (SingleComponent | VariableComponent)[] = [
 
         },
         {
-          name: "Heading 2", type: "H2",
+          name: "Heading 2",
+          type: "H2",
           previewImage: '/images/box.svg',
-
         },
         {
           name: "Heading 3",
@@ -91,14 +91,24 @@ const components: (SingleComponent | VariableComponent)[] = [
 
         },
         {
-          name: "Heading 6", type: "H6",
+          name: "Heading 6",
+          type: "H6",
           previewImage: '/images/box.svg',
-
         },
       ]
     }
-  }
+  },
+  {
+    category: 'single',
+    component: {
+      name: "Button",
+      type: "Button",
+      icon: BsSquareFill,
+      previewImage: '/images/box.svg'
+    }
+  },
 ];
+
 const ComponentsPanel: FC = () => {
   const dispatch = useAppDispatch();
   const variant = useAppSelector(selectVariant);

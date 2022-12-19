@@ -13,6 +13,9 @@ const initialProps: {
 	Box: {
 		className: "p-2",
 	},
+	Paragraph: {
+		children: "Paragraph",
+	},
 	H1: {
 		className: "text-3xl font-normal leading-normal mt-0 mb-2",
 		children: "Heading 1",
@@ -40,6 +43,10 @@ const initialProps: {
 	Span: {
 		className: "text-sm",
 		children: "Span",
+	},
+	Button: {
+		children: "Button",
+		className: "bg-blue-500 text-white font-bold py-2 px-4 rounded",
 	},
 };
 
@@ -392,16 +399,12 @@ export const componentsSlice = createSlice({
 			prepare: ({
 				template,
 				index,
-				parentId,
 			}: {
 				template: ITemplate;
-				parentId: string;
 				index?: number;
 			}) => {
 				let str = JSON.stringify(template);
 				const components = template.components;
-
-				str = str.replaceAll(template.parentId, parentId);
 
 				for (const id in components) {
 					const newId = components[id].type + "-" + nanoid();

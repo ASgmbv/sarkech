@@ -8,10 +8,14 @@ import {
   Text,
   Flex,
   Button,
+  AspectRatio,
+  SimpleGrid,
 } from '@chakra-ui/react'
 import { useAppDispatch, useAppSelector } from "redux/hooks";
 import { editorSliceActions } from "redux/editor/editor.slice";
 import { selectTemplatesModal } from "redux/editor/editor.selectors";
+import { templates } from 'data'
+import { componentsSliceActions } from "redux/components/components.slice";
 
 const categories = [
   "Pricing",
@@ -30,10 +34,16 @@ const categories = [
   "Call to action",
 ]
 
-const TemplatesModal: FC = () => {
+const TemplatesModal: FC<{ sectionId?: string }> = ({ sectionId }) => {
   const isOpen = useAppSelector(selectTemplatesModal)
   const dispatch = useAppDispatch();
   const [activeCategory, setActiveCategory] = useState(categories[0]);
+
+  const rootChildren = useAppSelector(
+    (state) => state.components.present.components["root"].childrenIds
+  );
+
+  const index = sectionId ? rootChildren.indexOf(sectionId) : undefined;
 
   const onClose = () => {
     dispatch(editorSliceActions.closeTemplatesModal())
@@ -84,6 +94,7 @@ const TemplatesModal: FC = () => {
               <Box>
                 {categories.map((category) => {
                   const isActive = activeCategory === category;
+
                   return (
                     <Box key={category}>
                       <Button
@@ -101,7 +112,43 @@ const TemplatesModal: FC = () => {
                 })}
               </Box>
             </Box>
-            <Box p='4'>
+            <Box p='4' width='full'>
+              <SimpleGrid
+                width='full'
+                columns={4}
+                spacing={10}
+              >
+                {
+                  templates.map((template) => (
+                    <Button
+                      key={template.name}
+                      variant='unstyled'
+                      onClick={() => {
+                        dispatch(
+                          componentsSliceActions.addTemplate({
+                            template,
+                            index
+                          })
+                        )
+                        dispatch(
+                          editorSliceActions.closeTemplatesModal()
+                        )
+                      }}
+                    >
+                      <AspectRatio
+                        ratio={4 / 3}
+                        bg='gray.100'
+                        width='full'
+                        rounded='md'
+                      >
+                        <Box>
+                          {template.name}
+                        </Box>
+                      </AspectRatio>
+                    </Button>
+                  ))
+                }
+              </SimpleGrid>
             </Box>
           </Flex>
         </ModalBody>

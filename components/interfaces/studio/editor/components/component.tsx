@@ -18,7 +18,8 @@ export const mapComponentToHTMLElement: {
   H4: 'h4',
   H5: 'h5',
   H6: 'h6',
-  Span: 'span'
+  Span: 'span',
+  Button: 'button'
 };
 
 type Props = {
@@ -45,7 +46,8 @@ const Component: FC<Props> = ({
     case "H4":
     case "H5":
     case "H6":
-    case "Span": {
+    case "Span":
+    case "Button": {
       return <PrimitiveComponent id={id} />;
     }
     default:

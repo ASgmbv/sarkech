@@ -43,6 +43,7 @@ export const useDropComponent = ({
 					"H5",
 					"H6",
 					"Span",
+					"Button",
 			  ]);
 
 	const selectAllParents = useMemo(makeSelectAllParents, []);

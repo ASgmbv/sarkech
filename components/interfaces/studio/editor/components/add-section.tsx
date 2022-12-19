@@ -3,86 +3,89 @@ import { BsFolder, BsPlusCircle, BsX } from "react-icons/bs";
 import { componentsSliceActions } from "redux/components/components.slice";
 import { editorSliceActions } from "redux/editor/editor.slice";
 import { useAppDispatch, useAppSelector } from "redux/hooks";
+import TemplatesModal from "../../templates";
 
 const AddNewSection: FC<{ sectionId?: string; }> = ({ sectionId }) => {
   const dispatch = useAppDispatch();
   const [showSections, setSections] = useState(false);
 
   return (
-    <div className={"mx-auto px-4 my-6 max-w-3xl"}>
-      <div className={"border-2 border-dashed px-4 py-6 bg-white"}>
+    <>
+      <div className={"mx-auto px-4 my-6 max-w-3xl"}>
+        <div className={"border-2 border-dashed px-4 py-6 bg-white"}>
 
-        {showSections || sectionId ? (
-          <div className={"flex justify-end"}>
-            <button
-              className={"self-end"}
-              aria-label="Close 'select section structure'"
-              onClick={() => {
-                if (sectionId) {
-                  dispatch(
-                    editorSliceActions.removeNewSectionPosition(sectionId)
-                  );
-                }
+          {showSections || sectionId ? (
+            <div className={"flex justify-end"}>
+              <button
+                className={"self-end"}
+                aria-label="Close 'select section structure'"
+                onClick={() => {
+                  if (sectionId) {
+                    dispatch(
+                      editorSliceActions.removeNewSectionPosition(sectionId)
+                    );
+                  }
 
-                setSections(false);
-              }}
-            >
-              <BsX className={"w-5 h-5 text-gray-500"} />
-            </button>
-          </div>
-        ) : null}
-
-
-        {showSections ? (
-          <div className={"flex flex-col items-center"}>
-            <div className={"text-sm mb-4"}>
-              Select section structure
+                  setSections(false);
+                }}
+              >
+                <BsX className={"w-5 h-5 text-gray-500"} />
+              </button>
             </div>
-            <div className={"flex flex-wrap gap-5 justify-center"}>
-              {[1, 2, 3, 4].map((i) => (
-                <Section
-                  key={`section-${i}`}
-                  sectionId={sectionId}
-                  count={i}
-                  hideSections={() => {
-                    if (sectionId) {
-                      dispatch(
-                        editorSliceActions.removeNewSectionPosition(
-                          sectionId
-                        )
-                      );
-                    }
+          ) : null}
 
-                    setSections(false);
-                  }}
-                />
-              ))}
+
+          {showSections ? (
+            <div className={"flex flex-col items-center"}>
+              <div className={"text-sm mb-4"}>
+                Select section structure
+              </div>
+              <div className={"flex flex-wrap gap-5 justify-center"}>
+                {[1, 2, 3, 4].map((i) => (
+                  <Section
+                    key={`section-${i}`}
+                    sectionId={sectionId}
+                    count={i}
+                    hideSections={() => {
+                      if (sectionId) {
+                        dispatch(
+                          editorSliceActions.removeNewSectionPosition(
+                            sectionId
+                          )
+                        );
+                      }
+
+                      setSections(false);
+                    }}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="flex justify-center">
-            <button
-              className={"w-5 h-5 mr-4"}
-              aria-label="Add New Section"
-              onClick={() => {
-                setSections(true);
-              }}
-            >
-              <BsPlusCircle className={"w-full h-full"} />
-            </button>
-            <button
-              className={"w-5 h-5"}
-              aria-label="Add New Section"
-              onClick={() => {
-                dispatch(editorSliceActions.openTemplatesModal())
-              }}
-            >
-              <BsFolder className={"w-full h-full"} />
-            </button>
-          </div>
-        )}
+          ) : (
+            <div className="flex justify-center">
+              <button
+                className={"w-5 h-5 mr-4"}
+                aria-label="Add New Section"
+                onClick={() => {
+                  setSections(true);
+                }}
+              >
+                <BsPlusCircle className={"w-full h-full"} />
+              </button>
+              <button
+                className={"w-5 h-5"}
+                aria-label="Add New Section"
+                onClick={() => {
+                  dispatch(editorSliceActions.openTemplatesModal())
+                }}
+              >
+                <BsFolder className={"w-full h-full"} />
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   )
 }
 

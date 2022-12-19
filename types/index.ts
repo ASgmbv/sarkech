@@ -10,7 +10,8 @@ export type IComponentType =
 	| "H3"
 	| "H4"
 	| "H5"
-	| "H6";
+	| "H6"
+	| "Button";
 
 export type IProps = {
 	className?: string;
@@ -28,7 +29,7 @@ export type IComponent = {
 
 export type ITemplate = {
 	id: string;
-	parentId: string;
+	name: string;
 	components: {
 		[key: string]: IComponent;
 	};
