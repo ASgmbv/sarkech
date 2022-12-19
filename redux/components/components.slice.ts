@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IComponent, IComponentType, IProps } from "types";
+import { IComponent, IComponentType, IProps, ITemplate } from "types";
 import { twMerge } from "tailwind-merge";
 import { nanoid } from "nanoid";
 import { Screen } from "types";
@@ -12,6 +12,34 @@ const initialProps: {
 	},
 	Box: {
 		className: "p-2",
+	},
+	H1: {
+		className: "text-3xl font-normal leading-normal mt-0 mb-2",
+		children: "Heading 1",
+	},
+	H2: {
+		className: "text-2xl font-normal leading-normal mt-0 mb-2",
+		children: "Heading 2",
+	},
+	H3: {
+		className: "text-xl font-normal leading-normal mt-0 mb-2",
+		children: "Heading 3",
+	},
+	H4: {
+		className: "text-lg font-normal leading-normal mt-0 mb-2",
+		children: "Heading 4",
+	},
+	H5: {
+		className: "text-md font-normal leading-normal mt-0 mb-2",
+		children: "Heading 5",
+	},
+	H6: {
+		className: "text-sm font-normal leading-normal mt-0 mb-2",
+		children: "Heading 6",
+	},
+	Span: {
+		className: "text-sm",
+		children: "Span",
 	},
 };
 
@@ -68,7 +96,7 @@ export const componentsSlice = createSlice({
 					parentId,
 					childrenIds: [],
 					props: {
-						className: "",
+						// className: "",
 						...(props ? props : initialProps[type]),
 					},
 				};
@@ -338,6 +366,55 @@ export const componentsSlice = createSlice({
 				?.split(" ")
 				.filter((c: string) => !classes.includes(c))
 				.join(" ");
+		},
+		addTemplate: {
+			reducer: (
+				state,
+				action: PayloadAction<{
+					template: ITemplate;
+					index: number;
+				}>
+			) => {
+				const { template, index } = action.payload;
+
+				if (index === -1) {
+					state.components["root"].childrenIds.push(template.id);
+				} else {
+					state.components["root"].childrenIds.splice(
+						index,
+						0,
+						template.id
+					);
+				}
+
+				Object.assign(state.components, template.components);
+			},
+			prepare: ({
+				template,
+				index,
+				parentId,
+			}: {
+				template: ITemplate;
+				parentId: string;
+				index?: number;
+			}) => {
+				let str = JSON.stringify(template);
+				const components = template.components;
+
+				str = str.replaceAll(template.parentId, parentId);
+
+				for (const id in components) {
+					const newId = components[id].type + "-" + nanoid();
+					str = str.replaceAll(id, newId);
+				}
+
+				return {
+					payload: {
+						template: JSON.parse(str),
+						index: index ?? -1,
+					},
+				};
+			},
 		},
 		setProps: (
 			state,

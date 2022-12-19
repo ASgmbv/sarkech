@@ -11,7 +11,14 @@ export const mapComponentToHTMLElement: {
   Section: "section",
   Box: "div",
   Paragraph: "p",
-  AddComponent: AddComponent
+  AddComponent: AddComponent,
+  H1: 'h1',
+  H2: 'h2',
+  H3: 'h3',
+  H4: 'h4',
+  H5: 'h5',
+  H6: 'h6',
+  Span: 'span'
 };
 
 type Props = {
@@ -31,7 +38,14 @@ const Component: FC<Props> = ({
     }
     case "Box":
     case "Section":
-    case "Paragraph": {
+    case "Paragraph":
+    case "H1":
+    case "H2":
+    case "H3":
+    case "H4":
+    case "H5":
+    case "H6":
+    case "Span": {
       return <PrimitiveComponent id={id} />;
     }
     default:

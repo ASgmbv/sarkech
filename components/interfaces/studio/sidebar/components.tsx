@@ -24,8 +24,8 @@ type SingleComponent = {
 type Variant = {
   name: string;
   type: IComponentType;
-  props: Record<string, any>;
   previewImage: string;
+  props?: Record<string, any>;
 }
 
 type VariableComponent = {
@@ -57,23 +57,55 @@ const components: (SingleComponent | VariableComponent)[] = [
           name: "Paragraph",
           type: "Paragraph",
           previewImage: '/images/box.svg',
-          props: {
-            children: 'Paragraph'
-          }
-        }
+        },
+        {
+          name: "Span",
+          type: "Span",
+          previewImage: '/images/box.svg',
+
+        }, {
+          name: "Heading 1",
+          type: "H1",
+          previewImage: '/images/box.svg',
+
+        },
+        {
+          name: "Heading 2", type: "H2",
+          previewImage: '/images/box.svg',
+
+        },
+        {
+          name: "Heading 3",
+          type: "H3",
+          previewImage: '/images/box.svg',
+        },
+        {
+          name: "Heading 4",
+          type: "H4",
+          previewImage: '/images/box.svg',
+
+        }, {
+          name: "Heading 5",
+          type: "H5",
+          previewImage: '/images/box.svg',
+
+        },
+        {
+          name: "Heading 6", type: "H6",
+          previewImage: '/images/box.svg',
+
+        },
       ]
     }
   }
 ];
-
 const ComponentsPanel: FC = () => {
   const dispatch = useAppDispatch();
   const variant = useAppSelector(selectVariant);
 
   return (
     <Box
-      padding='4'
-      onMouseLeave={() => {
+      padding='4' onMouseLeave={() => {
         dispatch(editorSliceActions.setVariant(null))
       }}
     >
@@ -290,7 +322,7 @@ const Variants: FC<{
 const Variant: FC<{
   type: IComponentType;
   name: string;
-  props: Record<string, any>;
+  props?: Record<string, any>;
   previewImage: string;
 }> = ({ type, name, props, previewImage, }) => {
   const dispatch = useAppDispatch();

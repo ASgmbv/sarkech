@@ -11,6 +11,7 @@ export const store = configureStore({
 				"components/addComponent",
 				"components/removeComponent",
 				"components/moveComponent",
+				"components/addTemplate",
 				"components/duplicateComponent",
 				"components/addClasses",
 				"components/keepCurrentClassName",

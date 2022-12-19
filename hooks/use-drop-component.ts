@@ -25,11 +25,25 @@ export const useDropComponent = ({
 		selectComponent(state, componentId)
 	);
 
+	const parent = useAppSelector((state) =>
+		selectComponent(state, component.parentId)
+	);
+
 	// 'Section' component does not let to drop other components
 	const acceptedTypes =
 		component.type === "Section"
 			? ["drag_Section"]
-			: getAcceptTypes(["Box", "Paragraph"]);
+			: getAcceptTypes([
+					"Box",
+					"Paragraph",
+					"H1",
+					"H2",
+					"H3",
+					"H4",
+					"H5",
+					"H6",
+					"Span",
+			  ]);
 
 	const selectAllParents = useMemo(makeSelectAllParents, []);
 
@@ -91,11 +105,14 @@ export const useDropComponent = ({
 				/**
 				 * Handle new elements
 				 */
+				const index = parent.childrenIds.indexOf(component.id) + 1;
+
 				dispatch(
 					componentsSliceActions.addComponent({
 						type: item.type,
 						parentId: component.parentId,
 						props: item.props,
+						index,
 					})
 				);
 			},
