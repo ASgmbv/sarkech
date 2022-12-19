@@ -3,77 +3,85 @@ import { ITemplate } from "types";
 export const templates: ITemplate[] = [
 	{
 		name: "Hero 1",
-		id: "Section-zVjam",
+		id: "Section-kuibg",
 		components: {
-			"Section-zVjam": {
-				id: "Section-zVjam",
+			"Section-kuibg": {
+				id: "Section-kuibg",
 				type: "Section",
 				parentId: "root",
-				childrenIds: ["Box-55d26"],
+				childrenIds: ["Box-b6uxK"],
 				props: {
 					className: "px-0 bg-gray-50 py-10 sm:py-12 md:py-14",
 				},
 			},
-			"H1-iRGni": {
-				id: "H1-iRGni",
+			"H1-Pe2SQ": {
+				id: "H1-Pe2SQ",
 				type: "H1",
-				parentId: "Box-55d26",
+				parentId: "Box-b6uxK",
 				childrenIds: [],
 				props: {
 					className:
-						"mt-0 text-center py-1 tracking-wide mb-4 text-2xl sm:text-3xl md:text-4xl max-w-xs sm:max-w-sm",
+						"mt-0 text-center py-1 tracking-wide mb-4 sm:text-3xl max-w-xs sm:max-w-sm text-2xl",
 					children: "Talk to your customer, directly on your site",
 				},
 			},
-			"Paragraph-FzEfg": {
-				id: "Paragraph-FzEfg",
+			"Paragraph-Ixp3t": {
+				id: "Paragraph-Ixp3t",
 				type: "Paragraph",
-				parentId: "Box-55d26",
+				parentId: "Box-b6uxK",
 				childrenIds: [],
 				props: {
 					children:
 						"Engage visitors with instant live video calls. No meeting links or downloads required.",
 					className:
-						"text-center text-slate-500 mb-4 text-sm sm:text-base max-w-sm",
+						"text-center text-slate-500 mb-4 max-w-sm text-sm sm:text-base sm:mb-6",
 				},
 			},
-			"Button-mtOtL": {
-				id: "Button-mtOtL",
-				type: "Button",
-				parentId: "Box-Ss_Ey",
-				childrenIds: [],
-				props: {
-					children: "Book demo",
-					className: "font-bold py-2 px-4 text-sm text-emerald-700",
-				},
-			},
-			"Box-Ss_Ey": {
-				id: "Box-Ss_Ey",
+			"Box-b6uxK": {
+				id: "Box-b6uxK",
 				type: "Box",
-				parentId: "Box-55d26",
-				childrenIds: ["Button--TV4Q", "Button-mtOtL"],
+				parentId: "Section-kuibg",
+				childrenIds: [
+					"H1-Pe2SQ",
+					"Paragraph-Ixp3t",
+					"Box-AR32b7B4SglSRtaTW_xQy",
+				],
+				props: {
+					className: "flex flex-col items-center max-w-5xl mx-auto px-4",
+				},
+			},
+			"Box-AR32b7B4SglSRtaTW_xQy": {
+				id: "Box-AR32b7B4SglSRtaTW_xQy",
+				type: "Box",
+				parentId: "Box-b6uxK",
+				childrenIds: [
+					"Button-O-mO2vSjO64WC2m7BroLa",
+					"Button-8e05UgAEbDjfcnwR1KXQc",
+				],
 				props: {
 					className: "p-2 mb-1",
 				},
 			},
-			"Button--TV4Q": {
-				id: "Button--TV4Q",
+			"Button-O-mO2vSjO64WC2m7BroLa": {
+				id: "Button-O-mO2vSjO64WC2m7BroLa",
 				type: "Button",
-				parentId: "Box-Ss_Ey",
+				parentId: "Box-AR32b7B4SglSRtaTW_xQy",
 				childrenIds: [],
 				props: {
 					children: "Try here",
 					className:
-						"text-white py-2 px-4 rounded-sm bg-emerald-700 text-sm font-medium",
+						"text-white py-2 px-4 bg-emerald-700 font-medium text-sm sm:text-base",
 				},
 			},
-			"Box-55d26": {
-				id: "Box-55d26",
-				type: "Box",
-				parentId: "Section-zVjam",
-				childrenIds: ["H1-iRGni", "Paragraph-FzEfg", "Box-Ss_Ey"],
+			"Button-8e05UgAEbDjfcnwR1KXQc": {
+				id: "Button-8e05UgAEbDjfcnwR1KXQc",
+				type: "Button",
+				parentId: "Box-AR32b7B4SglSRtaTW_xQy",
+				childrenIds: [],
 				props: {
-					className: "flex flex-col items-center max-w-5xl mx-auto px-4",
+					children: "Book demo",
+					className:
+						"font-bold py-2 px-4 text-emerald-700 text-sm sm:text-base",
 				},
 			},
 		},
