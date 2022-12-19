@@ -3,21 +3,21 @@ import { ITemplate } from "types";
 export const templates: ITemplate[] = [
 	{
 		name: "Hero 1",
-		id: "Section-Yox9y",
+		id: "Section-zVjam",
 		components: {
-			"Section-Yox9y": {
-				id: "Section-Yox9y",
+			"Section-zVjam": {
+				id: "Section-zVjam",
 				type: "Section",
 				parentId: "root",
-				childrenIds: ["Box-AbwGD"],
+				childrenIds: ["Box-55d26"],
 				props: {
-					className: "py-10 px-0 bg-gray-50",
+					className: "px-0 bg-gray-50 py-10 sm:py-12 md:py-14",
 				},
 			},
-			"H1-l2q36": {
-				id: "H1-l2q36",
+			"H1-iRGni": {
+				id: "H1-iRGni",
 				type: "H1",
-				parentId: "Box-AbwGD",
+				parentId: "Box-55d26",
 				childrenIds: [],
 				props: {
 					className:
@@ -25,41 +25,41 @@ export const templates: ITemplate[] = [
 					children: "Talk to your customer, directly on your site",
 				},
 			},
-			"Paragraph-DaARK": {
-				id: "Paragraph-DaARK",
+			"Paragraph-FzEfg": {
+				id: "Paragraph-FzEfg",
 				type: "Paragraph",
-				parentId: "Box-AbwGD",
+				parentId: "Box-55d26",
 				childrenIds: [],
 				props: {
 					children:
 						"Engage visitors with instant live video calls. No meeting links or downloads required.",
 					className:
-						"text-center max-w-xs text-slate-500 mb-4 text-sm sm:text-base",
+						"text-center text-slate-500 mb-4 text-sm sm:text-base max-w-sm",
 				},
 			},
-			"Button-oWBqk": {
-				id: "Button-oWBqk",
+			"Button-mtOtL": {
+				id: "Button-mtOtL",
 				type: "Button",
-				parentId: "Box-ZuVLn",
+				parentId: "Box-Ss_Ey",
 				childrenIds: [],
 				props: {
 					children: "Book demo",
 					className: "font-bold py-2 px-4 text-sm text-emerald-700",
 				},
 			},
-			"Box-ZuVLn": {
-				id: "Box-ZuVLn",
+			"Box-Ss_Ey": {
+				id: "Box-Ss_Ey",
 				type: "Box",
-				parentId: "Box-AbwGD",
-				childrenIds: ["Button-BBnuX", "Button-oWBqk"],
+				parentId: "Box-55d26",
+				childrenIds: ["Button--TV4Q", "Button-mtOtL"],
 				props: {
 					className: "p-2 mb-1",
 				},
 			},
-			"Button-BBnuX": {
-				id: "Button-BBnuX",
+			"Button--TV4Q": {
+				id: "Button--TV4Q",
 				type: "Button",
-				parentId: "Box-ZuVLn",
+				parentId: "Box-Ss_Ey",
 				childrenIds: [],
 				props: {
 					children: "Try here",
@@ -67,26 +67,11 @@ export const templates: ITemplate[] = [
 						"text-white py-2 px-4 rounded-sm bg-emerald-700 text-sm font-medium",
 				},
 			},
-			"Paragraph-IYBj1": {
-				id: "Paragraph-IYBj1",
-				type: "Paragraph",
-				parentId: "Box-AbwGD",
-				childrenIds: [],
-				props: {
-					children: "Cancel any time within first week",
-					className: "text-xs text-slate-400",
-				},
-			},
-			"Box-AbwGD": {
-				id: "Box-AbwGD",
+			"Box-55d26": {
+				id: "Box-55d26",
 				type: "Box",
-				parentId: "Section-Yox9y",
-				childrenIds: [
-					"H1-l2q36",
-					"Paragraph-DaARK",
-					"Box-ZuVLn",
-					"Paragraph-IYBj1",
-				],
+				parentId: "Section-zVjam",
+				childrenIds: ["H1-iRGni", "Paragraph-FzEfg", "Box-Ss_Ey"],
 				props: {
 					className: "flex flex-col items-center max-w-5xl mx-auto px-4",
 				},
