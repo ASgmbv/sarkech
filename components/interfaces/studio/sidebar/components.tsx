@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Icon, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import { createElement, FC, useEffect } from "react";
 import { BsJustifyLeft, BsSquareFill } from "react-icons/bs";
 import { BiGridHorizontal } from "react-icons/bi";
@@ -136,7 +136,7 @@ const ComponentsPanel: FC = () => {
         >
           Primitives
         </Text>
-        <Stack>
+        <Stack spacing='10px'>
           {components.map(({
             category,
             component,
@@ -217,10 +217,13 @@ const SingleComponent: FC<{
     <Flex
       ref={drag}
       alignItems='center'
-      padding='2'
-      rounded='md'
+      py='2'
+      px='3'
+      rounded='4px'
       cursor='grab'
       transition='background-color 0.2s'
+      border='1px solid'
+      borderColor='gray.200'
       _hover={{
         bg: 'gray.100',
       }}
@@ -228,22 +231,8 @@ const SingleComponent: FC<{
         dispatch(editorSliceActions.setVariant(null))
       }}
     >
-      <Center
-        shadow='lg'
-        border='1px solid'
-        borderColor='blackAlpha.100'
-        rounded='md'
-        p='2'
-      >
-        <Icon
-          as={icon}
-          color='gray.500'
-        />
-      </Center>
-
       <Box
         flex='1'
-        px='3'
         fontSize='xs'
         fontWeight='semibold'
       >
@@ -266,30 +255,19 @@ const VariableComponent: FC<{
   return (
     <Flex
       alignItems='center'
-      rounded='md'
-      padding='2'
+      rounded='4px'
+      py='2'
+      px='3'
       transition='background-color 0.2s'
+      border='1px solid'
+      borderColor='gray.200'
       _hover={{ bg: 'gray.100' }}
       onMouseEnter={() => {
         dispatch(editorSliceActions.setVariant(name))
       }}
     >
-      <Center
-        shadow='lg'
-        border='1px solid'
-        borderColor='blackAlpha.100'
-        rounded='md'
-        p='2'
-      >
-        <Icon
-          as={icon}
-          color='gray.500'
-        />
-      </Center>
-
       <Box
         flex='1'
-        px='3'
         fontSize='xs'
         fontWeight='semibold'
       >
@@ -321,7 +299,7 @@ const Variants: FC<{
       >
         {title}
       </Text>
-      <Stack>
+      <Stack spacing='10px'>
         {(component as VariableComponent).component.variants.map(
           (variant) => (
             <Variant
@@ -376,15 +354,18 @@ const Variant: FC<{
   return (
     <Flex
       ref={drag}
-      padding='2'
-      bg='gray.100'
-      rounded='md'
-      alignItems='center'
+      border='1px solid'
+      borderColor='gray.200'
       justifyContent='center'
+      alignItems='center'
+      rounded='4px'
       position='relative'
       cursor='grab'
+      py='2'
+      px='3'
+      transition='background-color 0.2s'
       _hover={{
-        shadow: 'md'
+        bg: 'gray.100'
       }}
     >
       <Box
