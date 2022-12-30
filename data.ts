@@ -86,4 +86,60 @@ export const templates: ITemplate[] = [
 			},
 		},
 	},
+	{
+		name: "Hero 2",
+		id: "Section-tsEDu",
+		components: {
+			"Section-tsEDu": {
+				id: "Section-tsEDu",
+				type: "Section",
+				parentId: "root",
+				childrenIds: ["Box-UnFvl"],
+				props: {
+					className: "text-center py-14 bg-slate-700",
+				},
+			},
+			"H2-QTMi-": {
+				id: "H2-QTMi-",
+				type: "H2",
+				parentId: "Box-UnFvl",
+				childrenIds: [],
+				props: {
+					className: "mt-0 font-bold mb-3 text-white text-2xl sm:text-4xl",
+					children: "Ready to get started?",
+				},
+			},
+			"Paragraph-fgqYE": {
+				id: "Paragraph-fgqYE",
+				type: "Paragraph",
+				parentId: "Box-UnFvl",
+				childrenIds: [],
+				props: {
+					children:
+						"Get in touch with us and let our staff guide you on your journey today!",
+					className: "mx-auto max-w-sm mb-6 text-white",
+				},
+			},
+			"Button-xTVhb": {
+				id: "Button-xTVhb",
+				type: "Button",
+				parentId: "Box-UnFvl",
+				childrenIds: [],
+				props: {
+					children: "Schedule a demo",
+					className:
+						"text-white py-2 px-4 rounded bg-blue-400 font-medium",
+				},
+			},
+			"Box-UnFvl": {
+				id: "Box-UnFvl",
+				type: "Box",
+				parentId: "Section-tsEDu",
+				childrenIds: ["H2-QTMi-", "Paragraph-fgqYE", "Button-xTVhb"],
+				props: {
+					className: "p-2 max-w-5xl px-4 mx-auto text-center",
+				},
+			},
+		},
+	},
 ];

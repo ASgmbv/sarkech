@@ -83,7 +83,7 @@ const TemplatesModal: FC<{ sectionId?: string }> = ({ sectionId }) => {
             </Text>
           </Box>
           <Flex height='70vh'>
-            <Box
+            {/* <Box
               width='250px'
               maxWidth='250px'
               borderRight='1px solid'
@@ -111,7 +111,7 @@ const TemplatesModal: FC<{ sectionId?: string }> = ({ sectionId }) => {
                   )
                 })}
               </Box>
-            </Box>
+            </Box> */}
             <Box p='4' width='full'>
               <SimpleGrid
                 width='full'
