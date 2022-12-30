@@ -47,15 +47,15 @@ const components: (SingleComponent | VariableComponent)[] = [
       previewImage: '/images/box.svg'
     }
   },
-  {
-    category: 'single',
-    component: {
-      name: "Container",
-      type: "Box",
-      icon: BsSquareFill,
-      previewImage: '/images/box.svg'
-    }
-  },
+  // {
+  //   category: 'single',
+  //   component: {
+  //     name: "Container",
+  //     type: "Box",
+  //     icon: BsSquareFill,
+  //     previewImage: '/images/box.svg'
+  //   }
+  // },
   {
     category: 'variable',
     component: {
