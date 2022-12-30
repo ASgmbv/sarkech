@@ -29,7 +29,7 @@ function HomePage() {
               justifyContent='center'
               mt='10'
             >
-              <ReactPlayer url='https://www.youtube.com/watch?v=xtEFqgqcngE&ab_channel=AlymSagymbaev' />
+              <ReactPlayer url='https://youtu.be/-6_F18Yhfr0' />
             </Flex>
 
 
